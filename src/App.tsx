@@ -1,16 +1,34 @@
 /* eslint-disable @typescript-eslint/space-before-function-paren */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import React from 'react'
-import { FirebaseContext } from './context/firebase'
-import { app, db } from './lib/firebaseConfig'
+// import { FirebaseContext } from './context/firebase'
+// import { app, db } from './lib/firebaseConfig'
+import React, { lazy } from 'react'
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
+import RootLayout from './layouts/RootLayout'
+import Home from './pages/Home'
+
+const Login = lazy(async () => await import('./pages/login'))
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+
+    <Route path="/" element={<RootLayout />}>
+      <Route path="/" element={<Home />} />
+      <Route path="login" element={<Login />} />
+    </Route>
+
+  )
+)
 
 function App() {
   return (
-    <div className="App">
-      <FirebaseContext.Provider value={{ app, db }}>
-        <h1>Hello</h1>
-      </FirebaseContext.Provider>
-    </div>
+
+    <RouterProvider router={router} />
+    // <div className="App">
+    //   <FirebaseContext.Provider value={{ app, db }}>
+    //     <h1>Hello</h1>
+    //   </FirebaseContext.Provider>
+    // </div>
   )
 }
 
