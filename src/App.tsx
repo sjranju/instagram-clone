@@ -6,7 +6,8 @@ import React, { lazy } from 'react'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import RootLayout from './layouts/RootLayout'
 import Home from './pages/Home'
-
+import * as ROUTES from './constants/routes'
+// import app.css
 const Login = lazy(async () => await import('./pages/login'))
 
 const router = createBrowserRouter(
@@ -14,7 +15,7 @@ const router = createBrowserRouter(
 
     <Route path="/" element={<RootLayout />}>
       <Route path="/" element={<Home />} />
-      <Route path="login" element={<Login />} />
+      <Route path={ROUTES.LOGIN} element={<Login />} />
     </Route>
 
   )
