@@ -6,7 +6,18 @@ module.exports = {
     path.join(__dirname, './src/**/*.{js,ts,jsx,tsx}')
   ],
   theme: {
-    extend: {}
+    screens: {
+      sm: '480px',
+      md: '768px',
+      lg: '976px',
+      xl: '1440px'
+    },
+    extend: {
+      colors: {
+        blueDisabledButton: '#47afff'
+      }
+    }
+
   },
   plugins: []
 }

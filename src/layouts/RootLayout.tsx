@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { Suspense } from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 
 const RootLayout = () => {
   return (
     <div>
-      <nav>
+      {/* <nav>
         <NavLink to="/">Home</NavLink>
         <NavLink to="login">Login</NavLink>
-      </nav>
+      </nav> */}
       <main>
         <Suspense fallback={<h1>Loading...</h1>}>
           <Outlet />

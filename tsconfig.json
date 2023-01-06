@@ -97,9 +97,10 @@
     "./src/**/*.ts",
     "**/*.tsx",
     "postcss.config.ts",
-    "tailwind.config.ts"
+    "tailwind.config.ts",
+    "src/declaration.d.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
   ]
 }
