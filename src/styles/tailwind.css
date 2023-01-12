@@ -2,15 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+  background-color:#FAFAFA;
+}
+
 .backgroundimg {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 
-  width:85%;
+  width:83%;
   max-width:600px;
   margin:0 auto;
 
-  
   }
 
 .phoneframe{
@@ -20,20 +23,23 @@
 .image1{
   grid-column:2/5;
   align-self:center;
-  margin-left:-20px;
-  animation:images 18s infinite forwards;
+  position:relative;
+  right:18px;
+  /* margin-left:-20px; */
+  /* animation:images 18s infinite forwards;
   animation-timing-function:ease;
   background-repeat: no-repeat;
-  transform: translate(0%, 1%);
+  transform: translate(0%, 1%); */
+  transition-timing-function: ease-out;
 }
 
-@keyframes images{
+/* @keyframes images{
   0%{background-image: url('C:\Users\sjran\React\instagram-clone\src\images\mainPage\img1.png');}
   25%{background-image: url('C:\Users\sjran\React\instagram-clone\src\images\mainPage\img2.png');}
   50%{background-image: url('C:\Users\sjran\React\instagram-clone\src\images\mainPage\img3.png');}
   75%{background-image: url('C:\Users\sjran\React\instagram-clone\src\images\mainPage\img4.png');}
   100%{background-image: url('C:\Users\sjran\React\instagram-clone\src\images\mainPage\img1.png');}
-}
+} */
 
 .image1, .phoneframe{
   grid-row:1/2;

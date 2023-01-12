@@ -5,6 +5,12 @@ module.exports = {
   content: [
     path.join(__dirname, './src/**/*.{js,ts,jsx,tsx}')
   ],
+  variants: {
+    extend: {
+      borderColor: ['responsive', 'dark', 'group-hover', 'focus-within', 'hover', 'focus'],
+      borderStyle: ['responsive', 'hover', 'focus']
+    }
+  },
   theme: {
     screens: {
       sm: '480px',
@@ -14,7 +20,11 @@ module.exports = {
     },
     extend: {
       colors: {
-        blueDisabledButton: '#47afff'
+        blueDisabledButton: '#47afff',
+        mainPageBackground: '#FAFAFA',
+        signUpColor: '#0095F6',
+        inputBorder: '#DBDBDB',
+        activeBorderForInput: '#A8A8A8'
       }
     }
 
