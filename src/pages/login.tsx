@@ -10,6 +10,7 @@ import img3 from '../images/mainPage/img3.png'
 import img4 from '../images/mainPage/img4.png'
 import gplay from '../images/mainPage/gplay.png'
 import ms from '../images/mainPage/ms.png'
+import facebook from '../images/mainPage/facebook-icon.png'
 
 const Login = () => {
     const imageList: string[] = [img1, img2, img3, img4]
@@ -37,8 +38,8 @@ const Login = () => {
     }, [imageCounter])
 
     return (
-        <div className='container flex mx-auto max-w-screen-md items-center h-screen'>
-            <div className='flex w-3/5'>
+        <div className='container flex max-w-screen-md items-center justify-center mt-20 mx-auto'>
+            <div className='flex'>
                 <div className="backgroundimg top-0">
                     <img src={photoframe} className='phoneframe' />
                     {
@@ -46,36 +47,52 @@ const Login = () => {
                     }
                 </div>
             </div>
-            <div className="flex flex-col w-2/5 space-y-3 text-center">
+            <div className="loginContainer flex flex-col space-y-2 text-center">
                 <div className='flex flex-col space-y-10 text-center bg-white border border-inputBorder rounded-sm p-10'>
-                    <img src={logo} className='h-13 w-42' />
-                    <div>
-                        <form action={handleLogin()} className="space-y-4">
+                    <img src={logo} className='h-12 w-42 m-auto' />
+                    <div className=''>
+                        <form action={handleLogin()}>
                             <input
                                 aria-label='Enter email address'
                                 type="text"
                                 placeholder="Email address"
                                 value={userName}
                                 onChange={e => setUserName(e.target.value)}
-                                className='text-gray text-xs w-full rounded-sm border border-inputBorder p-1 bg-mainPageBackground outline-none focus:border-activeBorderForInput' />
+                                className='text-gray text-xs w-full rounded-sm border border-inputBorder py-2 px-1 bg-mainPageBackground outline-none focus:border-activeBorderForInput' />
                             <input
                                 aria-label='Enter your password'
                                 type="password"
                                 placeholder="Password"
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
-                                className='text-gray text-xs w-full rounded-sm border border-inputBorder p-1 bg-mainPageBackground outline-none focus:border-activeBorderForInput' />
-                            <button className='bg-blueDisabledButton w-full rounded-md py-1 text-white'>Log in</button>
+                                className='text-gray text-xs w-full rounded-sm border border-inputBorder mt-2 py-2 px-1 bg-mainPageBackground outline-none focus:border-activeBorderForInput' />
+                            <button className='bg-blueDisabledButton w-full rounded-md py-1 mt-4 text-white'>Log in</button>
                         </form>
+
+                        <div className="relative flex py-5 items-center">
+                            <div className="flex-grow border-t border-inputBorder"></div>
+                            <span className="flex-shrink mx-4 text-xs font-semibold text-activeBorderForInput">OR</span>
+                            <div className="flex-grow border-t border-inputBorder"></div>
+                        </div>
+
+                        <div className="flex flex-row justify-center">
+                            <img src={facebook} className='inline-block relative h-4 w-4 mr-3 top-0.5 text-center'></img>
+                            <div className="text-center font-semibold text-darkBlue text-sm">Log in with Facebook</div>
+                        </div>
+                        <div className="relative text-xs top-4">Forgotten your password?</div>
                     </div>
                 </div>
-                <div className="text-sm text-center bg-white border border-gray-300 rounded-sm p-5">Dont have an account? <span className='text-signUpColor text-bold font-medium'>Sign Up</span></div>
-                <div className="text-sm">
-                    Get the app.
+                <div className="text-sm text-center bg-white border border-gray-300 rounded-sm p-5">Dont have an account?
+                    <span className='text-signUpColor text-bold font-medium'> Sign Up</span>
                 </div>
-                <div className="flex flex-row space-x-3 justify-center">
-                    <img src={gplay} alt='google play' className='h-10' />
-                    <img src={ms} alt='microsoft' className='h-10 ' />
+                <div className="space-y-6 ">
+                    <div className="text-sm mt-2">
+                        Get the app.
+                    </div>
+                    <div className="flex flex-row space-x-3 justify-center">
+                        <img src={gplay} alt='google play' className='h-10' />
+                        <img src={ms} alt='microsoft' className='h-10 ' />
+                    </div>
                 </div>
             </div>
         </div >

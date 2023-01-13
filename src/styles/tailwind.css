@@ -10,7 +10,7 @@ body{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 
-  width:83%;
+  width:90%;
   max-width:600px;
   margin:0 auto;
 
@@ -24,7 +24,7 @@ body{
   grid-column:2/5;
   align-self:center;
   position:relative;
-  right:18px;
+  right:17px;
   /* margin-left:-20px; */
   /* animation:images 18s infinite forwards;
   animation-timing-function:ease;
@@ -43,5 +43,10 @@ body{
 
 .image1, .phoneframe{
   grid-row:1/2;
+}
+
+.loginContainer{
+  width:50%;
+  height:100%;
 }
   
