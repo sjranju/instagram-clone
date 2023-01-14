@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useEffect, useState } from 'react'
@@ -11,13 +12,17 @@ import img4 from '../images/mainPage/img4.png'
 import gplay from '../images/mainPage/gplay.png'
 import ms from '../images/mainPage/ms.png'
 import facebook from '../images/mainPage/facebook-icon.png'
+import { NavLink } from 'react-router-dom'
+import * as ROUTES from '../constants/routes'
 
 const Login = () => {
     const imageList: string[] = [img1, img2, img3, img4]
 
-    const [userName, setUserName] = useState<string>()
-    const [password, setPassword] = useState<string>()
+    const [userName, setUserName] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
     const [imageCounter, setImageCounter] = useState<number>(0)
+
+    const isInvalid = userName === '' || password === ''
 
     const handleLogin = (): string => {
         return 'a'
@@ -66,7 +71,7 @@ const Login = () => {
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
                                 className='text-gray text-xs w-full rounded-sm border border-inputBorder mt-2 py-2 px-1 bg-mainPageBackground outline-none focus:border-activeBorderForInput' />
-                            <button className='bg-blueDisabledButton w-full rounded-md py-1 mt-4 text-white'>Log in</button>
+                            <button className={`w-full rounded-md py-1 mt-4 text-white ${isInvalid ? 'bg-blueDisabledButton' : 'bg-signUpColor'}`}>Log in</button>
                         </form>
 
                         <div className="relative flex py-5 items-center">
@@ -83,7 +88,7 @@ const Login = () => {
                     </div>
                 </div>
                 <div className="text-sm text-center bg-white border border-gray-300 rounded-sm p-5">Dont have an account?
-                    <span className='text-signUpColor text-bold font-medium'> Sign Up</span>
+                    <span className='text-signUpColor text-bold font-medium'><NavLink to={ROUTES.SIGN_UP}> Sign Up</NavLink> </span>
                 </div>
                 <div className="space-y-6 ">
                     <div className="text-sm mt-2">

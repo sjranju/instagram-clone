@@ -8,15 +8,15 @@ import RootLayout from './layouts/RootLayout'
 // import Home from './pages/Home'
 import * as ROUTES from './constants/routes'
 import './styles/app.css'
-import SignUp from './pages/SignUp'
 const Login = lazy(async () => await import('./pages/login'))
+const SignUp = lazy(async () => await import('./pages/sign-up'))
 
 const router = createBrowserRouter(
   createRoutesFromElements(
 
     <Route path="/" element={<RootLayout />}>
       {/* <Route path="/" element={<Home />} /> */}
-      <Route path="/" element={<Login />} />
+      <Route path={ROUTES.LOGIN} element={<Login />} />
       <Route path={ROUTES.SIGN_UP} element={<SignUp />} />
     </Route>
 

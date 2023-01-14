@@ -506,12 +506,6 @@ video {
 .top-4 {
   top: 1rem;
 }
-.top-2 {
-  top: 0.5rem;
-}
-.top-1 {
-  top: 0.25rem;
-}
 .m-auto {
   margin: auto;
 }
@@ -540,9 +534,6 @@ video {
 }
 .mr-2 {
   margin-right: 0.5rem;
-}
-.mb-4 {
-  margin-bottom: 1rem;
 }
 .inline-block {
   display: inline-block;
@@ -573,21 +564,6 @@ video {
 }
 .max-w-screen-md {
   max-width: 768px;
-}
-.max-w-screen-sm {
-  max-width: 640px;
-}
-.max-w-sm {
-  max-width: 24rem;
-}
-.max-w-md {
-  max-width: 28rem;
-}
-.max-w-lg {
-  max-width: 32rem;
-}
-.max-w-xl {
-  max-width: 36rem;
 }
 .flex-shrink {
   flex-shrink: 1;
@@ -627,11 +603,6 @@ video {
   margin-right: calc(0.75rem * var(--tw-space-x-reverse));
   margin-left: calc(0.75rem * calc(1 - var(--tw-space-x-reverse)));
 }
-.space-y-4 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(1rem * var(--tw-space-y-reverse));
-}
 .space-y-3 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
@@ -659,10 +630,6 @@ video {
 .border-gray-300 {
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
-}
-.border-signUpComments {
-  --tw-border-opacity: 1;
-  border-color: rgb(142 142 142 / var(--tw-border-opacity));
 }
 .bg-white {
   --tw-bg-opacity: 1;
@@ -717,18 +684,11 @@ video {
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
-.text-lg {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-}
 .font-semibold {
   font-weight: 600;
 }
 .font-medium {
   font-weight: 500;
-}
-.font-normal {
-  font-weight: 400;
 }
 .text-white {
   --tw-text-opacity: 1;
