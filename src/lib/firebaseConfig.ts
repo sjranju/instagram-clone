@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
 // import { seedDatabase } from '../seed'
+import { getAuth } from 'firebase/auth'
 
 const config = {
   apiKey: 'AIzaSyA-ucnCKa7An-EXuaWER-WscJPdUaY5epI',
@@ -13,5 +14,6 @@ const config = {
 
 export const app = initializeApp(config)
 export const db = getFirestore(app)
+export const auth = getAuth(app)
 
 // seedDatabase()

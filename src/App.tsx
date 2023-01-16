@@ -10,11 +10,12 @@ import * as ROUTES from './constants/routes'
 import './styles/app.css'
 const Login = lazy(async () => await import('./pages/login'))
 const SignUp = lazy(async () => await import('./pages/sign-up'))
+const NotFound = lazy(async () => await import('./pages/not-found'))
 
 const router = createBrowserRouter(
   createRoutesFromElements(
 
-    <Route path="/" element={<RootLayout />}>
+    <Route path="/" element={<RootLayout />} errorElement={<NotFound />}>
       {/* <Route path="/" element={<Home />} /> */}
       <Route path={ROUTES.LOGIN} element={<Login />} />
       <Route path={ROUTES.SIGN_UP} element={<SignUp />} />

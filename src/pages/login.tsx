@@ -14,18 +14,32 @@ import ms from '../images/mainPage/ms.png'
 import facebook from '../images/mainPage/facebook-icon.png'
 import { NavLink } from 'react-router-dom'
 import * as ROUTES from '../constants/routes'
+// import firebase from '../services/firebase'
+import { auth } from '../lib/firebaseConfig'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 
 const Login = () => {
     const imageList: string[] = [img1, img2, img3, img4]
 
-    const [userName, setUserName] = useState<string>('')
+    const [emailAddress, setEmailAddress] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [imageCounter, setImageCounter] = useState<number>(0)
 
-    const isInvalid = userName === '' || password === ''
+    const isInvalid = emailAddress === '' || password === ''
 
-    const handleLogin = (): string => {
-        return 'a'
+    const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        console.log('Logged in')
+
+        try {
+            void signInWithEmailAndPassword(auth, emailAddress, password)
+                .then((userCredential) => console.log(userCredential, 'userCredential')
+                )
+        } catch (error) {
+            console.log(error)
+        }
+
+        // return 'a'
     }
 
     useEffect(() => {
@@ -56,13 +70,13 @@ const Login = () => {
                 <div className='flex flex-col space-y-10 text-center bg-white border border-inputBorder rounded-sm p-10'>
                     <img src={logo} className='h-12 w-42 m-auto' />
                     <div className=''>
-                        <form action={handleLogin()}>
+                        <form>
                             <input
                                 aria-label='Enter email address'
                                 type="text"
                                 placeholder="Email address"
-                                value={userName}
-                                onChange={e => setUserName(e.target.value)}
+                                value={emailAddress}
+                                onChange={e => setEmailAddress(e.target.value)}
                                 className='text-gray text-xs w-full rounded-sm border border-inputBorder py-2 px-1 bg-mainPageBackground outline-none focus:border-activeBorderForInput' />
                             <input
                                 aria-label='Enter your password'
@@ -71,7 +85,7 @@ const Login = () => {
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
                                 className='text-gray text-xs w-full rounded-sm border border-inputBorder mt-2 py-2 px-1 bg-mainPageBackground outline-none focus:border-activeBorderForInput' />
-                            <button className={`w-full rounded-md py-1 mt-4 text-white ${isInvalid ? 'bg-blueDisabledButton' : 'bg-signUpColor'}`}>Log in</button>
+                            <button type='submit' onClick={e => handleLogin} className={`w-full rounded-md py-1 mt-4 text-white ${isInvalid ? 'bg-blueDisabledButton' : 'bg-signUpColor'}`}>Log in</button>
                         </form>
 
                         <div className="relative flex py-5 items-center">
