@@ -6,6 +6,7 @@ import ms from '../images/mainPage/ms.png'
 import { AiFillFacebook } from 'react-icons/ai'
 import { NavLink } from 'react-router-dom'
 import * as ROUTES from '../constants/routes'
+import { doesUserNameExist } from '../services/firebase'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const SignUp = () => {
@@ -16,13 +17,23 @@ const SignUp = () => {
 
     const isInvalid = userName === '' || password === '' || fullName === '' || emailAddress === ''
 
-    const handleLogin = (): string => {
+    const handleSignUp = (event: React.FormEvent<HTMLFormElement>): string => {
+        event.preventDefault()
+        const userNameExists = doesUserNameExist(userName)
+        console.log('userNameExists', userNameExists)
+
+        // if (userNameExists.length === 0) {
+
+        // } else {
+
+        // }
         return 'a'
     }
 
     useEffect(() => {
         document.title = 'Sign Up . Instagram'
     }, [])
+
     return (
         <div className='container flex max-w-screen-md justify-center mt-3 mx-auto'>
             <div className="loginContainer flex flex-col space-y-2 text-center">
@@ -42,7 +53,7 @@ const SignUp = () => {
                     </div>
 
                     <div className=''>
-                        <form action={handleLogin()}>
+                        <form onSubmit={handleSignUp}>
                             <input
                                 aria-label='Email address'
                                 type="text"

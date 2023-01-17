@@ -36,6 +36,8 @@ const Login = () => {
                 .then((userCredential) => console.log(userCredential, 'userCredential')
                 )
         } catch (error) {
+            setEmailAddress('')
+            setPassword('')
             console.log(error)
         }
 
@@ -70,7 +72,7 @@ const Login = () => {
                 <div className='flex flex-col space-y-10 text-center bg-white border border-inputBorder rounded-sm p-10'>
                     <img src={logo} className='h-12 w-42 m-auto' />
                     <div className=''>
-                        <form>
+                        <form onSubmit={handleLogin}>
                             <input
                                 aria-label='Enter email address'
                                 type="text"
@@ -85,7 +87,7 @@ const Login = () => {
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
                                 className='text-gray text-xs w-full rounded-sm border border-inputBorder mt-2 py-2 px-1 bg-mainPageBackground outline-none focus:border-activeBorderForInput' />
-                            <button type='submit' onClick={e => handleLogin} className={`w-full rounded-md py-1 mt-4 text-white ${isInvalid ? 'bg-blueDisabledButton' : 'bg-signUpColor'}`}>Log in</button>
+                            <button type='submit' className={`w-full rounded-md py-1 mt-4 text-white ${isInvalid ? 'bg-blueDisabledButton' : 'bg-signUpColor'}`}>Log in</button>
                         </form>
 
                         <div className="relative flex py-5 items-center">
