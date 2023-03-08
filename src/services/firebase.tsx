@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { collection, where, query, getDocs } from 'firebase/firestore'
 import { db } from '../lib/firebaseConfig'
-
 // eslint-disable-next-line @typescript-eslint/space-before-function-paren
 export async function doesUserNameExist(userName: any) {
   // const usersCollectionRef = collection(db, 'users')

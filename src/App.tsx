@@ -11,6 +11,7 @@ import './styles/app.css'
 const Login = lazy(async () => await import('./pages/login'))
 const SignUp = lazy(async () => await import('./pages/sign-up'))
 const NotFound = lazy(async () => await import('./pages/not-found'))
+const Dashboard = lazy(async () => await import('./pages/dashboard'))
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,6 +20,8 @@ const router = createBrowserRouter(
       {/* <Route path="/" element={<Home />} /> */}
       <Route path={ROUTES.LOGIN} element={<Login />} />
       <Route path={ROUTES.SIGN_UP} element={<SignUp />} />
+      <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
+
     </Route>
 
   )

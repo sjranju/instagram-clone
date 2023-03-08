@@ -12,7 +12,7 @@ import img4 from '../images/mainPage/img4.png'
 import gplay from '../images/mainPage/gplay.png'
 import ms from '../images/mainPage/ms.png'
 import facebook from '../images/mainPage/facebook-icon.png'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import * as ROUTES from '../constants/routes'
 // import firebase from '../services/firebase'
 import { auth } from '../lib/firebaseConfig'
@@ -24,7 +24,7 @@ const Login = () => {
     const [emailAddress, setEmailAddress] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [imageCounter, setImageCounter] = useState<number>(0)
-
+    const navigate = useNavigate()
     const isInvalid = emailAddress === '' || password === ''
 
     const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
@@ -33,7 +33,10 @@ const Login = () => {
 
         try {
             void signInWithEmailAndPassword(auth, emailAddress, password)
-                .then((userCredential) => console.log(userCredential, 'userCredential')
+                .then((userCredential) => {
+                    navigate(ROUTES.DASHBOARD)
+                    console.log(userCredential, 'userCredential')
+                }
                 )
         } catch (error) {
             setEmailAddress('')

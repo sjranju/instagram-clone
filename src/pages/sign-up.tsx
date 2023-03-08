@@ -4,9 +4,14 @@ import logo from '../images/logo.png'
 import gplay from '../images/mainPage/gplay.png'
 import ms from '../images/mainPage/ms.png'
 import { AiFillFacebook } from 'react-icons/ai'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import * as ROUTES from '../constants/routes'
 import { doesUserNameExist } from '../services/firebase'
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
+// import { FirebaseContext } from '../context/firebase'
+import { auth, db } from '../lib/firebaseConfig'
+import { collection, addDoc } from 'firebase/firestore'
+// import { FirebaseContext } from '../context/firebase'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const SignUp = () => {
@@ -14,20 +19,43 @@ const SignUp = () => {
     const [fullName, setFullName] = useState<string>('')
     const [userName, setUserName] = useState<string>('')
     const [password, setPassword] = useState<string>('')
-
+    const [errorMessage, setErrorMessage] = useState<string>('')
+    const navigate = useNavigate()
     const isInvalid = userName === '' || password === '' || fullName === '' || emailAddress === ''
 
-    const handleSignUp = (event: React.FormEvent<HTMLFormElement>): string => {
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        const userNameExists = doesUserNameExist(userName)
+        const userNameExists = await doesUserNameExist(userName)
         console.log('userNameExists', userNameExists)
 
-        // if (userNameExists.length === 0) {
+        if (userNameExists.length === 0) {
+            try {
+                const { user } = await createUserWithEmailAndPassword(auth, emailAddress, password)
+                await updateProfile(user, { displayName: userName })
+                const usersCollectionRef = collection(db, 'users')
 
-        // } else {
-
-        // }
-        return 'a'
+                await addDoc(usersCollectionRef, {
+                    userId: user.uid,
+                    userName: userName.toLowerCase(),
+                    fullName,
+                    emailAddress: emailAddress.toLowerCase(),
+                    following: [],
+                    dateCreated: Date.now()
+                })
+                navigate(ROUTES.DASHBOARD)
+            } catch (error: any) {
+                // console.log(error);
+                setEmailAddress('')
+                setUserName('')
+                setFullName('')
+                setPassword('')
+                setErrorMessage(error.message)
+            }
+        } else {
+            setUserName('')
+            setErrorMessage('That user name is already taken, please try another')
+        }
     }
 
     useEffect(() => {
@@ -53,7 +81,8 @@ const SignUp = () => {
                     </div>
 
                     <div className=''>
-                        <form onSubmit={handleSignUp}>
+                        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises, @typescript-eslint/promise-function-async */}
+                        <form onSubmit={(e) => handleSignUp(e)}>
                             <input
                                 aria-label='Email address'
                                 type="text"
@@ -82,16 +111,17 @@ const SignUp = () => {
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
                                 className='text-gray text-xs w-full rounded-sm border border-inputBorder mt-2 py-2 px-1 bg-mainPageBackground outline-none focus:border-activeBorderForInput' />
+                            <div className="text-xs flex flex-col mt-4 space-y-2 w-full">
+                                <div className="text-signUpComments">
+                                    People who use our service may have uploaded your contact information to Instagram. <span className='text-black'><a href='#'>Learn more</a></span>
+                                </div>
+                                <div className="text-signUpComments">
+                                    By signing up, you agree to our <span className='text-black'><a href='#'>Terms,</a></span><span className='text-black'><a href='#'> Privacy Policy</a></span> and <span className='text-black'><a href='#'> Cookies Policy.</a></span>
+                                </div>
+                            </div>
+                            <button type="submit" className={`w-full rounded-md py-1 mt-4 text-white ${isInvalid ? 'bg-blueDisabledButton' : 'bg-signUpColor'}`}>Sign Up</button>
                         </form>
-                        <div className="text-xs flex flex-col mt-4 space-y-2 w-full">
-                            <div className="text-signUpComments">
-                                People who use our service may have uploaded your contact information to Instagram. <span className='text-black'><a href='#'>Learn more</a></span>
-                            </div>
-                            <div className="text-signUpComments">
-                                By signing up, you agree to our <span className='text-black'><a href='#'>Terms,</a></span><span className='text-black'><a href='#'> Privacy Policy</a></span> and <span className='text-black'><a href='#'> Cookies Policy.</a></span>
-                            </div>
-                        </div>
-                        <button className={`w-full rounded-md py-1 mt-4 text-white ${isInvalid ? 'bg-blueDisabledButton' : 'bg-signUpColor'}`}>Log in</button>
+                        {errorMessage}
                     </div>
                 </div>
                 <div className="text-sm text-center bg-white border border-gray-300 rounded-sm p-5">Have an account?
