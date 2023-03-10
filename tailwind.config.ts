@@ -26,7 +26,10 @@ module.exports = {
         inputBorder: '#DBDBDB',
         activeBorderForInput: '#A8A8A8',
         darkBlue: '#1A3B50',
-        signUpComments: '#8E8E8E'
+        signUpComments: '#8E8E8E',
+        errorMessage: '#ED4956',
+        seperator: '#262626',
+        hoverBackground: '#121212'
       }
     }
 
