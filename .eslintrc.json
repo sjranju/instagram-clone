@@ -23,6 +23,7 @@
         "@typescript-eslint/space-before-function-paren": "warn",
         "@typescript-eslint/explicit-function-return-type": "warn",
         "indent": "off",
-        "@typescript-eslint/indent": "warn"
+        "@typescript-eslint/indent": "warn",
+        "@typescript-eslint/no-non-null-assertion": "warn"
     }
 }

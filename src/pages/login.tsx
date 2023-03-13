@@ -1,27 +1,22 @@
+/* eslint-disable import/no-absolute-path */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useEffect, useState } from 'react'
-import photoframe from '../images/mainPage/blackPhoneFrame5.png'
-// import photoframe from '../images/iphone-with-profile.jpg'
-import logo from '../images/logo.png'
-import img1 from '../images/mainPage/img1.png'
-import img2 from '../images/mainPage/img2.png'
-import img3 from '../images/mainPage/img3.png'
-import img4 from '../images/mainPage/img4.png'
-import gplay from '../images/mainPage/gplay.png'
-import ms from '../images/mainPage/ms.png'
-import facebook from '../images/mainPage/facebook-icon.png'
 import { NavLink, useNavigate } from 'react-router-dom'
 import * as ROUTES from '../constants/routes'
-// import firebase from '../services/firebase'
 import { auth } from '../lib/firebaseConfig'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { AiOutlineCopyright } from 'react-icons/ai'
 import { SlArrowDown } from 'react-icons/sl'
 
 const Login = () => {
-    const imageList: string[] = [img1, img2, img3, img4]
+    const imageList = [
+        '/images/mainPage/img1.png',
+        '/images/mainPage/img2.png',
+        '/images/mainPage/img3.png',
+        '/images/mainPage/img4.png'
+    ]
 
     const [emailAddress, setEmailAddress] = useState<string>('')
     const [password, setPassword] = useState<string>('')
@@ -72,7 +67,7 @@ const Login = () => {
             <div className="flex flex-row max-w-screen-md">
                 <div className='flex'>
                     <div className="backgroundimg top-0">
-                        <img src={photoframe} className='phoneframe' />
+                        <img src='/images/mainPage/blackPhoneFrame5.png' className='phoneframe' />
                         {
                             <img src={imageList[imageCounter]} className='image1' />
                         }
@@ -80,7 +75,7 @@ const Login = () => {
                 </div>
                 <div className="flex flex-col space-y-2 text-center justify-center items-center align-center">
                     <div className='flex flex-col space-y-10 text-center bg-white border border-inputBorder rounded-sm p-10'>
-                        <img src={logo} className='h-12 w-42 m-auto' />
+                        <img src="/images/logo.png" className='h-12 w-42 m-auto' />
                         <div className=''>
                             <form onSubmit={handleLogin}>
                                 <input
@@ -107,7 +102,7 @@ const Login = () => {
                             </div>
 
                             <div className="flex flex-row justify-center mb-2">
-                                <img src={facebook} className='inline-block relative h-4 w-4 mr-3 top-0.5 text-center'></img>
+                                <img src='/images/mainPage/facebook-icon.png' className='inline-block relative h-4 w-4 mr-3 top-0.5 text-center'></img>
                                 <div className="text-center font-semibold text-darkBlue text-sm">Log in with Facebook</div>
                             </div>
                             {
@@ -126,8 +121,8 @@ const Login = () => {
                             Get the app.
                         </div>
                         <div className="flex flex-row space-x-3 justify-center">
-                            <img src={gplay} alt='google play' className='h-10' />
-                            <img src={ms} alt='microsoft' className='h-10 ' />
+                            <img src='/images/mainPage/gplay.png' alt='google play' className='h-10' />
+                            <img src='/images/mainPage/ms.png' alt='microsoft' className='h-10 ' />
                         </div>
                     </div>
                 </div>

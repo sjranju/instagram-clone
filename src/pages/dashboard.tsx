@@ -10,7 +10,7 @@ function Dashboard() {
     return (
         <div className=' bg-black '>
             <div className="flex flex-row justify-between h-screen">
-                <div className="border-r border-seperator w-60 px-3 pb-5">
+                <div className="border-r border-seperator px-3 pb-5 w-24 md:w-60 w-16.5 overflow-y-visible">
                     <Sidebar />
                 </div>
                 <div className="flex flex-col space-y-12">

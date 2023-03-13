@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/indent */
 import React, { useEffect, useState } from 'react'
-import logo from '../images/logo.png'
-import gplay from '../images/mainPage/gplay.png'
-import ms from '../images/mainPage/ms.png'
 import { AiFillFacebook, AiOutlineCopyright } from 'react-icons/ai'
 import { SlArrowDown } from 'react-icons/sl'
 import { NavLink, useNavigate } from 'react-router-dom'
@@ -12,7 +9,6 @@ import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 // import { FirebaseContext } from '../context/firebase'
 import { auth, db } from '../lib/firebaseConfig'
 import { collection, addDoc } from 'firebase/firestore'
-// import { FirebaseContext } from '../context/firebase'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const SignUp = () => {
@@ -67,7 +63,7 @@ const SignUp = () => {
         <div className='container flex flex-col justify-center items-center mt-3 mx-auto'>
             <div className="loginContainer max-w-sm flex flex-col space-y-2 text-center">
                 <div className='flex flex-col space-y-3 text-center bg-white border border-inputBorder rounded-sm p-10'>
-                    <img src={logo} className='h-12 w-42 m-auto' />
+                    <img src='/images/logo.png' className='h-12 w-42 m-auto' />
                     <div className="text-signUpComments font-semibold text-md">Sign up to see photos and videos from your friends.</div>
                     <div className="flex justify-center">
                         <button className="flex font-semibold text-white w-full bg-signUpColor py-2 px-3 border rounded-lg text-sm justify-center align-center ">
@@ -133,8 +129,8 @@ const SignUp = () => {
                         Get the app.
                     </div>
                     <div className="flex flex-row space-x-3 justify-center">
-                        <img src={gplay} alt='google play' className='h-10' />
-                        <img src={ms} alt='microsoft' className='h-10 ' />
+                        <img src='/images/mainPage/gplay.png' alt='google play' className='h-10' />
+                        <img src='/images/mainPage/ms.png' alt='microsoft' className='h-10 ' />
                     </div>
                 </div>
             </div>
@@ -170,7 +166,7 @@ const SignUp = () => {
                                 <option value="de">Deutsch</option>
                                 <option value="el">Ελληνικά</option>
                                 <option value="en">English</option>
-                                <option selected value="en-gb">English (UK)</option>
+                                <option value="en-gb">English (UK)</option>
                                 <option value="es">Español (España)</option>
                                 <option value="es-la">Español</option>
                                 <option value="fi">Suomi</option>
