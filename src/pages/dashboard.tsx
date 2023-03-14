@@ -4,14 +4,14 @@
 import React from 'react'
 import Timeline from './timeline'
 import Header from './header'
-import Sidebar from './sidebar'
+import Menubar from './menubar'
 
 function Dashboard() {
     return (
         <div className=' bg-black '>
             <div className="flex flex-row justify-between h-screen">
                 <div className="border-r border-seperator px-3 pb-5 w-24 md:w-60 w-16.5 overflow-y-visible">
-                    <Sidebar />
+                    <Menubar />
                 </div>
                 <div className="flex flex-col space-y-12">
                     <Header />
