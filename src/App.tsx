@@ -18,7 +18,7 @@ const Dashboard = lazy(async () => await import('./pages/dashboard'))
 const router = createBrowserRouter(
   createRoutesFromElements(
 
-    <Route path="/" element={<RootLayout />} errorElement={<NotFound />}>
+    <Route path="/instagram-clone" element={<RootLayout />} errorElement={<NotFound />}>
       {/* <Route path="/" element={<Home />} /> */}
       <Route path={ROUTES.LOGIN} element={<Login />} />
       <Route path={ROUTES.SIGN_UP} element={<SignUp />} />
