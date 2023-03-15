@@ -2,24 +2,34 @@
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React from 'react'
-import Timeline from './timeline'
-import Header from './header'
-import Menubar from './menubar'
+import Timeline from '../components/timeline'
+import Menubar from '../components/menubar'
+import Sidebar from '../components/sidebar'
 
 function Dashboard() {
     return (
         <div className=' bg-black '>
-            <div className="flex flex-row justify-between h-screen">
+            <div className="flex flex-row h-screen w-screen">
                 <div className="border-r border-seperator px-3 pb-5 w-24 md:w-60 w-16.5 overflow-y-visible">
                     <Menubar />
                 </div>
-                <div className="flex flex-col space-y-12">
-                    <Header />
-                    <Timeline />
-                </div>
 
+                {/* <div className="border-r border-seperator px-3 sm:max-w-16.5 overflow-y-visible col-span-1"> */}
+                {/* <div className="border-r border-seperator px-3 pb-5 w-24 md:w-60 w-16.5 overflow-y-visible">
+                <Menubar />
+            </div> */}
+                <div className="flex flex-row justify-around items-stretch space-x-4 pt-1 flex-nowrap h-screen max-w-5xl">
+                    <div className="max-w-md">
+                        <Timeline />
+                    </div>
+                    <div className="mt-4 pt-8">
+                        <Sidebar />
+                    </div>
+                </div>
+                {/* </div> */}
             </div>
         </div>
+
     )
 }
 

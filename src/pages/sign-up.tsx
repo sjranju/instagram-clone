@@ -23,35 +23,37 @@ const SignUp = () => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        const userNameExists = await doesUserNameExist(userName)
-        console.log('userNameExists', userNameExists)
+        if (userName.length > 0 && emailAddress.length > 0) {
+            const userNameExists = await doesUserNameExist(userName, emailAddress)
+            console.log('userNameExists', userNameExists)
 
-        if (userNameExists.length === 0) {
-            try {
-                const { user } = await createUserWithEmailAndPassword(auth, emailAddress, password)
-                await updateProfile(user, { displayName: userName })
-                const usersCollectionRef = collection(db, 'users')
+            if (userNameExists.length <= 0) {
+                try {
+                    const { user } = await createUserWithEmailAndPassword(auth, emailAddress, password)
+                    await updateProfile(user, { displayName: userName })
+                    const usersCollectionRef = collection(db, 'users')
 
-                await addDoc(usersCollectionRef, {
-                    userId: user.uid,
-                    userName: userName.toLowerCase(),
-                    fullName,
-                    emailAddress: emailAddress.toLowerCase(),
-                    following: [],
-                    dateCreated: Date.now()
-                })
-                navigate(ROUTES.DASHBOARD)
-            } catch (error: any) {
-                // console.log(error);
-                setEmailAddress('')
+                    await addDoc(usersCollectionRef, {
+                        userId: user.uid,
+                        username: userName.toLowerCase(),
+                        fullName,
+                        emailAddress: emailAddress.toLowerCase(),
+                        following: [],
+                        dateCreated: Date.now()
+                    })
+                    navigate(ROUTES.DASHBOARD)
+                } catch (error: any) {
+                    // console.log(error);
+                    setEmailAddress('')
+                    setUserName('')
+                    setFullName('')
+                    setPassword('')
+                    setErrorMessage(error.message)
+                }
+            } else {
                 setUserName('')
-                setFullName('')
-                setPassword('')
-                setErrorMessage(error.message)
+                setErrorMessage('That user name is already taken, please try another')
             }
-        } else {
-            setUserName('')
-            setErrorMessage('That user name is already taken, please try another')
         }
     }
 

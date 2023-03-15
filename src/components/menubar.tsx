@@ -25,7 +25,7 @@ function Menubar() {
     const [clicked, setClicked] = useState(false)
     const { user } = UseAuthListener()
     const navigate = useNavigate()
-    console.log('user', { user })
+    // console.log('user', { user })
 
     const handleSignOut = () => {
         void signOut(auth)
