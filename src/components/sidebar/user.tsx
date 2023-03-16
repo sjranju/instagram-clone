@@ -14,10 +14,10 @@ interface userPropType {
 function User({ fullName, username }: userPropType) {
     const { user } = UseAuthListener()
     return (
-        <Link to={`/p/${username}`} className='flex flex-row items-center justify-between gap-4 text-white mb-4'>
+        <Link to={`/p/${username}`} className='flex flex-row items-center justify-between gap-20 text-white mb-4'>
             <div className='flex flex-row space-x-4'>
-                <img src={`/images/avatars/${user?.displayName ?? ''}.jpg`} alt="profile picture" className=' h-16 w-16 rounded-full' />
-                <div className="flex flex-col">
+                <img src={`/images/avatars/${user?.displayName ?? ''}.jpg`} alt="profile picture" className=' h-14 w-14 rounded-full' />
+                <div className="flex flex-col justify-center">
                     <p className="text-sm font-bold">{username}</p>
                     <p className="text-sm">{fullName}</p>
                 </div>
