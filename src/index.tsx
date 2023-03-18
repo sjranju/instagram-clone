@@ -4,16 +4,21 @@ import reportWebVitals from './reportWebVitals'
 import App from './App'
 import { FirebaseContext } from './context/firebase'
 import { auth, db } from './lib/firebaseConfig'
+import store from './store/configStore'
+import { Provider } from 'react-redux'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 )
 root.render(
-  <FirebaseContext.Provider value={{ db, auth }}>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </FirebaseContext.Provider>
+  <Provider store={store}>
+    <FirebaseContext.Provider value={{ db, auth }}>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </FirebaseContext.Provider>
+  </Provider>
+
 
 )
 

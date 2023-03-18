@@ -15,8 +15,10 @@ function Sidebar() {
 
     return (
         <div className="">
-            {(user.fullName != null) && (user.username != null)
-                ? <User fullName={user?.fullName} username={user?.username} />
+            console.log(username,{user?.username});
+
+            {(user?.fullName != null) && (user.username != null)
+                ? <User fullName={user?.fullName} username={user.username} displayName={user.username} />
                 : ''
                 // : <Skeleton count={1} height={61} />
             }
