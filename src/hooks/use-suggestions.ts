@@ -42,7 +42,7 @@ function useSuggestions() {
             if (user != null) {
                 const suggestions: ActiveUserType[] = await getSuggestionDetails([user.userId!, ...user.following!])
                 setSuggestedUsers(suggestions)
-                console.log('suggestedUsers', suggestedUsers)
+                // console.log('suggestedUsers', suggestedUsers)
             }
         }
 
@@ -69,7 +69,7 @@ function useSuggestions() {
     //     }
     // }, [suggestedUsers])
 
-    console.log('suggestedUsers', suggestedUsers)
+    // console.log('suggestedUsers', suggestedUsers)
     // console.log('suggestedFollowers', suggestedFollowers)
 
     return ({ suggestions: suggestedUsers })

@@ -21,7 +21,7 @@
     ],
     "rules": {
         "space-before-function-paren": "off",
-        "@typescript-eslint/space-before-function-paren": "warn",
+        "@typescript-eslint/space-before-function-paren": "off",
         "@typescript-eslint/explicit-function-return-type": "warn",
         "indent": "off",
         "@typescript-eslint/indent": "warn",

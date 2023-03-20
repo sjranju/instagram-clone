@@ -12,13 +12,13 @@ function Sidebar() {
     const { user } = useUser()
     // const { suggestions } = useSuggestions()
     // console.log('suggestions', suggestions)
+    console.log('username', user?.username);
 
     return (
         <div className="">
-            console.log(username,{user?.username});
 
             {(user?.fullName != null) && (user.username != null)
-                ? <User fullName={user?.fullName} username={user.username} displayName={user.username} />
+                ? <User fullName={user?.fullName} username={user.username} />
                 : ''
                 // : <Skeleton count={1} height={61} />
             }

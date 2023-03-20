@@ -14,7 +14,7 @@ import useSuggestions from '../../hooks/use-suggestions'
 function Suggestions() {
     const { suggestions } = useSuggestions()
 
-    console.log('suggestions', suggestions)
+    // console.log('suggestions', suggestions)
 
     return (
         <div className="flex flex-col justify-center text-white text-sm">

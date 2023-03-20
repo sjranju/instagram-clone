@@ -2,39 +2,21 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/space-before-function-paren */
 import { useEffect, useState } from 'react'
-import UseAuthListener from './use-auth-listener'
-import { getUserDetailsByUserId } from '../services/firebase'
 import { fetchUsers } from '../features/userSlice'
-import { AsyncThunk, AnyAction } from '@reduxjs/toolkit'
 import { useAppDispatch, useAppSelector } from '../store/use-state-dispatch'
+import UseAuthListener from './use-auth-listener'
 // import { ActiveUserType } from './use-suggestions'
 
-// interface ActiveUserType {
-//     dateCreated?: number
-//     emailAddress?: string
-//     followers?: string[]
-//     following?: string[]
-//     fullName?: string
-//     userId?: string
-//     username?: string
-// }
-
 function useUser() {
-    const { user } = UseAuthListener()
     const dispatch = useAppDispatch()
     const userState = useAppSelector(state => state.user)
-    // const [activeUser, setActiveUser] = useState<ActiveUserType>({
-    //     dateCreated: 0,
-    //     emailAddress: '',
-    //     followers: [],
-    //     following: [],
-    //     fullName: '',
-    //     userId: '',
-    //     username: ''
-    // })
+    const { user } = UseAuthListener()
+
     useEffect(() => {
-        dispatch(fetchUsers())
-    }, [dispatch])
+        if (user?.uid) {
+            dispatch(fetchUsers(user?.uid))
+        }
+    }, [])
     // useEffect(() => {
     //     async function getUserObjByUserId() {
     //         if (user != null) {
@@ -47,6 +29,9 @@ function useUser() {
     //         void getUserObjByUserId()
     //     }
     // }, [user])
+    // console.log('userState fetch', userState.user?.username);
+
+    // console.log('userState', userState.user);
 
     return ({ user: userState.user })
 }
