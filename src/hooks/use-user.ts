@@ -1,11 +1,21 @@
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/space-before-function-paren */
-import { useEffect, useState } from 'react'
-import { fetchUsers } from '../features/userSlice'
+import { useEffect } from 'react'
+import { fetchUser } from '../features/userSlice'
 import { useAppDispatch, useAppSelector } from '../store/use-state-dispatch'
 import UseAuthListener from './use-auth-listener'
 // import { ActiveUserType } from './use-suggestions'
+
+export interface ActiveUserType {
+    dateCreated?: number
+    emailAddress?: string
+    followers?: string[]
+    following?: string[]
+    fullName?: string
+    userId?: string
+    username?: string
+}
 
 function useUser() {
     const dispatch = useAppDispatch()
@@ -14,7 +24,7 @@ function useUser() {
 
     useEffect(() => {
         if (user?.uid) {
-            dispatch(fetchUsers(user?.uid))
+            dispatch(fetchUser(user?.uid))
         }
     }, [])
     // useEffect(() => {
@@ -31,9 +41,9 @@ function useUser() {
     // }, [user])
     // console.log('userState fetch', userState.user?.username);
 
-    // console.log('userState', userState.user);
+    console.log('userState', userState.currentUser);
 
-    return ({ user: userState.user })
+    return ({ user: userState.currentUser })
 }
 
 export default useUser

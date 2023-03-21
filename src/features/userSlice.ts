@@ -1,21 +1,21 @@
-import { ActionCreatorWithPayload, PayloadAction, createAsyncThunk as asyncThunk, createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk as asyncThunk, createSlice } from "@reduxjs/toolkit"
 import { getUserDetailsByUserId } from "../services/firebase"
-import UseAuthListener from "../hooks/use-auth-listener"
-import { stat } from "fs"
-import { ActiveUserType } from "../hooks/use-suggestions"
-import { useId } from "react"
+// import { ActiveUserType } from "../hooks/use-suggestions"
+// import UseAuthListener from "../hooks/use-auth-listener"
+import  { ActiveUserType } from "../hooks/use-user"
 
 type UserStateType = {
     loading: boolean,
-    user?: ActiveUserType,
-    error: string
+    error?: string,
+    currentUser?:ActiveUserType[],
+    currentlyFollowingUsers?:string[]
 }
 
 const initialState: UserStateType = {
     loading: false,
-    error: ''
 }
 
+//  const currentUserId = user?.uid
 // export const fetchUsers = asyncThunk('users/fetchUsers', async (_, { dispatch, abort }) => {
 //     const { user } = UseAuthListener()
 //     console.log('UseAuthListener', user);
@@ -46,21 +46,22 @@ const initialState: UserStateType = {
 //     abort()
 // })
 
-export const fetchUsers = asyncThunk('users/fetchUsers', async (userID: string, thunkAPI) => {
-    console.log('UseAuthListener', userID);
+export const fetchUser = asyncThunk('user/fetchUser', async (userID: string) => {
+    // console.log('UseAuthListener', userID);
     if (userID) {
         try {
-            const [userResponse] = await (
+            const userResponse = await (
                 getUserDetailsByUserId(userID)
+                // getAllUsers()
             )
             console.log('userResponse', userResponse)
 
             if (!userResponse) {
                 console.log('userResponse!', userResponse);
             }
-            console.log('userResponse', userResponse)
+            // console.log('userResponse', userResponse)
             return userResponse;
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.log('Error while fetching users', { error });
 
         }
@@ -72,16 +73,24 @@ export const UserSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(fetchUsers.pending, (state) => {
+
+        builder.addCase(fetchUser.pending, (state) => {
             state.loading = true
+            // console.log('fetchUsers.pending',state.loading);
+            
         })
-        builder.addCase(fetchUsers.fulfilled, (state, action) => {
-            state.loading = false
-            state.user = action.payload
+
+        builder.addCase(fetchUser.fulfilled,(state, action) => {
+            state.currentUser=action.payload
+            const currentUser = action.payload
+            const currentlyFollowingUsers=currentUser?.map(user=>user.following)
+            // state.currentUser?.filter(user=>user.userId !=currentlyFollowingUsers)
+            console.log('currentlyFollowingUsers',currentlyFollowingUsers);
         })
-        builder.addCase(fetchUsers.rejected, (state, action) => {
+
+        builder.addCase(fetchUser.rejected, (state, action) => {
             state.loading = false
-            delete state.user
+            delete state.currentUser
             state.error = action.error.message || 'Something went wrong'
         })
     }

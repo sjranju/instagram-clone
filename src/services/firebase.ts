@@ -2,7 +2,8 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { collection, where, query, getDocs } from 'firebase/firestore'
 import { db } from '../lib/firebaseConfig'
-import { ActiveUserType } from '../hooks/use-suggestions'
+import { ActiveUserType } from '../hooks/use-user'
+// import { ActiveUserType } from '../hooks/use-suggestions'
 
 // eslint-disable-next-line @typescript-eslint/space-before-function-paren
 export async function doesUserNameExist(userName: string, emailAddress: string) {
@@ -24,6 +25,14 @@ export async function getUserDetailsByUserId(userId: string): Promise<ActiveUser
   return (await getDocs(result)).docs.map(item => ({ ...item.data() }))
 }
 
+export async function getAllUsers(): Promise<ActiveUserType[]> {
+  const result = query(collection(db, 'users'))
+
+  // eslint-disable-next-line array-callback-return
+  return (await getDocs(result)).docs.map(item => ({ ...item.data() }))
+}
+
+
 export async function getSuggestionDetails(userIds: string[]) {
   const result = query(collection(db, 'users'), where('userId', 'not-in', userIds))
   // console.log('getSuggestionDetails', result)
@@ -31,7 +40,7 @@ export async function getSuggestionDetails(userIds: string[]) {
   return (await getDocs(result)).docs.map(item => ({ ...item.data() }))
 }
 
-export async function getTimeLineDetials(userId: string) {
-  const result = query(collection(db, 'photos'), where('userId', '!=', userId))
-  return (await getDocs(result)).docs.map(item => ({ ...item.data() }))
-}
+// export async function getTimeLineDetials(userId: string) {
+//   const result = query(collection(db, 'photos'), where('userId', '!=', userId))
+//   return (await getDocs(result)).docs.map(item => ({ ...item.data() }))
+// }

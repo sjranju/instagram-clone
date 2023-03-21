@@ -1,11 +1,13 @@
 import { combineReducers, compose, configureStore } from "@reduxjs/toolkit";
 import userReducer from "../features/userSlice";
+import  allUsersReduer  from "../features/allUsersSlice";
 // import { reduxFirestore,firestoreReducer } from "redux-firestore";
 // import { app } from "../lib/firebaseConfig";
 
 const store = configureStore({
     reducer: {
         user: userReducer,
+        allUsers:allUsersReduer
         // firestore:firestoreReducer        
     }
 })

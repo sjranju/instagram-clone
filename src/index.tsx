@@ -11,13 +11,13 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 )
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <FirebaseContext.Provider value={{ db, auth }}>
+  <Provider store={store}>
+    <FirebaseContext.Provider value={{ db, auth }}>
+      <React.StrictMode>
         <App />
-      </FirebaseContext.Provider>
-    </Provider>
-  </React.StrictMode>
+      </React.StrictMode>
+    </FirebaseContext.Provider>
+  </Provider>
 
 )
 

@@ -1,38 +1,34 @@
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable @typescript-eslint/space-before-function-paren */
-import React from 'react'
-import useUser from '../../hooks/use-user'
+import React, { useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from '../../store/use-state-dispatch'
+import UseAuthListener from '../../hooks/use-auth-listener'
+import { fetchUser } from '../../features/userSlice'
 import User from './user'
-import Suggestions from './suggestions'
+import { fetchUsers } from '../../features/allUsersSlice'
+// import Suggestions from './suggestions'
 // import useSuggestions from '../../hooks/use-suggestions'
 // import Skeleton from 'react-loading-skeleton'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function Sidebar() {
-    const { user } = useUser()
+    const dispatch = useAppDispatch()
+    const userState = useAppSelector(state => state.user.currentUser)
+    const { user } = UseAuthListener()
+
+    useEffect(() => {
+        if (user?.uid) {
+            dispatch(fetchUser(user?.uid))
+            dispatch(fetchUsers())
+        }
+    }, [])
+
     // const { suggestions } = useSuggestions()
     // console.log('suggestions', suggestions)
-    console.log('username', user?.username);
+    console.log('userState', userState);
 
     return (
-        <div className="">
-
-            {(user?.fullName != null) && (user.username != null)
-                ? <User fullName={user?.fullName} username={user.username} />
-                : ''
-                // : <Skeleton count={1} height={61} />
-            }
-            {/* {
-                (user.followers?.length !== undefined) && (suggestions.username != null) && (suggestions.username != null) && (suggestedFollowerDetails.username != null)
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    ? <Suggestions username={suggestions.username} followers={suggestions.followers!} suggestedFollowerDetails={suggestedFollowerDetails?.username} />
-                    // : <Skeleton count={1} height={61} />
-                    : ''
-            } */}
-
-            <Suggestions />
-
-        </div>
+        <User />
     )
 }
 
