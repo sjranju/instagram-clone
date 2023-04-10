@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/indent */
 import { User } from 'firebase/auth'
 import React, { createContext, useState } from 'react'
 
 interface UserContextType {
-  user: User | null
-  setUser: React.Dispatch<React.SetStateAction<User | null>>
+  user: User | undefined
+  setUser: React.Dispatch<React.SetStateAction<User | undefined>>
 }
 
 interface ChildrenPropType {
@@ -17,7 +18,7 @@ export const UserContext = createContext({} as UserContextType)
 export const UserContextProvider = ({ children }: ChildrenPropType) => {
   const getStorageItem = localStorage.getItem('authUser')
   // const [user, setUser] = useState<string | null>(() => (localStorage.getItem('authUser') != null) ? JSON.parse('authUser') : null)
-  const [user, setUser] = useState<User | null>(() => (getStorageItem != null) ? JSON.parse(getStorageItem) : null)
+  const [user, setUser] = useState<User | undefined>(() => (getStorageItem != undefined) ? JSON.parse(getStorageItem) : undefined)
 
   return (
     <div>

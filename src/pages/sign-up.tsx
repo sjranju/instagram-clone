@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/indent */
 import React, { useEffect, useState } from 'react'
 import { AiFillFacebook, AiOutlineCopyright } from 'react-icons/ai'
@@ -8,7 +9,7 @@ import { doesUserNameExist } from '../services/firebase'
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 // import { FirebaseContext } from '../context/firebase'
 import { auth, db } from '../lib/firebaseConfig'
-import { collection, addDoc } from 'firebase/firestore'
+import { setDoc, doc } from 'firebase/firestore'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const SignUp = () => {
@@ -31,16 +32,24 @@ const SignUp = () => {
                 try {
                     const { user } = await createUserWithEmailAndPassword(auth, emailAddress, password)
                     await updateProfile(user, { displayName: userName })
-                    const usersCollectionRef = collection(db, 'users')
-
-                    await addDoc(usersCollectionRef, {
+                    // const usersCollectionRef = collection(db, 'users')
+                    const newUser = {
                         userId: user.uid,
                         username: userName.toLowerCase(),
                         fullName,
                         emailAddress: emailAddress.toLowerCase(),
                         following: [],
                         dateCreated: Date.now()
-                    })
+                    }
+                    await setDoc(doc(db, 'users', user.uid), newUser)
+                    // await addDoc(usersCollectionRef, {
+                    //     userId: user.uid,
+                    //     username: userName.toLowerCase(),
+                    //     fullName,
+                    //     emailAddress: emailAddress.toLowerCase(),
+                    //     following: [],
+                    //     dateCreated: Date.now()
+                    // })
                     navigate(ROUTES.DASHBOARD)
                 } catch (error: any) {
                     // console.log(error);

@@ -17,7 +17,7 @@ function UseAuthListener() {
                 setUser(authUser)
             } else {
                 localStorage.removeItem('authUser')
-                setUser(null)
+                setUser(undefined)
             }
         })
         return () => listener()

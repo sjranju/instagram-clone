@@ -1,4 +1,3 @@
-/* eslint-disable import/no-absolute-path */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
@@ -50,7 +49,7 @@ const Login = () => {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            // eslint-disable-next-line array-callback-return
+            // eslint-disable-next-line array-callback-return, @typescript-eslint/no-unused-vars
             imageList?.map((image1) => {
                 if (imageCounter === 3) {
                     setImageCounter(0)

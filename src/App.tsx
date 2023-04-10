@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/indent */
 /* eslint-disable @typescript-eslint/space-before-function-paren */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 // import { FirebaseContext } from './context/firebase'
 // import { app, db } from './lib/firebaseConfig'
 import React, { lazy } from 'react'
-import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
+import { Route, RouterProvider, createHashRouter, createRoutesFromElements } from 'react-router-dom'
 import RootLayout from './layouts/RootLayout'
 // import Home from './pages/Home'
 import * as ROUTES from './constants/routes'
@@ -15,7 +16,7 @@ const SignUp = lazy(async () => await import('./pages/sign-up'))
 const NotFound = lazy(async () => await import('./pages/not-found'))
 const Dashboard = lazy(async () => await import('./pages/dashboard'))
 
-const router = createBrowserRouter(
+const router = createHashRouter(
   createRoutesFromElements(
 
     <Route path="/" element={<RootLayout />} errorElement={<NotFound />}>

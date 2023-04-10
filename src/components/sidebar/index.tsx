@@ -6,7 +6,7 @@ import UseAuthListener from '../../hooks/use-auth-listener'
 import { fetchUser } from '../../features/userSlice'
 import User from './user'
 import { fetchUsers } from '../../features/allUsersSlice'
-// import Suggestions from './suggestions'
+import Suggestions from './suggestions'
 // import useSuggestions from '../../hooks/use-suggestions'
 // import Skeleton from 'react-loading-skeleton'
 
@@ -17,18 +17,27 @@ function Sidebar() {
     const { user } = UseAuthListener()
 
     useEffect(() => {
-        if (user?.uid) {
-            dispatch(fetchUser(user?.uid))
-            dispatch(fetchUsers())
-        }
-    }, [])
+        if (user?.uid !== undefined) {
+            dispatch(fetchUser(user?.uid)).then(() => dispatch(fetchUsers()))
 
+        }
+    }, [user])
     // const { suggestions } = useSuggestions()
     // console.log('suggestions', suggestions)
     console.log('userState', userState);
 
+
+    // useEffect(() => {
+    //     if (user?.uid !== undefined) {
+    //         dispatch(fetchUsers())
+    //     }
+    // }, [user])
+
     return (
-        <User />
+        <>
+            <User />
+            <Suggestions />
+        </>
     )
 }
 
