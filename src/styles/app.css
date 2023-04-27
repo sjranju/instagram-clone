@@ -550,6 +550,9 @@ video {
 .mt-8 {
   margin-top: 2rem;
 }
+.mr-8 {
+  margin-right: 2rem;
+}
 .mt-2 {
   margin-top: 0.5rem;
 }
@@ -661,9 +664,6 @@ video {
 .max-w-md {
   max-width: 28rem;
 }
-.max-w-screen-md {
-  max-width: 768px;
-}
 .max-w-sm {
   max-width: 24rem;
 }
@@ -678,6 +678,9 @@ video {
 }
 .grow {
   flex-grow: 1;
+}
+.basis-96 {
+  flex-basis: 24rem;
 }
 .cursor-pointer {
   cursor: pointer;
@@ -754,6 +757,9 @@ video {
   --tw-space-y-reverse: 0;
   margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));
+}
+.self-center {
+  align-self: center;
 }
 .overflow-y-visible {
   overflow-y: visible;
@@ -965,22 +971,20 @@ body{
 .backgroundimg {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-
-  width:90%;
   max-width:600px;
   margin:0 auto;
 
   }
 
-.phoneframe{
+/*.phoneframe{
   grid-column:1/5;
-}
+}*/
 
 .image1{
-  grid-column:2/5;
+/*grid-column:2/5;*/
   align-self:center;
   position:relative;
-  right:17px;
+
   /* margin-left:-20px; */
   /* animation:images 18s infinite forwards;
   animation-timing-function:ease;
@@ -989,6 +993,9 @@ body{
   transition-timing-function: ease-out;
 }
 
+img{
+max-width:none;
+}
 /* @keyframes images{
   0%{background-image: url('C:\Users\sjran\React\instagram-clone\src\images\mainPage\img1.png');}
   25%{background-image: url('C:\Users\sjran\React\instagram-clone\src\images\mainPage\img2.png');}
@@ -1004,6 +1011,11 @@ body{
 .loginContainer{
   width:50%;
   height:100%;
+}
+
+.imageSlider{
+margin-left:112px;
+margin-top:65px;
 }
 
 .hover\:rounded-2xl:hover {
@@ -1059,6 +1071,10 @@ body{
     display: block;
   }
 
+  .md\:flex {
+    display: flex;
+  }
+
   .md\:hidden {
     display: none;
   }
@@ -1067,4 +1083,3 @@ body{
     width: 15rem;
   }
 }
-  

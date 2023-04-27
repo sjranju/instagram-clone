@@ -99,16 +99,19 @@ const Login = () => {
     console.log('imageStore', image);
 
     return (
-        <div className='container flex flex-col items-center justify-center mt-8 mx-auto'>
-            <div className="flex flex-row max-w-screen-md">
-                <div className='flex'>
-                    <div className="backgroundimg top-0">
-                        <img src={image.find(img => img.includes('blackPhoneFrame5'))} className='phoneframe' />
-                        {<img src={imageList[imageCounter]} className='image1' />}
-                    </div>
-                </div>
-                <div className="flex flex-col space-y-2 text-center justify-center items-center align-center">
-                    <div className='flex flex-col space-y-10 text-center bg-white border border-inputBorder rounded-sm p-10'>
+        <div className='flex flex-col items-center justify-center mt-8'>
+            <div className="flex flex-row w-full justify-center">
+                <div className='hidden md:flex mr-8'>
+                    < div className="basis-96 self-center" >
+                        <img src={image.find(img => img.includes('iphone-frame-1copy'))} />
+                        <div className="imageSlider flex flex-col absolute top-0 bottom-0">
+                            {<img src={imageList[imageCounter]} />}
+
+                        </div>
+                    </div >
+                </div >
+                <div className="flex flex-col space-y-2 text-center justify-center items-center align-center mt-8">
+                    <div className='flex flex-col space-y-10 text-center bg-white border border-inputBorder rounded-sm p-10 max-w-sm'>
                         <img src={image.find(img => img.includes('logo'))} className='h-12 w-42 m-auto' />
                         <div className=''>
                             <form onSubmit={handleLogin}>
@@ -155,12 +158,12 @@ const Login = () => {
                             Get the app.
                         </div>
                         <div className="flex flex-row space-x-3 justify-center">
-                            <img src={image.find(img => img.includes('gplay'))} alt='google play' className='h-10' />
+                            <img src={image.find(img => img.includes('gplay'))} alt='google play' className='h-10 ' />
                             <img src={image.find(img => img.includes('ms'))} alt='microsoft' className='h-10 ' />
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
             <div className="flex flex-col text-xs mt-16 mb-16 text-signUpComments space-y-4">
                 <div className="flex flex-row space-x-4 ">
                     <a href="" className="hover:underline">Meta</a>

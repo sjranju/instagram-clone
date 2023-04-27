@@ -9,22 +9,20 @@ body{
 .backgroundimg {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-
-  width:90%;
   max-width:600px;
   margin:0 auto;
 
   }
 
-.phoneframe{
+/*.phoneframe{
   grid-column:1/5;
-}
+}*/
 
 .image1{
-  grid-column:2/5;
+/*grid-column:2/5;*/
   align-self:center;
   position:relative;
-  right:17px;
+
   /* margin-left:-20px; */
   /* animation:images 18s infinite forwards;
   animation-timing-function:ease;
@@ -33,6 +31,9 @@ body{
   transition-timing-function: ease-out;
 }
 
+img{
+max-width:none;
+}
 /* @keyframes images{
   0%{background-image: url('C:\Users\sjran\React\instagram-clone\src\images\mainPage\img1.png');}
   25%{background-image: url('C:\Users\sjran\React\instagram-clone\src\images\mainPage\img2.png');}
@@ -49,4 +50,8 @@ body{
   width:50%;
   height:100%;
 }
-  
+
+.imageSlider{
+margin-left:112px;
+margin-top:65px;
+}
