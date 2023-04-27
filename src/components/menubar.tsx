@@ -43,6 +43,9 @@ function Menubar() {
 
             }
             ))
+    }, [])
+
+    useEffect(() => {
         if (userState?.username !== undefined) {
             listAll(avatarImageRef).then((response) => {
                 response.items.filter(item => {

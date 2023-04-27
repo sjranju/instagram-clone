@@ -18,10 +18,9 @@ const router = createHashRouter(
   createRoutesFromElements(
 
     <Route path="/" element={<RootLayout />} errorElement={<NotFound />}>
-      <Route path={ROUTES.LOGIN} element={<Login />} />
+      <Route path="/" element={<Login />} />
       <Route path={ROUTES.SIGN_UP} element={<SignUp />} />
       <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
-
     </Route>
 
   )
