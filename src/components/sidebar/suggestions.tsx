@@ -4,6 +4,9 @@
 
 import React from 'react'
 import { useAppSelector } from '../../store/use-state-dispatch'
+// import UseAuthListener from '../../hooks/use-auth-listener'
+// import { getDownloadURL, listAll, ref } from 'firebase/storage'
+// import { storage } from '../../lib/firebaseConfig'
 
 function Suggestions() {
     const mutualFriendsState = useAppSelector(state => state.allUsers.mutualFriends)

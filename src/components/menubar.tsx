@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/space-before-function-paren */
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 // import { CgHome } from 'react-icons/cg'
 import { RiSearchLine, RiMessengerLine } from 'react-icons/ri'
 import { BsInstagram } from 'react-icons/bs'
@@ -16,16 +16,47 @@ import { HiOutlineMoon } from 'react-icons/hi'
 import { TbMessageReport } from 'react-icons/tb'
 import * as ROUTES from '../constants/routes'
 // import { UserContext } from '../context/user'
-import UseAuthListener from '../hooks/use-auth-listener'
-import { auth } from '../lib/firebaseConfig'
+import { auth, storage } from '../lib/firebaseConfig'
 import { signOut } from 'firebase/auth'
+import { getDownloadURL, listAll, ref } from 'firebase/storage'
+import { useAppSelector } from '../store/use-state-dispatch'
 const scaleUpICons = 'transition ease-in-out delay-50 group-hover:-translate-y-0.5 group-hover:scale-105 duration-200'
 
 function Menubar() {
     const [clicked, setClicked] = useState(false)
-    const { user } = UseAuthListener()
+    const userState = useAppSelector(state => state.user.currentUser)
     const navigate = useNavigate()
     // console.log('user', { user })
+
+    const [imageURL, setImageURLs] = useState<string[]>([])
+    const [image, setImage] = useState<string>('')
+
+    const menubarImageRef = ref(storage, 'menubar/')
+    const avatarImageRef = ref(storage, 'avatars/')
+
+    useEffect(() => {
+        listAll(menubarImageRef).then(response =>
+            response.items.forEach(item => {
+                getDownloadURL(item).then(url => {
+                    setImageURLs(prev => [...prev, url])
+                })
+
+            }
+            ))
+        if (userState?.username !== undefined) {
+            listAll(avatarImageRef).then((response) => {
+                response.items.filter(item => {
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    if (item.name.includes(userState.username!)) {
+                        getDownloadURL(item).then(url => setImage(url))
+                    }
+                })
+            })
+        }
+    }, [])
+
+    console.log(imageURL, 'imageURL');
+
 
     const handleSignOut = () => {
         void signOut(auth)
@@ -37,7 +68,7 @@ function Menubar() {
     return (
         <div className='relative flex flex-col justify-between mx-auto text-white pr-1 pb-5 text-lg h-screen items-start'>
             <div className="md:block hidden pt-10 h-20 w-28 pb-5 mb-5 pl-3 shrink-0 relative">
-                <img src='/images/instagramWhiteLogo.png' alt="logo" color={'white'} className='text-white' />
+                <img src={imageURL.find(img => img.includes('instagramWhiteLogo'))} alt="logo" color={'white'} className='text-white' />
             </div>
             <div className="block md:hidden pt-10 h-20 w-28 pb-5 mb-5 pl-4 shrink-0 relative">
                 <BsInstagram size={28} />
@@ -63,7 +94,7 @@ function Menubar() {
                 </Link >
                 <Link to={ROUTES.LOGIN} className='group hover:rounded-2xl hover:bg-hoverBackground p-3 focus:font-semibold'>
                     <div className="flex flex-row space-x-2">
-                        <div className={`flex justify-center items-center h-6 w-8 focus:bg-white ${scaleUpICons}`}><img src='/images/reelsWhite.png' height={28} width={28}></img></div>
+                        <div className={`flex justify-center items-center h-6 w-8 focus:bg-white ${scaleUpICons}`}><img src={imageURL.find(img => img.includes('reelsWhite'))} height={28} width={28}></img></div>
                         <div className="acitve:font-bold hidden md:block">Reels</div>
                     </div>
                 </Link >
@@ -87,7 +118,7 @@ function Menubar() {
                 </Link >
                 <Link to={ROUTES.PROFILE} className='group hover:rounded-2xl hover:bg-hoverBackground p-3 focus:font-semibold'>
                     <div className="flex flex-row space-x-2 ">
-                        <img src={`/images/avatars/${user?.displayName ?? ''}.jpg`} alt="profile picture" className={`w-7 h-7 rounded-full ${scaleUpICons}`} />
+                        <img src={image} alt="profile picture" className={`w-7 h-7 rounded-full ${scaleUpICons}`} />
                         <div className="acitve:font-bold hidden md:block">Profile</div>
                     </div>
                 </Link>

@@ -4,26 +4,39 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import * as ROUTES from '../constants/routes'
-import { auth } from '../lib/firebaseConfig'
+import { auth, storage } from '../lib/firebaseConfig'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { AiOutlineCopyright } from 'react-icons/ai'
 import { SlArrowDown } from 'react-icons/sl'
+import { getDownloadURL, listAll, ref } from 'firebase/storage'
+// import '../styles/tailwind.css'
+
+// interface imageType {
+//     facebook: string,
+//     iphoneFrame: string,
+//     googlePlayStore: string,
+//     logo: string,
+//     microsoftStore: string
+// }
 
 const Login = () => {
-    const imageList = [
-        '/images/mainPage/img1.png',
-        '/images/mainPage/img2.png',
-        '/images/mainPage/img3.png',
-        '/images/mainPage/img4.png'
-    ]
-
     const [emailAddress, setEmailAddress] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [error, setError] = useState<string>('')
     const [imageCounter, setImageCounter] = useState<number>(0)
     const navigate = useNavigate()
     const isInvalid = emailAddress === '' || password === ''
+    const loginPageImageRef = ref(storage, 'login/')
+    // const ImageSliderRef = ref(storage, 'image-slider/')
 
+    const [image, setImage] = useState<string[]>([])
+
+    const imageList = [
+        `${image.find(img => img.includes('img1'))}`,
+        `${image.find(img => img.includes('img2'))}`,
+        `${image.find(img => img.includes('img3'))}`,
+        `${image.find(img => img.includes('img4'))}`,
+    ]
     const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         // try {
@@ -48,9 +61,15 @@ const Login = () => {
     }
 
     useEffect(() => {
+        // const imageList = [
+        //     `{${image.find(img => img.includes('img1'))}}`,
+        //     `{${image.find(img => img.includes('img2'))}}`,
+        //     `{${image.find(img => img.includes('img3'))}}`,
+        //     `{${image.find(img => img.includes('img4'))}}`,
+        // ]
         const interval = setInterval(() => {
             // eslint-disable-next-line array-callback-return, @typescript-eslint/no-unused-vars
-            imageList?.map((image1) => {
+            imageList?.map(() => {
                 if (imageCounter === 3) {
                     setImageCounter(0)
                 } else { setImageCounter(imageCounter + 1) }
@@ -61,20 +80,36 @@ const Login = () => {
         }
     }, [imageCounter])
 
+    useEffect(() => {
+        listAll(loginPageImageRef).then(response =>
+            response.items.forEach(item => {
+                getDownloadURL(item).then(url => {
+                    setImage(prev => [...prev, url])
+                })
+
+            }
+            ))
+
+    }, [])
+
+    // const getImagesFromStorage = (imageName: string) => {
+    //     const imageRef=ref(storage,`login/${imageName}`)
+    //     getDownloadURL(imageRef).then(url => { return url })
+    // }
+    console.log('imageStore', image);
+
     return (
         <div className='container flex flex-col items-center justify-center mt-8 mx-auto'>
             <div className="flex flex-row max-w-screen-md">
                 <div className='flex'>
                     <div className="backgroundimg top-0">
-                        <img src='/images/mainPage/blackPhoneFrame5.png' className='phoneframe' />
-                        {
-                            <img src={imageList[imageCounter]} className='image1' />
-                        }
+                        <img src={image.find(img => img.includes('blackPhoneFrame5'))} className='phoneframe' />
+                        {<img src={imageList[imageCounter]} className='image1' />}
                     </div>
                 </div>
                 <div className="flex flex-col space-y-2 text-center justify-center items-center align-center">
                     <div className='flex flex-col space-y-10 text-center bg-white border border-inputBorder rounded-sm p-10'>
-                        <img src="/images/logo.png" className='h-12 w-42 m-auto' />
+                        <img src={image.find(img => img.includes('logo'))} className='h-12 w-42 m-auto' />
                         <div className=''>
                             <form onSubmit={handleLogin}>
                                 <input
@@ -101,7 +136,7 @@ const Login = () => {
                             </div>
 
                             <div className="flex flex-row justify-center mb-2">
-                                <img src='/images/mainPage/facebook-icon.png' className='inline-block relative h-4 w-4 mr-3 top-0.5 text-center'></img>
+                                <img src={image.find(img => img.includes('facebook'))} className='inline-block relative h-4 w-4 mr-3 top-0.5 text-center'></img>
                                 <div className="text-center font-semibold text-darkBlue text-sm">Log in with Facebook</div>
                             </div>
                             {
@@ -120,8 +155,8 @@ const Login = () => {
                             Get the app.
                         </div>
                         <div className="flex flex-row space-x-3 justify-center">
-                            <img src='/images/mainPage/gplay.png' alt='google play' className='h-10' />
-                            <img src='/images/mainPage/ms.png' alt='microsoft' className='h-10 ' />
+                            <img src={image.find(img => img.includes('gplay'))} alt='google play' className='h-10' />
+                            <img src={image.find(img => img.includes('ms'))} alt='microsoft' className='h-10 ' />
                         </div>
                     </div>
                 </div>

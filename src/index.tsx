@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/indent */
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import reportWebVitals from './reportWebVitals'
@@ -13,9 +14,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <FirebaseContext.Provider value={{ db, auth }}>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
+      {/* <React.StrictMode> */}
+      <App />
+      {/* </React.StrictMode> */}
     </FirebaseContext.Provider>
   </Provider>
 

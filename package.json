@@ -1,5 +1,6 @@
 {
   "name": "instagram-clone",
+  "homepage": "https://sjranju.github.io/instagram-clone/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -29,6 +30,8 @@
     "watch:css": "postcss src/styles/tailwind.css -o src/styles/app.css --watch",
     "react-scripts:start": "sleep 5 && react-scripts start",
     "react-scripts:build": "sleep 5 && react-scripts build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "run-p watch:css react-scripts:start",
     "build": "run-s build:css react-scripts:build",
     "test": "react-scripts test",

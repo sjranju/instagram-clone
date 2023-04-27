@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/indent */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { Suspense } from 'react'
 import { Outlet } from 'react-router-dom'

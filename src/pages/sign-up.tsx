@@ -8,8 +8,9 @@ import * as ROUTES from '../constants/routes'
 import { doesUserNameExist } from '../services/firebase'
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 // import { FirebaseContext } from '../context/firebase'
-import { auth, db } from '../lib/firebaseConfig'
+import { auth, db, storage } from '../lib/firebaseConfig'
 import { setDoc, doc } from 'firebase/firestore'
+import { getDownloadURL, listAll, ref } from 'firebase/storage'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const SignUp = () => {
@@ -20,6 +21,8 @@ const SignUp = () => {
     const [errorMessage, setErrorMessage] = useState<string>('')
     const navigate = useNavigate()
     const isInvalid = userName === '' || password === '' || fullName === '' || emailAddress === ''
+    const loginPageImageRef = ref(storage, 'login/')
+    const [image, setImage] = useState<string[]>([])
 
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -51,6 +54,7 @@ const SignUp = () => {
                     //     dateCreated: Date.now()
                     // })
                     navigate(ROUTES.DASHBOARD)
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 } catch (error: any) {
                     // console.log(error);
                     setEmailAddress('')
@@ -70,11 +74,23 @@ const SignUp = () => {
         document.title = 'Sign Up . Instagram'
     }, [])
 
+    useEffect(() => {
+        listAll(loginPageImageRef).then(response =>
+            response.items.forEach(item => {
+                getDownloadURL(item).then(url => {
+                    setImage(prev => [...prev, url])
+                })
+
+            }
+            ))
+
+    }, [])
+
     return (
         <div className='container flex flex-col justify-center items-center mt-3 mx-auto'>
             <div className="loginContainer max-w-sm flex flex-col space-y-2 text-center">
                 <div className='flex flex-col space-y-3 text-center bg-white border border-inputBorder rounded-sm p-10'>
-                    <img src='/images/logo.png' className='h-12 w-42 m-auto' />
+                    <img src={image.find(img => img.includes('logo'))} className='h-12 w-42 m-auto' />
                     <div className="text-signUpComments font-semibold text-md">Sign up to see photos and videos from your friends.</div>
                     <div className="flex justify-center">
                         <button className="flex font-semibold text-white w-full bg-signUpColor py-2 px-3 border rounded-lg text-sm justify-center align-center ">
@@ -140,8 +156,8 @@ const SignUp = () => {
                         Get the app.
                     </div>
                     <div className="flex flex-row space-x-3 justify-center">
-                        <img src='/images/mainPage/gplay.png' alt='google play' className='h-10' />
-                        <img src='/images/mainPage/ms.png' alt='microsoft' className='h-10 ' />
+                        <img src={image.find(img => img.includes('gplay'))} alt='google play' className='h-10' />
+                        <img src={image.find(img => img.includes('ms'))} alt='microsoft' className='h-10 ' />
                     </div>
                 </div>
             </div>
