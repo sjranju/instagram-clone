@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/instagram-clone/static/css/main.553771f5.css",
-    "main.js": "/instagram-clone/static/js/main.fe7b7ca2.js",
-    "static/js/268.d46bd4d4.chunk.js": "/instagram-clone/static/js/268.d46bd4d4.chunk.js",
+    "main.css": "/instagram-clone/static/css/main.e6954b03.css",
+    "main.js": "/instagram-clone/static/js/main.dc318522.js",
+    "static/js/268.24eced5f.chunk.js": "/instagram-clone/static/js/268.24eced5f.chunk.js",
     "static/js/848.78b0d7f3.chunk.js": "/instagram-clone/static/js/848.78b0d7f3.chunk.js",
     "static/js/485.812ad015.chunk.js": "/instagram-clone/static/js/485.812ad015.chunk.js",
     "static/js/280.ac3a2b31.chunk.js": "/instagram-clone/static/js/280.ac3a2b31.chunk.js",
@@ -11,9 +11,9 @@
     "static/js/907.b3c7e63b.chunk.js": "/instagram-clone/static/js/907.b3c7e63b.chunk.js",
     "static/js/458.ea6330f6.chunk.js": "/instagram-clone/static/js/458.ea6330f6.chunk.js",
     "index.html": "/instagram-clone/index.html",
-    "main.553771f5.css.map": "/instagram-clone/static/css/main.553771f5.css.map",
-    "main.fe7b7ca2.js.map": "/instagram-clone/static/js/main.fe7b7ca2.js.map",
-    "268.d46bd4d4.chunk.js.map": "/instagram-clone/static/js/268.d46bd4d4.chunk.js.map",
+    "main.e6954b03.css.map": "/instagram-clone/static/css/main.e6954b03.css.map",
+    "main.dc318522.js.map": "/instagram-clone/static/js/main.dc318522.js.map",
+    "268.24eced5f.chunk.js.map": "/instagram-clone/static/js/268.24eced5f.chunk.js.map",
     "848.78b0d7f3.chunk.js.map": "/instagram-clone/static/js/848.78b0d7f3.chunk.js.map",
     "485.812ad015.chunk.js.map": "/instagram-clone/static/js/485.812ad015.chunk.js.map",
     "280.ac3a2b31.chunk.js.map": "/instagram-clone/static/js/280.ac3a2b31.chunk.js.map",
@@ -23,7 +23,7 @@
     "458.ea6330f6.chunk.js.map": "/instagram-clone/static/js/458.ea6330f6.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.553771f5.css",
-    "static/js/main.fe7b7ca2.js"
+    "static/css/main.e6954b03.css",
+    "static/js/main.dc318522.js"
   ]
 }
