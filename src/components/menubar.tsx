@@ -28,7 +28,7 @@ function Menubar() {
     const navigate = useNavigate()
     // console.log('user', { user })
 
-    const [imageURL, setImageURLs] = useState<string[]>([])
+    const [imageURLs, setImageURLs] = useState<string[]>([])
     const [image, setImage] = useState<string>('')
 
     const menubarImageRef = ref(storage, 'menubar/')
@@ -58,7 +58,7 @@ function Menubar() {
         }
     }, [])
 
-    console.log(imageURL, 'imageURL');
+    console.log(imageURLs, 'imageURLs');
 
 
     const handleSignOut = () => {
@@ -71,7 +71,7 @@ function Menubar() {
     return (
         <div className='relative flex flex-col justify-between mx-auto text-white pr-1 pb-5 text-lg h-screen items-start'>
             <div className="md:block hidden pt-10 h-20 w-28 pb-5 mb-5 pl-3 shrink-0 relative">
-                <img src={imageURL.find(img => img.includes('instagramWhiteLogo'))} alt="logo" color={'white'} className='text-white' />
+                <img src={imageURLs.find(img => img.includes('instagramWhiteLogo'))} alt="logo" color={'white'} className='text-white h-8 w-24' />
             </div>
             <div className="block md:hidden pt-10 h-20 w-28 pb-5 mb-5 pl-4 shrink-0 relative">
                 <BsInstagram size={28} />
@@ -97,7 +97,7 @@ function Menubar() {
                 </Link >
                 <Link to={ROUTES.LOGIN} className='group hover:rounded-2xl hover:bg-hoverBackground p-3 focus:font-semibold'>
                     <div className="flex flex-row space-x-2">
-                        <div className={`flex justify-center items-center h-6 w-8 focus:bg-white ${scaleUpICons}`}><img src={imageURL.find(img => img.includes('reelsWhite'))} height={28} width={28}></img></div>
+                        <div className={`flex justify-center items-center h-6 w-8 focus:bg-white ${scaleUpICons}`}><img src={imageURLs.find(img => img.includes('reelsWhite'))} height={28} width={28}></img></div>
                         <div className="acitve:font-bold hidden md:block">Reels</div>
                     </div>
                 </Link >
