@@ -17,6 +17,7 @@ import { storage } from '../../lib/firebaseConfig'
 function User() {
     const userState = useAppSelector(state => state.user.currentUser)
     const [imageURL, setImageURL] = useState<string>('')
+    // console.log('userState', userState?.username)
 
     const avatarImageRef = ref(storage, 'avatars/')
     useEffect(() => {
@@ -33,7 +34,7 @@ function User() {
             })
         }
     }, [])
-    console.log(imageURL, 'imageURL');
+    // console.log(imageURL, 'imageURL');
 
     // const { user } = UseAuthListener()
     // const dispatch = useAppDispatch()

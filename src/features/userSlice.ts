@@ -57,7 +57,7 @@ export const fetchUser = asyncThunk('user/fetchUser', async (userID: string) => 
                 getUserDetailsByUserId(userID)
                 // getAllUsers()
             )
-            console.log('userResponse', userResponse)
+            // console.log('userResponse', userResponse)
 
             if (!userResponse) {
                 console.log('userResponse!', userResponse);
@@ -94,7 +94,7 @@ export const UserSlice = createSlice({
             // const currentUsr = action.payload
             // state.currentlyFollowingUsers=action.payload?.map(user=>user.following)
             // state.currentUser?.filter(user=>user.userId !=currentlyFollowingUsers)
-            console.log('currentlyFollowingUsers',state.currentlyFollowingUsers);
+            // console.log('currentlyFollowingUsers',state.currentlyFollowingUsers);
         })
 
         builder.addCase(fetchUser.rejected, (state, action) => {

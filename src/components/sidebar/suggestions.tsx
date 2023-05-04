@@ -1,15 +1,32 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/space-before-function-paren */
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAppSelector } from '../../store/use-state-dispatch'
+import { getDownloadURL, listAll, ref } from 'firebase/storage'
+import { storage } from '../../lib/firebaseConfig'
 // import UseAuthListener from '../../hooks/use-auth-listener'
 // import { getDownloadURL, listAll, ref } from 'firebase/storage'
 // import { storage } from '../../lib/firebaseConfig'
 
 function Suggestions() {
-    const mutualFriendsState = useAppSelector(state => state.allUsers.mutualFriends)
+    const suggestedUserState = useAppSelector(state => state.allUsers.suggestedUser)
+    const [avatar, setAvatar] = useState<string[]>([])
+    const imagesRef = ref(storage, 'avatars/')
+
+    useEffect(() => {
+        if (suggestedUserState !== undefined) {
+            listAll(imagesRef).then(response => {
+                response.items.filter(item => {
+                    getDownloadURL(item).then(url => {
+                        setAvatar(prev => [...prev, url])
+                    })
+                })
+            })
+        }
+    }, [])
 
     return (
         <div className="flex flex-col justify-center text-white text-sm">
@@ -19,47 +36,35 @@ function Suggestions() {
                 <p className='text-xs flex justify-center items-center'>See all</p>
             </div>
             {
-                mutualFriendsState?.map(suggestedUser =>
-                    <div className="flex flex-row items-center justify-between mb-4" key={suggestedUser.userId}>
-                        <div className="flex flex-row space-x-4 justify-center items-center">
-                            <div className="">
-                                <img src={`/images/avatars/${suggestedUser.username}.jpg`} alt="profile picture" className='w-10 h-10 rounded-full' />
+                suggestedUserState !== undefined ?
+                    Array.from(suggestedUserState, ((suggestedUser, index) =>
+                        suggestedUser.suggestedUser.map(user =>
+                            <div className="flex flex-row items-center justify-between mb-4" key={index}>
+                                <div className="flex flex-row space-x-4 justify-center items-center">
+                                    <div className="">
+                                        <img src={avatar.find(url => url.includes(user.username!))} alt="profile picture" className='w-10 h-10 rounded-full' />
+                                    </div>
+                                    <div className="">
+                                        <p className='font-semibold'>{user.username}</p>
+                                        <div className="flex flex-row text-xs">followed by {suggestedUser.mutualFrnd.map((user, index) => <div key={index} className='flex flex-row'> &nbsp;{user.username} </div>)}
+                                            {suggestedUser.mutualFrnd.length === 1
+                                                ? ''
+                                                : <p>
+                                                    &nbsp;+{suggestedUser.mutualFrnd.length - 1} more
+                                                </p>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex text-xs text-signUpColor">
+                                    <button type='button' className='p-0 m-0'>Follow</button>
+                                </div>
                             </div>
-                            <div className="">
-                                <p className='font-semibold'>{suggestedUser.username}</p>
-                                {/* <div className="flex flex-row">followed by {suggestedFollowerDetails}
-                                {followers.length === 1
-                                    ? ''
-                                    : <p>
-                                        &nbsp;+{followers.length - 1} more
-                                    </p>
-                                }
-                            </div> */}
-                            </div>
-                        </div>
-                        <div className="flex text-xs text-signUpColor">
-                            <button type='button' className='p-0 m-0'>Follow</button>
-                        </div>
-                    </div>
-                    // <Link to={`/p/${user?.username}`} key={user.userId} className='flex flex-row items-center justify-between gap-20 text-white mb-4'>
-                    //     <div className='flex flex-row space-x-4'>
-                    //         <img src={`/images/avatars/${user?.username ?? ''}.jpg`} alt="profile picture" className=' h-10 w-10 rounded-full' />
-                    //         <div className="flex flex-col justify-center">
-                    //             <p className="text-sm font-bold">{user?.username}</p>
-                    //             {/* <p className="text-sm">{user?.fullName}</p> */}
-                    //         </div>
-
-                    //     </div>
-                    //     <div className="text-xs text-signUpColor">
-                    //         <button type='button'>Switch</button>
-                    //     </div>
-                    // </Link>
-                )
-
-
+                        )
+                    )
+                    )
+                    : ''
             }
-
-
         </div>
     )
 }
