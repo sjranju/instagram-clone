@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react'
 import { useAppSelector } from '../../store/use-state-dispatch'
 import { getDownloadURL, listAll, ref } from 'firebase/storage'
 import { storage } from '../../lib/firebaseConfig'
+import { mutualFriend } from '../../features/allUsersSlice'
 // import UseAuthListener from '../../hooks/use-auth-listener'
 // import { getDownloadURL, listAll, ref } from 'firebase/storage'
 // import { storage } from '../../lib/firebaseConfig'
@@ -42,12 +43,20 @@ function Suggestions() {
                             <div className="flex flex-row items-center justify-between mb-4" key={index}>
                                 <div className="flex flex-row space-x-4 justify-center items-center">
                                     <div className="">
-                                        <img src={avatar.find(url => url.includes(user.username!))} alt="profile picture" className='w-10 h-10 rounded-full' />
+                                        <img src={avatar.find(url => url.includes(user))} alt="profile picture" className='w-10 h-10 rounded-full' />
                                     </div>
                                     <div className="">
-                                        <p className='font-semibold'>{user.username}</p>
-                                        <div className="flex flex-row text-xs">followed by {suggestedUser.mutualFrnd.map((user, index) => <div key={index} className='flex flex-row'> &nbsp;{user.username} </div>)}
-                                            {suggestedUser.mutualFrnd.length === 1
+                                        <p className='font-semibold'>{user}</p>
+                                        <div className="flex flex-row text-xs">followed by&nbsp;{suggestedUser.mutualFrnd.map((user, index) => <div key={index} className='flex flex-row'> {user}
+                                            {suggestedUser.mutualFrnd.length > 1 ?
+                                                index == suggestedUser.mutualFrnd.length - 1 ?
+                                                    ""
+                                                    : ', '
+                                                : ''
+                                            }
+                                        </div>)}
+
+                                            {suggestedUser.mutualFrnd.length == 2
                                                 ? ''
                                                 : <p>
                                                     &nbsp;+{suggestedUser.mutualFrnd.length - 1} more

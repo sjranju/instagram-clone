@@ -5,7 +5,7 @@ import { AiFillFacebook, AiOutlineCopyright } from 'react-icons/ai'
 import { SlArrowDown } from 'react-icons/sl'
 import { NavLink, useNavigate } from 'react-router-dom'
 import * as ROUTES from '../constants/routes'
-import { doesUserNameExist } from '../services/firebase'
+import { doesUserNameExist, getAllUsers } from '../services/firebase'
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 // import { FirebaseContext } from '../context/firebase'
 import { auth, db, storage } from '../lib/firebaseConfig'
@@ -28,23 +28,58 @@ const SignUp = () => {
     const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         if (userName.length > 0 && emailAddress.length > 0) {
-            const userNameExists = await doesUserNameExist(userName, emailAddress)
-            console.log('userNameExists', userNameExists)
+            // const userNameExists = await doesUserNameExist(userName, emailAddress).then(() => {
+            await doesUserNameExist(userName, emailAddress).then(async (userNameExists) => {
+                if (userNameExists.length <= 0) {
+                    // const { user } = await createUserWithEmailAndPassword(auth, emailAddress, password)
+                    await createUserWithEmailAndPassword(auth, emailAddress, password)
+                        .then(async (user) => {
+                            await getAllUsers().then(async userDetails => {
 
-            if (userNameExists.length <= 0) {
-                try {
-                    const { user } = await createUserWithEmailAndPassword(auth, emailAddress, password)
-                    await updateProfile(user, { displayName: userName })
+                                const newUser = {
+                                    userId: userDetails.length + 1,
+                                    username: userName.toLowerCase(),
+                                    fullName,
+                                    emailAddress: emailAddress.toLowerCase(),
+                                    following: [],
+                                    followers: [],
+                                    dateCreated: Date.now()
+                                }
+                                await updateProfile(user.user, { displayName: userName }).then(async () => {
+                                    const userId = userDetails.length + 1
+                                    // userId.toString()
+                                    await setDoc(doc(db, 'users', userId.toString()), newUser).then((user) => {
+                                        navigate(ROUTES.DASHBOARD)
+                                        console.log('userCredential', user)
+                                    })
+                                        .catch(error => {
+                                            setEmailAddress('')
+                                            setUserName('')
+                                            setFullName('')
+                                            setPassword('')
+                                            setErrorMessage(error.message)
+                                        })
+                                })
+                                    .catch(error => {
+                                        setEmailAddress('')
+                                        setUserName('')
+                                        setFullName('')
+                                        setPassword('')
+                                        setErrorMessage(error.message)
+                                    })
+                            })
+
+                        })
+                        .catch(error => {
+                            setEmailAddress('')
+                            setUserName('')
+                            setFullName('')
+                            setPassword('')
+                            setErrorMessage(error.message)
+                        })
+
                     // const usersCollectionRef = collection(db, 'users')
-                    const newUser = {
-                        userId: user.uid,
-                        username: userName.toLowerCase(),
-                        fullName,
-                        emailAddress: emailAddress.toLowerCase(),
-                        following: [],
-                        dateCreated: Date.now()
-                    }
-                    await setDoc(doc(db, 'users', user.uid), newUser)
+
                     // await addDoc(usersCollectionRef, {
                     //     userId: user.uid,
                     //     username: userName.toLowerCase(),
@@ -53,20 +88,21 @@ const SignUp = () => {
                     //     following: [],
                     //     dateCreated: Date.now()
                     // })
-                    navigate(ROUTES.DASHBOARD)
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                } catch (error: any) {
-                    // console.log(error);
+                } else {
+                    setUserName('')
+                    setErrorMessage('That user name is already taken, please try another')
+                }
+            })
+                .catch(error => {
                     setEmailAddress('')
                     setUserName('')
                     setFullName('')
                     setPassword('')
                     setErrorMessage(error.message)
-                }
-            } else {
-                setUserName('')
-                setErrorMessage('That user name is already taken, please try another')
-            }
+                })
+
+
         }
     }
 
@@ -141,6 +177,7 @@ const SignUp = () => {
                                             value={password}
                                             onChange={e => setPassword(e.target.value)}
                                             className='text-gray text-xs w-full rounded-sm border border-inputBorder mt-2 py-2 px-2 bg-mainPageBackground outline-none focus:border-activeBorderForInput' />
+
                                         <div className="text-xs flex flex-col mt-4 space-y-2 w-full">
                                             <div className="text-signUpComments">
                                                 People who use our service may have uploaded your contact information to Instagram. <span className='text-black'><a href='#'>Learn more</a></span>
@@ -151,8 +188,12 @@ const SignUp = () => {
                                         </div>
                                         <button type="submit" className={`w-full rounded-md py-1 mt-4 text-white font-semibold text-sm ${isInvalid ? 'bg-blueDisabledButton' : 'bg-signUpColor'}`}>Sign Up</button>
                                     </form>
-                                    {errorMessage}
                                 </div>
+                                {
+                                    <div className={`text-sm ${(errorMessage.length !== 0) ? 'text-errorMessage' : 'text-black'}`}>
+                                        {errorMessage}
+                                    </div>
+                                }
                             </div>
                             <div className="text-sm text-center bg-white border border-gray-300 rounded-sm p-5 justify-center items-center w-full">Have an account?
                                 <NavLink to={ROUTES.LOGIN} className='text-signUpColor '> Log in</NavLink>

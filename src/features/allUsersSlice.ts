@@ -6,8 +6,8 @@ import { ActiveUserType } from "../hooks/use-user"
 import { RootState } from "../store/configStore"
 
 type mutualFriendType={
-    suggestedUser:ActiveUserType[],
-    mutualFrnd:ActiveUserType[]
+    suggestedUser:string[],
+    mutualFrnd:string[]
 }
 
 type AllUserStateType = {
@@ -27,7 +27,10 @@ export const fetchUsers = asyncThunk('allUsers/fetchUsers', async (_,{getState,d
     
     const currentState= getState() as RootState 
     const suggestionsSet= new Set<mutualFriendType>() 
-    const suggestedUserSet= new Set<ActiveUserType>() 
+    const mutualFriendSet=new Set<string>()
+    // const suggestedUserSet= new Set<string>()                       
+    // const suggestedUsers:string[]=[]
+    let mutualFriends:string[]=[]
     
     try {
         const userResponse :ActiveUserType[] = await (
@@ -41,23 +44,34 @@ export const fetchUsers = asyncThunk('allUsers/fetchUsers', async (_,{getState,d
             const allUsers=userResponse.filter(user=>user.userId!=currentUserDetails?.userId)
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-            const myFollowingUsers=allUsers.filter(user=>user.followers?.includes(currentUserDetails?.userId!))
+            const currentlyFollowingUsers=allUsers.filter(user=>user.followers?.includes(currentUserDetails?.userId!))
 
-            console.log('myFollowingUsers',myFollowingUsers);
-            
-            myFollowingUsers.map(response=>{
-                response.following?.map(followingUser=>{
-                    if(followingUser!==currentUserDetails?.userId && !currentUserDetails?.following?.includes(followingUser)){
-                        console.log("I am here",response.username);
-                        userResponse.filter(user=>user.userId==followingUser).map(userresponse=>suggestedUserSet.add(userresponse))
-                        const suggestedUsers=[...suggestedUserSet]
-                        suggestionsSet.add({suggestedUser:suggestedUsers,mutualFrnd:[response]})           
-                    }
+            console.log('currentlyFollowingUsers',currentlyFollowingUsers);
+            const suggestedUsersArray: string[]=[]
+            currentlyFollowingUsers.map(followingUser=>{
+                followingUser.following?.map(suggestedUserID=>{
+                    if(suggestedUserID!==currentUserDetails?.userId && !currentUserDetails?.following?.includes(suggestedUserID)){
+                        console.log(followingUser.username,"is following",suggestedUserID);
+                        userResponse.filter(response=>response.userId==suggestedUserID).map(userresponse=>{
+                            if(!suggestedUsersArray.includes(userresponse.username!))
+                                suggestedUsersArray.push(userresponse.username!)
+                            // suggestedUserSet.add(userresponse.username!)                          
+                        })
+                    } 
+                    console.log('suggestedUsersArray',suggestedUsersArray)
+                    // suggestedUsers=[...suggestedUserSet]
+                    mutualFriendSet.add(followingUser.username!)
+                    mutualFriends=[...mutualFriendSet]
+                    console.log('mutualFriends',mutualFriends);
                 })
+
             })
+            if(suggestedUsersArray.length>0 && mutualFriends.length>0)
+                suggestionsSet.add({suggestedUser:suggestedUsersArray,mutualFrnd:mutualFriends}) 
+            mutualFriendSet.clear()                     
 
             const suggestions=[...suggestionsSet]
-            console.log(suggestionsSet,'suggestionsSet');
+            console.log('suggestions',suggestions);
             dispatch(mutualFriend(suggestions))
             
             return userResponse

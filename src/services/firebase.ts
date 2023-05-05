@@ -9,7 +9,7 @@ import { ActiveUserType } from '../hooks/use-user'
 export async function doesUserNameExist(userName: string, emailAddress: string) {
     // const usersCollectionRef = collection(db, 'users')
     // const result = await usersCollectionRef.where('userName', '==', userName).get()
-
+    // const result = query(collection(db, 'users')).type.length
     const queryUsers = query(collection(db, 'users'), where('username', '==', userName), where('emailAddress', '==', emailAddress))
     // return (await getDocs(queryUsers)).docs.map(user => user.data.length > 0)
     return (await getDocs(queryUsers)).docs.map(user => user.get('username'))

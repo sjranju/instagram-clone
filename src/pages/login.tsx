@@ -96,7 +96,7 @@ const Login = () => {
     //     const imageRef=ref(storage,`login/${imageName}`)
     //     getDownloadURL(imageRef).then(url => { return url })
     // }
-    console.log('imageStore', image);
+    // console.log('imageStore', image);
 
     return (
         <div className='flex flex-col items-center justify-center mt-8'>
