@@ -14,27 +14,7 @@ import Suggestions from './suggestions'
 function Sidebar() {
     // const dispatch = useAppDispatch()
     const userState = useAppSelector(state => state.user.currentUser)
-    const suggestedUserState = useAppSelector(state => state.allUsers.suggestedUser)
-
-    // const { user } = UseAuthListener()
-
-    // useEffect(() => {
-    //     if (user?.uid !== undefined) {
-    //         // console.log('resImage', res);
-    //         dispatch(fetchUser(user?.uid)).then(() => dispatch(fetchUsers()))
-
-    //     }
-    // }, [user])
-    // const { suggestions } = useSuggestions()
-    // console.log('suggestions', suggestions)
-    // console.log('userState', userState);
-
-
-    // useEffect(() => {
-    //     if (user?.uid !== undefined) {
-    //         dispatch(fetchUsers())
-    //     }
-    // }, [user])
+    const suggestedUserState = useAppSelector(state => state.allUsers.users)
 
     return (
         <>
@@ -43,7 +23,6 @@ function Sidebar() {
                     <User />
                     {suggestedUserState !== undefined ? <Suggestions /> : ''}
                 </>
-
                 : ''
             }
         </>
