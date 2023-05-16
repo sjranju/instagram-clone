@@ -26,7 +26,6 @@ function Menubar() {
     const [clicked, setClicked] = useState(false)
     const userState = useAppSelector(state => state.allUsers.currentUser)
     const navigate = useNavigate()
-    // console.log('userState', userState?.username)
 
     const [imageURLs, setImageURLs] = useState<string[]>([])
     const [image, setImage] = useState<string>('')
@@ -57,9 +56,6 @@ function Menubar() {
             })
         }
     }, [])
-
-    // console.log(imageURLs, 'imageURLs');
-
 
     const handleSignOut = () => {
         void signOut(auth)

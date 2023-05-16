@@ -7,47 +7,26 @@ import { ActiveUserType } from '../hooks/use-user'
 
 // eslint-disable-next-line @typescript-eslint/space-before-function-paren
 export async function doesUserNameExist(userName: string, emailAddress: string) {
-    // const usersCollectionRef = collection(db, 'users')
-    // const result = await usersCollectionRef.where('userName', '==', userName).get()
-    // const result = query(collection(db, 'users')).type.length
     const queryUsers = query(collection(db, 'users'), where('username', '==', userName), where('emailAddress', '==', emailAddress))
-    // return (await getDocs(queryUsers)).docs.map(user => user.data.length > 0)
     return (await getDocs(queryUsers)).docs.map(user => user.get('username'))
-
-    // return result
-    // return result.docs.map(user => user.data().length > 0)
 }
 
 export async function getUserDetailsByUserName(userId: string){
-    // const result = query(collection(db, 'users'), where('username', '==', userName))
-    
     const result = await getDoc(doc(db,'users',userId))
-    // const result = query(collection(db, `users/${userId}`))
-    console.log({result});
     if (result.exists()){
         return result.data()
     }
     return undefined
-    // eslint-disable-next-line array-callback-return
-    // return (await getDocs(result)).docs.map(user => (...user.data()))
 }
 
 export async function getAllUsers(): Promise<ActiveUserType[]> {
     const result = query(collection(db, 'users'))
-
-    // eslint-disable-next-line array-callback-return
     return (await getDocs(result)).docs.map(item => ({ ...item.data() }))
 }
 
 
 export async function getSuggestionDetails(userIds: string[]) {
     const result = query(collection(db, 'users'), where('userId', 'not-in', userIds))
-    // console.log('getSuggestionDetails', result)
-    // eslint-disable-next-line array-callback-return
     return (await getDocs(result)).docs.map(item => ({ ...item.data() }))
 }
 
-// export async function getTimeLineDetials(userId: string) {
-//   const result = query(collection(db, 'photos'), where('userId', '!=', userId))
-//   return (await getDocs(result)).docs.map(item => ({ ...item.data() }))
-// }

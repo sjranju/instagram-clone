@@ -22,7 +22,6 @@ const initialState: AllUserStateType = {
 }
 
 export const fetchUsers = asyncThunk('allUsers/fetchUsers', async (userName:string,{dispatch} ) => {    
-    // const currentState= getState() as RootState 
     const suggestionsSet= new Map<string,string[]>() 
     try {
         const userResponse :ActiveUserType[] = await (
@@ -40,13 +39,10 @@ export const fetchUsers = asyncThunk('allUsers/fetchUsers', async (userName:stri
             
             // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
             const currentlyFollowingUsers=allUsers.filter(user=>user.followers?.includes(currentUserDetail?.userId!))
-            
-            // console.log('currentlyFollowingUsers',currentlyFollowingUsers);
-    
+                
             currentlyFollowingUsers.map(followingUser=>{
                 followingUser.following?.map(suggestedUserID=>{
                     if(suggestedUserID!==currentUserDetail?.userId && !currentUserDetail?.following?.includes(suggestedUserID)){
-                        console.log(followingUser.username,"is following",suggestedUserID);
                         userResponse.filter(response=>response.userId==suggestedUserID).map(userresponse=>{      
                             if(suggestionsSet.has(userresponse.username!))
                             {    
@@ -62,8 +58,6 @@ export const fetchUsers = asyncThunk('allUsers/fetchUsers', async (userName:stri
                     } 
                 })
             })  
-            console.log('suggestionsSet',suggestionsSet);
-
             const result=[...suggestionsSet].map(([suggestedUser,mutualFriend])=>({suggestedUser,mutualFriend}))
             dispatch(mutualFriend(result))
             return userResponse
@@ -73,11 +67,6 @@ export const fetchUsers = asyncThunk('allUsers/fetchUsers', async (userName:stri
         console.log('Error while fetching users', { error });
     }
 })
-// return userResponse;
-//compute and dispatch or return
-// vhvhjbhjbcghcfh
-// dist
-
 
 export const AllUserSlice = createSlice({
     name: 'allUsers',

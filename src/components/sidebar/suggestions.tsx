@@ -22,14 +22,10 @@ function Suggestions() {
     const [followingUser, setFollowingUser] = useState<string[]>([])
     const [clickedFollowing, setClickedFollowing] = useState<unFollowType[]>([])
     const suggestedUserState = useAppSelector(state => state.allUsers.suggestedUsers)
-    console.log(suggestedUserState);
-
     const currentUserState = useAppSelector(state => state.allUsers.currentUser)
     const allUserState = useAppSelector(state => state.allUsers.users)
     const isLoading = useAppSelector(state => state.updateAllUsers.loading)
     const dispatch = useAppDispatch()
-    // console.log('suggestedUserState', suggestedUserState);
-    // console.log('allUserState', allUserState);
 
     const imagesRef = ref(storage, 'avatars/')
 
@@ -53,8 +49,6 @@ function Suggestions() {
             .then(() => {
                 // setFollowingUser(user.meta.arg.suggestedUserId)
                 setFollowingUser([...followingUser, suggestedUser])
-                console.log(followingUser);
-
             })
             .catch(error => setErrorMessage(error))
     }
@@ -65,12 +59,8 @@ function Suggestions() {
 
         dispatch(updateAllUsers({ currentUserId: currentUserState?.userId!, suggestedUserId: userId?.userId!, operation: 'remove' }))
             .then(() => {
-                // setFollowingUser(user.meta.arg.suggestedUserId)
-                // setUnFollowUser(userName)
                 setFollowingUser(followingUser.filter(user => user !== userName))
                 setClickedFollowing(clickedFollowing.filter(user => user.user !== userName))
-                console.log(followingUser);
-
             })
             .catch(error => setErrorMessage(error))
     }

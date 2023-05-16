@@ -1,10 +1,6 @@
 import { createAsyncThunk as asyncThunk, createSlice } from "@reduxjs/toolkit"
 import { getUserDetailsByUserName } from "../services/firebase"
-// import { ActiveUserType } from "../hooks/use-suggestions"
-// import UseAuthListener from "../hooks/use-auth-listener"
 import  { ActiveUserType } from "../hooks/use-user"
-// import { suggestion } from "./allUsersSlice"
-// import { fetchUsers } from "./allUsersSlice"
 
 type UserStateType = {
     loading: boolean,
@@ -16,56 +12,16 @@ const initialState: UserStateType = {
     loading: false,
 }
 
-//  const currentuserName = user?.uid
-// export const fetchUsers = asyncThunk('users/fetchUsers', async (_, { dispatch, abort }) => {
-//     const { user } = UseAuthListener()
-//     console.log('UseAuthListener', user);
-
-//     if (user) {
-//         try {
-//             const [userResponse] = await (
-//                 getUserDetailsByuserName(user.uid)
-//             )
-//             console.log('userResponse', userResponse)
-
-//             if (!userResponse) {
-//                 console.log('userResponse', userResponse);
-
-//                 // TODO: Handle this
-//                 abort()
-//             }
-//             console.log('userResponse', userResponse)
-//             return userResponse;
-//         } catch (error: any) {
-//             console.log('Error while fetching users', { error });
-//             // TODO: Dispatch something proper
-//             // dispatch()
-//             abort()
-//         }
-//     }
-//     // Handle the case here
-//     abort()
-// })
-
 export const fetchUser = asyncThunk('user/fetchUser', async (userName: string) => {
-    // console.log('UseAuthListener', userName);
     if (userName) {
         try {
             const userResponse = await (
                 getUserDetailsByUserName(userName)
-                // getAllUsers()
             )
-            // console.log('userResponse', userResponse)
 
             if (!userResponse) {
                 console.log('userResponse!', userResponse);
             }
-            // console.log('userResponse', userResponse)
-            // if(userResponse)
-            // {
-            //     const filteredUID=userResponse.filter((user)=>{(user.userName)})
-            //     dispatch(suggestion(filteredUID))
-            // }
             return userResponse;
         } catch (error: unknown) {
             console.log('Error while fetching users', { error });
@@ -89,10 +45,6 @@ export const UserSlice = createSlice({
 
         builder.addCase(fetchUser.fulfilled,(state, action) => {
             state.currentUser=action.payload
-            // const currentUsr = action.payload
-            // state.currentlyFollowingUsers=action.payload?.map(user=>user.following)
-            // state.currentUser?.filter(user=>user.userName !=currentlyFollowingUsers)
-            // console.log('currentlyFollowingUsers',state.currentlyFollowingUsers);
         })
 
         builder.addCase(fetchUser.rejected, (state, action) => {

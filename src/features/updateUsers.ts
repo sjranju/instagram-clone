@@ -33,10 +33,7 @@ export const updateAllUsers=asyncThunk('updateUsers/updateFollowersAndFollowingL
                     const stateCopy=cloneDeep(currentState.allUsers.users)
                     if(stateCopy!==undefined){
                         stateCopy?.find(user=>user.userId==currentUserId)?.following?.push(suggestedUserId)
-                        stateCopy?.find(user=>user.userId==suggestedUserId)?.followers?.push(currentUserId)
-                        console.log(stateCopy);
-                        
-                        // currentState.allUsers.users?.splice(stateCopy.findIndex(user=>user.userId==currentUserId),1,stateCopy)
+                        stateCopy?.find(user=>user.userId==suggestedUserId)?.followers?.push(currentUserId)                        
                         dispatch(updateFollow(stateCopy))
                     }
                 })
@@ -52,10 +49,7 @@ export const updateAllUsers=asyncThunk('updateUsers/updateFollowersAndFollowingL
                     if(stateCopy!==undefined){
                         // stateCopy?.find(user=>user.userId==currentUserId)?.following?.push(suggestedUserId)
                         stateCopy?.find(user=>user.userId==currentUserId)?.following?.filter(user=>user!==suggestedUserId)
-                        stateCopy?.find(user=>user.userId==suggestedUserId)?.followers?.filter(user=>user!==currentUserId)
-                        console.log(stateCopy);
-                        
-                        // currentState.allUsers.users?.splice(stateCopy.findIndex(user=>user.userId==currentUserId),1,stateCopy)
+                        stateCopy?.find(user=>user.userId==suggestedUserId)?.followers?.filter(user=>user!==currentUserId)                        
                         dispatch(updateFollow(stateCopy))
                     }
                 })
@@ -78,11 +72,7 @@ export const updateUsers=createSlice({
         })
         builder.addCase(updateAllUsers.rejected,(state)=>{
             state.loading=false
-        })
-    // {
-    //     updateFollowList:(state,action)=>{
-    //         state.updateUser=action.payload
-    //     }}        
+        })      
     }
 }
 )
