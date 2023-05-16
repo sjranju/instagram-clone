@@ -13,7 +13,7 @@ import Suggestions from './suggestions'
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function Sidebar() {
     // const dispatch = useAppDispatch()
-    const userState = useAppSelector(state => state.user.currentUser)
+    const userState = useAppSelector(state => state.allUsers.currentUser)
     const suggestedUserState = useAppSelector(state => state.allUsers.users)
 
     return (

@@ -19,7 +19,7 @@ export interface ActiveUserType {
 
 function useUser() {
     const dispatch = useAppDispatch()
-    const userState = useAppSelector(state => state.user)
+    const userState = useAppSelector(state => state.allUsers.currentUser)
     const { user } = UseAuthListener()
 
     useEffect(() => {
@@ -41,9 +41,9 @@ function useUser() {
     // }, [user])
     // console.log('userState fetch', userState.user?.username);
 
-    console.log('userState', userState.currentUser);
+    console.log('userState', userState);
 
-    return ({ user: userState.currentUser })
+    return ({ user: userState })
 }
 
 export default useUser

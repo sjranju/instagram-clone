@@ -37,7 +37,7 @@ const SignUp = () => {
                             await getAllUsers().then(async userDetails => {
 
                                 const newUser = {
-                                    userId: userDetails.length + 1,
+                                    userId: (userDetails.length + 1).toString(),
                                     username: userName.toLowerCase(),
                                     fullName,
                                     emailAddress: emailAddress.toLowerCase(),

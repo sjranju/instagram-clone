@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { createAsyncThunk as asyncThunk, createSlice } from "@reduxjs/toolkit"
+import { PayloadAction, createAsyncThunk as asyncThunk, createSlice } from "@reduxjs/toolkit"
 import { getAllUsers } from "../services/firebase"
-import { RootState } from "../store/configStore"
 import { ActiveUserType } from "../hooks/use-user"
 
 type mutualFriendType={
@@ -12,35 +11,41 @@ type mutualFriendType={
 
 type AllUserStateType = {
     loading: boolean,
-    users?: mutualFriendType[],
+    users?: ActiveUserType[],
     error?: string,
+    suggestedUsers?:mutualFriendType[],
+    currentUser?:ActiveUserType
 }
 
 const initialState: AllUserStateType = {
     loading: false,
 }
 
-export const fetchUsers = asyncThunk('allUsers/fetchUsers', async (_,{getState} ) => {
-    // console.log('UseAuthListener', userID);
-    
-    const currentState= getState() as RootState 
+export const fetchUsers = asyncThunk('allUsers/fetchUsers', async (userName:string,{dispatch} ) => {    
+    // const currentState= getState() as RootState 
     const suggestionsSet= new Map<string,string[]>() 
     try {
         const userResponse :ActiveUserType[] = await (
             getAllUsers()
         )
         if(userResponse.length>0){
-            const currentUserDetails=currentState.user.currentUser
-            const allUsers=userResponse.filter(user=>user.userId!=currentUserDetails?.userId)
+            const currentUserDetail=userResponse.find(user=>user.username==userName)
+            console.log('currentUserDetail',currentUserDetail);
+            
+            currentUserDetail?.username!==undefined?
+                dispatch(setCurrentUser(currentUserDetail))
+                :console.log('This shouldn not have happened');
+                
+            const allUsers=userResponse.filter(user=>user.userId!=currentUserDetail?.userId)
             
             // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-            const currentlyFollowingUsers=allUsers.filter(user=>user.followers?.includes(currentUserDetails?.userId!))
+            const currentlyFollowingUsers=allUsers.filter(user=>user.followers?.includes(currentUserDetail?.userId!))
             
-            console.log('currentlyFollowingUsers',currentlyFollowingUsers);
+            // console.log('currentlyFollowingUsers',currentlyFollowingUsers);
     
             currentlyFollowingUsers.map(followingUser=>{
                 followingUser.following?.map(suggestedUserID=>{
-                    if(suggestedUserID!==currentUserDetails?.userId && !currentUserDetails?.following?.includes(suggestedUserID)){
+                    if(suggestedUserID!==currentUserDetail?.userId && !currentUserDetail?.following?.includes(suggestedUserID)){
                         console.log(followingUser.username,"is following",suggestedUserID);
                         userResponse.filter(response=>response.userId==suggestedUserID).map(userresponse=>{      
                             if(suggestionsSet.has(userresponse.username!))
@@ -57,11 +62,11 @@ export const fetchUsers = asyncThunk('allUsers/fetchUsers', async (_,{getState} 
                     } 
                 })
             })  
-            // return response
-            // console.log('suggestionsSet',suggestionsSet);
+            console.log('suggestionsSet',suggestionsSet);
 
             const result=[...suggestionsSet].map(([suggestedUser,mutualFriend])=>({suggestedUser,mutualFriend}))
-            return result
+            dispatch(mutualFriend(result))
+            return userResponse
         } 
     }
     catch (error: unknown) {
@@ -78,6 +83,15 @@ export const AllUserSlice = createSlice({
     name: 'allUsers',
     initialState,
     reducers: {
+        setCurrentUser:(state,action:PayloadAction<ActiveUserType>)=>{
+            state.currentUser=action.payload
+        },
+        mutualFriend:(state,action:PayloadAction<mutualFriendType[]>)=>{
+            state.suggestedUsers=action.payload
+        },
+        updateFollow:(state,action)=>{
+            state.users=action.payload
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(fetchUsers.pending, (state) => {
@@ -97,3 +111,6 @@ export const AllUserSlice = createSlice({
 })
 
 export default AllUserSlice.reducer
+export const {mutualFriend}=AllUserSlice.actions
+export const {updateFollow}=AllUserSlice.actions
+export const {setCurrentUser}=AllUserSlice.actions

@@ -18,6 +18,8 @@ function UseAuthListener() {
             } else {
                 localStorage.removeItem('authUser')
                 setUser(undefined)
+                console.log(user);
+                
             }
         })
         return () => listener()

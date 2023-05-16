@@ -7,19 +7,17 @@ import Menubar from '../components/menubar'
 import Sidebar from '../components/sidebar'
 import { useAppDispatch, useAppSelector } from '../store/use-state-dispatch'
 import UseAuthListener from '../hooks/use-auth-listener'
-import { fetchUser } from '../features/userSlice'
 import { fetchUsers } from '../features/allUsersSlice'
 
 function Dashboard() {
     const dispatch = useAppDispatch()
-    const userState = useAppSelector(state => state.user.currentUser)
+    const userState = useAppSelector(state => state.allUsers.currentUser)
     const { user } = UseAuthListener()
 
     useEffect(() => {
         if (user?.uid !== undefined) {
-            // console.log('resImage', res);
-            dispatch(fetchUser(user?.uid)).then(() => dispatch(fetchUsers()))
-
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
+            dispatch(fetchUsers(user?.displayName!))
         }
     }, [user])
 
@@ -33,10 +31,6 @@ function Dashboard() {
 
                 </div>
 
-                {/* <div className="border-r border-seperator px-3 sm:max-w-16.5 overflow-y-visible col-span-1"> */}
-                {/* <div className="border-r border-seperator px-3 pb-5 w-24 md:w-60 w-16.5 overflow-y-visible">
-                <Menubar />
-            </div> */}
                 <div className="flex flex-row justify-around items-stretch space-x-4 pt-1 flex-nowrap h-screen max-w-5xl">
                     <div className="max-w-md">
                         <Timeline />
@@ -45,7 +39,6 @@ function Dashboard() {
                         <Sidebar />
                     </div>
                 </div>
-                {/* </div> */}
             </div>
         </div>
 

@@ -24,7 +24,7 @@ const scaleUpICons = 'transition ease-in-out delay-50 group-hover:-translate-y-0
 
 function Menubar() {
     const [clicked, setClicked] = useState(false)
-    const userState = useAppSelector(state => state.user.currentUser)
+    const userState = useAppSelector(state => state.allUsers.currentUser)
     const navigate = useNavigate()
     // console.log('userState', userState?.username)
 

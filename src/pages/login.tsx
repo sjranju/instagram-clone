@@ -9,15 +9,6 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 import { AiOutlineCopyright } from 'react-icons/ai'
 import { SlArrowDown } from 'react-icons/sl'
 import { getDownloadURL, listAll, ref } from 'firebase/storage'
-// import '../styles/tailwind.css'
-
-// interface imageType {
-//     facebook: string,
-//     iphoneFrame: string,
-//     googlePlayStore: string,
-//     logo: string,
-//     microsoftStore: string
-// }
 
 const Login = () => {
     const [emailAddress, setEmailAddress] = useState<string>('')
@@ -27,7 +18,6 @@ const Login = () => {
     const navigate = useNavigate()
     const isInvalid = emailAddress === '' || password === ''
     const loginPageImageRef = ref(storage, 'login/')
-    // const ImageSliderRef = ref(storage, 'image-slider/')
 
     const [image, setImage] = useState<string[]>([])
 
@@ -49,24 +39,11 @@ const Login = () => {
                 setError(error.message)
                 setEmailAddress('')
                 setPassword('')
-                // alert(error)
             })
 
-        // }
-        //          catch (error) {
-        //     setEmailAddress('')
-        //     setPassword('')
-        //     console.log(error)
-        // }
     }
 
     useEffect(() => {
-        // const imageList = [
-        //     `{${image.find(img => img.includes('img1'))}}`,
-        //     `{${image.find(img => img.includes('img2'))}}`,
-        //     `{${image.find(img => img.includes('img3'))}}`,
-        //     `{${image.find(img => img.includes('img4'))}}`,
-        // ]
         const interval = setInterval(() => {
             // eslint-disable-next-line array-callback-return, @typescript-eslint/no-unused-vars
             imageList?.map(() => {
@@ -91,12 +68,6 @@ const Login = () => {
             ))
 
     }, [])
-
-    // const getImagesFromStorage = (imageName: string) => {
-    //     const imageRef=ref(storage,`login/${imageName}`)
-    //     getDownloadURL(imageRef).then(url => { return url })
-    // }
-    // console.log('imageStore', image);
 
     return (
         <div className='flex flex-col items-center justify-center mt-8'>

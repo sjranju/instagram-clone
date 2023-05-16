@@ -15,7 +15,7 @@ import { storage } from '../../lib/firebaseConfig'
 // const [imageURL, setImageURL] = useState<string | null>('')
 
 function User() {
-    const userState = useAppSelector(state => state.user.currentUser)
+    const userState = useAppSelector(state => state.allUsers.currentUser)
     const [imageURL, setImageURL] = useState<string>('')
     // console.log('userState', userState?.username)
 

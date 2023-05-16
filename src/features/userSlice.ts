@@ -1,5 +1,5 @@
 import { createAsyncThunk as asyncThunk, createSlice } from "@reduxjs/toolkit"
-import { getUserDetailsByUserId } from "../services/firebase"
+import { getUserDetailsByUserName } from "../services/firebase"
 // import { ActiveUserType } from "../hooks/use-suggestions"
 // import UseAuthListener from "../hooks/use-auth-listener"
 import  { ActiveUserType } from "../hooks/use-user"
@@ -10,15 +10,13 @@ type UserStateType = {
     loading: boolean,
     error?: string,
     currentUser?:ActiveUserType,
-    currentlyFollowingUsers?:string[],
-    suggestedUsers?:ActiveUserType[]
 }
  
 const initialState: UserStateType = {
     loading: false,
 }
 
-//  const currentUserId = user?.uid
+//  const currentuserName = user?.uid
 // export const fetchUsers = asyncThunk('users/fetchUsers', async (_, { dispatch, abort }) => {
 //     const { user } = UseAuthListener()
 //     console.log('UseAuthListener', user);
@@ -26,7 +24,7 @@ const initialState: UserStateType = {
 //     if (user) {
 //         try {
 //             const [userResponse] = await (
-//                 getUserDetailsByUserId(user.uid)
+//                 getUserDetailsByuserName(user.uid)
 //             )
 //             console.log('userResponse', userResponse)
 
@@ -49,12 +47,12 @@ const initialState: UserStateType = {
 //     abort()
 // })
 
-export const fetchUser = asyncThunk('user/fetchUser', async (userID: string) => {
-    // console.log('UseAuthListener', userID);
-    if (userID) {
+export const fetchUser = asyncThunk('user/fetchUser', async (userName: string) => {
+    // console.log('UseAuthListener', userName);
+    if (userName) {
         try {
             const userResponse = await (
-                getUserDetailsByUserId(userID)
+                getUserDetailsByUserName(userName)
                 // getAllUsers()
             )
             // console.log('userResponse', userResponse)
@@ -65,7 +63,7 @@ export const fetchUser = asyncThunk('user/fetchUser', async (userID: string) => 
             // console.log('userResponse', userResponse)
             // if(userResponse)
             // {
-            //     const filteredUID=userResponse.filter((user)=>{(user.userId)})
+            //     const filteredUID=userResponse.filter((user)=>{(user.userName)})
             //     dispatch(suggestion(filteredUID))
             // }
             return userResponse;
@@ -93,7 +91,7 @@ export const UserSlice = createSlice({
             state.currentUser=action.payload
             // const currentUsr = action.payload
             // state.currentlyFollowingUsers=action.payload?.map(user=>user.following)
-            // state.currentUser?.filter(user=>user.userId !=currentlyFollowingUsers)
+            // state.currentUser?.filter(user=>user.userName !=currentlyFollowingUsers)
             // console.log('currentlyFollowingUsers',state.currentlyFollowingUsers);
         })
 
