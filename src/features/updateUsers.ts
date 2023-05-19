@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk as asyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store/configStore";
 import cloneDeep from 'lodash.clonedeep'
-import { updateFollow } from "./allUsersSlice";
+import { updateUserDetails } from "./allUsersSlice";
 import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "../lib/firebaseConfig";
 
@@ -33,8 +33,9 @@ export const updateAllUsers=asyncThunk('updateUsers/updateFollowersAndFollowingL
                     const stateCopy=cloneDeep(currentState.allUsers.users)
                     if(stateCopy!==undefined){
                         stateCopy?.find(user=>user.userId==currentUserId)?.following?.push(suggestedUserId)
-                        stateCopy?.find(user=>user.userId==suggestedUserId)?.followers?.push(currentUserId)                        
-                        dispatch(updateFollow(stateCopy))
+                        stateCopy?.find(user=>user.userId==suggestedUserId)?.followers?.push(currentUserId)
+                        console.log(stateCopy);
+                        dispatch(updateUserDetails(stateCopy))
                     }
                 })
         })
@@ -47,10 +48,10 @@ export const updateAllUsers=asyncThunk('updateUsers/updateFollowersAndFollowingL
                 .then(() => {
                     const stateCopy=cloneDeep(currentState.allUsers.users)
                     if(stateCopy!==undefined){
-                        // stateCopy?.find(user=>user.userId==currentUserId)?.following?.push(suggestedUserId)
                         stateCopy?.find(user=>user.userId==currentUserId)?.following?.filter(user=>user!==suggestedUserId)
-                        stateCopy?.find(user=>user.userId==suggestedUserId)?.followers?.filter(user=>user!==currentUserId)                        
-                        dispatch(updateFollow(stateCopy))
+                        stateCopy?.find(user=>user.userId==suggestedUserId)?.followers?.filter(user=>user!==currentUserId)
+                        console.log(stateCopy);
+                        dispatch(updateUserDetails(stateCopy))
                     }
                 })
         })
@@ -72,7 +73,11 @@ export const updateUsers=createSlice({
         })
         builder.addCase(updateAllUsers.rejected,(state)=>{
             state.loading=false
-        })      
+        })
+    // {
+    //     updateFollowList:(state,action)=>{
+    //         state.updateUser=action.payload
+    //     }}        
     }
 }
 )

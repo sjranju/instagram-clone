@@ -6,10 +6,11 @@
 
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../store/use-state-dispatch'
-import { getDownloadURL, listAll, ref } from 'firebase/storage'
+import { getDownloadURL, ref } from 'firebase/storage'
 import { storage } from '../../lib/firebaseConfig'
 import { updateAllUsers } from '../../features/updateUsers'
 import FadeLoader from 'react-spinners/FadeLoader'
+import { setImageURL } from '../../features/updateImageURLs'
 
 type unFollowType = {
     user: string
@@ -18,7 +19,6 @@ type unFollowType = {
 
 function Suggestions() {
     const [errorMessage, setErrorMessage] = useState('')
-    const [avatar, setAvatar] = useState<string[]>([])
     const [followingUser, setFollowingUser] = useState<string[]>([])
     const [clickedFollowing, setClickedFollowing] = useState<unFollowType[]>([])
     const suggestedUserState = useAppSelector(state => state.allUsers.suggestedUsers)
@@ -27,16 +27,19 @@ function Suggestions() {
     const isLoading = useAppSelector(state => state.updateAllUsers.loading)
     const dispatch = useAppDispatch()
 
-    const imagesRef = ref(storage, 'avatars/')
-
     useEffect(() => {
         if (suggestedUserState !== undefined) {
-            listAll(imagesRef).then(response => {
-                response.items.filter(item => {
-                    getDownloadURL(item).then(url => {
-                        setAvatar(prev => [...prev, url])
+            suggestedUserState.map(user => {
+                if (allUserState?.find(usr => usr.username == user.suggestedUser)?.imageURL === undefined) {
+                    const imagesRef = ref(storage, `avatars/${user.suggestedUser}.jpg`)
+                    getDownloadURL(imagesRef).then(url => {
+                        dispatch(setImageURL({ suggestedUser: user.suggestedUser, url: url }))
+                        // .then(() => {
+                        //     setAvatar(prev => [...prev, url])
+                        // })
+                        // .catch(error => setErrorMessage(error))
                     })
-                })
+                }
             })
         }
     }, [])
@@ -80,7 +83,7 @@ function Suggestions() {
                             <div className="flex flex-row items-center justify-between mb-4" key={index}>
                                 <div className="flex flex-row space-x-4 justify-center items-center">
                                     <div className="">
-                                        <img src={avatar.find(url => url.includes(suggestedUser.suggestedUser))} alt="profile picture" className='w-10 h-10 rounded-full' />
+                                        <img src={allUserState?.find(user => user.username === suggestedUser.suggestedUser)?.imageURL} alt="profile picture" className='w-10 h-10 rounded-full' />
                                     </div>
                                     <div className="">
                                         <p className='font-semibold'>{suggestedUser.suggestedUser}</p>
@@ -106,9 +109,9 @@ function Suggestions() {
                                 <div className="flex text-xs">
 
                                     {isLoading ?
-                                        <FadeLoader color='white' height={5} width={1} />
+                                        <FadeLoader color='white' height={2} width={1} />
                                         : followingUser.includes(suggestedUser.suggestedUser) ?
-                                            <div className='text-white font-medium'><button type='button' className='p-0 m-0' onClick={() => setClickedFollowing([...clickedFollowing, { user: suggestedUser.suggestedUser, url: avatar.find(url => url.includes(suggestedUser.suggestedUser))! }])} >Following</button></div>
+                                            <div className='text-white font-medium'><button type='button' className='p-0 m-0' onClick={() => setClickedFollowing([...clickedFollowing, { user: suggestedUser.suggestedUser, url: allUserState?.find(user => user.username === suggestedUser.suggestedUser)?.imageURL! }])} >Following</button></div>
                                             :
                                             <div className=' text-signUpColor'><button type='button' className='p-0 m-0' onClick={() => handleFollow(suggestedUser.suggestedUser)}>Follow</button></div>
 

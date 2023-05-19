@@ -9,12 +9,23 @@ type mutualFriendType={
     mutualFriend:string[]
 }
 
+type userStateType={
+    dateCreated?: number
+    emailAddress?: string
+    followers?: string[]
+    following?: string[]
+    fullName?: string
+    userId?: string
+    username?: string
+    imageURL?:string
+}
+
 type AllUserStateType = {
     loading: boolean,
-    users?: ActiveUserType[],
+    users?: userStateType[],
     error?: string,
     suggestedUsers?:mutualFriendType[],
-    currentUser?:ActiveUserType
+    currentUser?:userStateType
 }
 
 const initialState: AllUserStateType = {
@@ -24,7 +35,7 @@ const initialState: AllUserStateType = {
 export const fetchUsers = asyncThunk('allUsers/fetchUsers', async (userName:string,{dispatch} ) => {    
     const suggestionsSet= new Map<string,string[]>() 
     try {
-        const userResponse :ActiveUserType[] = await (
+        const userResponse :userStateType[] = await (
             getAllUsers()
         )
         if(userResponse.length>0){
@@ -78,7 +89,7 @@ export const AllUserSlice = createSlice({
         mutualFriend:(state,action:PayloadAction<mutualFriendType[]>)=>{
             state.suggestedUsers=action.payload
         },
-        updateFollow:(state,action)=>{
+        updateUserDetails:(state,action)=>{
             state.users=action.payload
         }
     },
@@ -101,5 +112,5 @@ export const AllUserSlice = createSlice({
 
 export default AllUserSlice.reducer
 export const {mutualFriend}=AllUserSlice.actions
-export const {updateFollow}=AllUserSlice.actions
+export const {updateUserDetails}=AllUserSlice.actions
 export const {setCurrentUser}=AllUserSlice.actions
