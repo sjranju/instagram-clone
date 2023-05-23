@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import  allUsersReduer  from "../features/allUsersSlice";
 import updateAllUsers from "../features/updateUsers";
 import  setImageURL  from "../features/updateImageURLs";
+import  getPosts  from "../features/postSlice";
 
 const store = configureStore({
     reducer: {
         allUsers:allUsersReduer,
         updateAllUsers:updateAllUsers,
-        updateImageURL:setImageURL
+        updateImageURL:setImageURL,
+        userPosts:getPosts
     }
 })
 

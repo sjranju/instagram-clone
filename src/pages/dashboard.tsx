@@ -8,10 +8,12 @@ import Sidebar from '../components/sidebar'
 import { useAppDispatch, useAppSelector } from '../store/use-state-dispatch'
 import UseAuthListener from '../hooks/use-auth-listener'
 import { fetchUsers } from '../features/allUsersSlice'
+import { getPosts } from '../features/postSlice'
 
 function Dashboard() {
     const dispatch = useAppDispatch()
-    const userState = useAppSelector(state => state.allUsers.currentUser)
+    const currentUser = useAppSelector(state => state.allUsers.currentUser)
+    const posts = useAppSelector(state => state.userPosts.postData)
     const { user } = UseAuthListener()
 
     useEffect(() => {
@@ -21,21 +23,27 @@ function Dashboard() {
         }
     }, [user])
 
+    useEffect(() => {
+        if (currentUser?.following !== undefined) {
+            dispatch(getPosts(currentUser.following))
+        }
+    }, [currentUser])
+
     return (
         <div className=' bg-black '>
             <div className="flex flex-row h-screen w-screen">
                 <div className="border-r border-seperator px-3 pb-5 w-24 md:w-60 w-16.5 overflow-y-visible">
                     {
-                        userState?.username ? <Menubar /> : ''
+                        currentUser?.username ? <Menubar /> : ''
                     }
 
                 </div>
 
-                <div className="flex flex-row justify-around items-stretch space-x-4 pt-1 flex-nowrap h-screen max-w-5xl">
-                    <div className="max-w-md">
+                <div className="flex flex-row justify-between items-stretch flex-nowrap max-w-xl w-full mt-4 mx-auto pt-8">
+                    <div className="mr-16">
                         <Timeline />
                     </div>
-                    <div className="mt-4 pt-8">
+                    <div className="">
                         <Sidebar />
                     </div>
                 </div>

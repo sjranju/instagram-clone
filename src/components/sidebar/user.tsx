@@ -34,21 +34,23 @@ function User() {
         <div>
             {
                 <div className="flex flex-row items-center justify-between gap-20 text-white mb-4">
-                    <Link to={`/p/${userState?.username}`} className=''>
-                        <div className='flex flex-row space-x-4'>
-                            <img src={imageURL} alt="profile picture" className=' h-14 w-14 rounded-full' />
+                    <div className=''>
+                        <Link to={`/p/${userState?.username}`} className='flex flex-row justify-between gap-4'>
+                            <div className="">
+                                <img src={imageURL} alt="profile picture" className=' h-14 w-14 rounded-full' />
+                            </div>
 
-                            <div className="flex flex-col justify-center">
+                            <div className="flex flex-col justify-center grow-1">
                                 <p className="text-sm font-bold">{userState?.username}</p>
                                 <p className="text-sm">{userState?.fullName}</p>
                             </div>
-                        </div>
-                    </Link>
+                        </Link>
+                    </div>
 
                     <div className="text-xs text-signUpColor">
                         <button type='button' onClick={() => setSwitchProfile(true)}>Switch</button>
                     </div>
-                </div>
+                </div >
             }
             {
                 switchProfile ?

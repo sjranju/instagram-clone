@@ -33,7 +33,7 @@ function Suggestions() {
                 if (allUserState?.find(usr => usr.username == user.suggestedUser)?.imageURL === undefined) {
                     const imagesRef = ref(storage, `avatars/${user.suggestedUser}.jpg`)
                     getDownloadURL(imagesRef).then(url => {
-                        dispatch(setImageURL({ suggestedUser: user.suggestedUser, url: url }))
+                        dispatch(setImageURL({ user: user.suggestedUser, url: url }))
                         // .then(() => {
                         //     setAvatar(prev => [...prev, url])
                         // })
@@ -69,10 +69,8 @@ function Suggestions() {
     }
 
     return (
-        <div className="">
-
+        <div className="max-w-xs w-full">
             <div className="flex flex-col justify-center text-white text-sm">
-
                 <div className="flex flex-row justify-between font-semibold mb-4">
                     <p className="text-activeBorderForInput">Suggestions for you</p>
                     <p className='text-xs flex justify-center items-center'>See all</p>
@@ -81,7 +79,7 @@ function Suggestions() {
                     suggestedUserState !== undefined ?
                         suggestedUserState.map((suggestedUser, index) =>
                             <div className="flex flex-row items-center justify-between mb-4" key={index}>
-                                <div className="flex flex-row space-x-4 justify-center items-center">
+                                <div className="flex flex-row space-x-2 justify-center items-center">
                                     <div className="">
                                         <img src={allUserState?.find(user => user.username === suggestedUser.suggestedUser)?.imageURL} alt="profile picture" className='w-10 h-10 rounded-full' />
                                     </div>

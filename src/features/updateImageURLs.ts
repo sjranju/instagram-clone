@@ -5,22 +5,22 @@ import cloneDeep from "lodash.clonedeep";
 
 type initialStateType={
     url:string,
-    suggestedUser:string
+    user:string
 }
 const initialState:initialStateType={
     url:'',
-    suggestedUser:''
+    user:''
 }
 
-export const setImageURL=createAsyncThunk('updateImageURL/setImageURL',async({url,suggestedUser}:initialStateType,{getState,dispatch})=>{
+export const setImageURL=createAsyncThunk('updateImageURL/setImageURL',async({url,user}:initialStateType,{getState,dispatch})=>{
     const state=getState() as RootState
     const stateCopy=cloneDeep(state.allUsers.users)
     
-    if(stateCopy && stateCopy.find(user=>user.username==suggestedUser) && suggestedUser){
+    if(stateCopy && stateCopy.find(usr=>usr.username==user) && user){
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        if(stateCopy.find(user=>user.username==suggestedUser)!.imageURL==undefined){
+        if(stateCopy.find(usr=>usr.username==user)!.imageURL==undefined){
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            stateCopy.find(user=>user.username==suggestedUser)!.imageURL=url
+            stateCopy.find(usr=>usr.username==user)!.imageURL=url
             dispatch(updateUserDetails(stateCopy))
         }
     }

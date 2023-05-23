@@ -3,7 +3,7 @@
 import { collection, where, query, getDocs, getDoc, doc} from 'firebase/firestore'
 import { db } from '../lib/firebaseConfig'
 import { ActiveUserType } from '../hooks/use-user'
-// import { ActiveUserType } from '../hooks/use-suggestions'
+import { postDataType } from '../features/postSlice'
 
 // eslint-disable-next-line @typescript-eslint/space-before-function-paren
 export async function doesUserNameExist(userName: string, emailAddress: string) {
@@ -25,8 +25,8 @@ export async function getAllUsers(): Promise<ActiveUserType[]> {
 }
 
 
-export async function getSuggestionDetails(userIds: string[]) {
-    const result = query(collection(db, 'users'), where('userId', 'not-in', userIds))
-    return (await getDocs(result)).docs.map(item => ({ ...item.data() }))
+export async function getPostDetails() :Promise<postDataType[]>{
+    const result = query(collection(db, 'photos'))
+    return (await getDocs(result)).docs.map(item => ({...item.data()}))
 }
 
