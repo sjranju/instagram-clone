@@ -117,19 +117,21 @@ function Suggestions() {
                                     {
                                         errorMessage ? errorMessage : ''
                                     }
-                                    {clickedFollowing.map(usr =>
-                                        usr.user == suggestedUser.suggestedUser ?
-                                            <div key={usr.user} className="absolute top-60 bg-seperator rounded-lg text-sm w-1/5 h-fit ">
-                                                <div className="flex flex-col text-white divide-y divide-slate-700 divide-solid justify-center">
+                                    {clickedFollowing.find(usr =>
+                                        usr.user == suggestedUser.suggestedUser) ?
+                                        <div key={clickedFollowing.find(usr => usr.user == suggestedUser.suggestedUser)?.user} className="flex flex-col top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 justify-center items-center h-fit w-full max-w-sm rounded-md bg-seperator text-sm ">
+                                            <div className="relative w-full">
+                                                <div className="relative flex flex-col text-white divide-y divide-slate-700 divide-solid justify-center">
                                                     <div className="flex flex-col justify-center items-center space-y-2 pt-8 pb-4">
-                                                        <div className=""><img src={usr.url} className='w-16 h-16 rounded-full' /></div>
-                                                        <div className="text-xs">Unfollow <span className=''>@{usr.user}</span></div>
+                                                        <div className=""><img src={clickedFollowing.find(usr => usr.user == suggestedUser.suggestedUser)?.url} className='w-16 h-16 rounded-full' /></div>
+                                                        <div className="text-xs">Unfollow <span className=''>@{clickedFollowing.find(usr => usr.user == suggestedUser.suggestedUser)?.user}</span></div>
                                                     </div>
-                                                    <div className="flex justify-center items-center py-2"><button className='text-red-600 font-medium ' onClick={() => handleUnFollow(usr.user)}>Unfollow</button></div>
+                                                    <div className="flex justify-center items-center py-2"><button className='text-red-600 font-medium ' onClick={() => handleUnFollow(clickedFollowing.find(usr => usr.user == suggestedUser.suggestedUser)!.user)}>Unfollow</button></div>
                                                     <div className="flex justify-center items-center py-2"><button type='button' onClick={() => setClickedFollowing(clickedFollowing.filter(user => user.user !== suggestedUser.suggestedUser))}>Cancel</button></div>
                                                 </div>
                                             </div>
-                                            : '')
+                                        </div>
+                                        : ''
                                     }
                                 </div>
 

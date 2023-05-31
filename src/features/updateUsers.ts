@@ -50,7 +50,7 @@ export const updateAllUsers=asyncThunk('updateUsers/updateFollowersAndFollowingL
                     if(stateCopy!==undefined){
                         stateCopy?.find(user=>user.userId==currentUserId)?.following?.filter(user=>user!==suggestedUserId)
                         stateCopy?.find(user=>user.userId==suggestedUserId)?.followers?.filter(user=>user!==currentUserId)
-                        console.log(stateCopy);
+                        // console.log(stateCopy);
                         dispatch(updateUserDetails(stateCopy))
                     }
                 })

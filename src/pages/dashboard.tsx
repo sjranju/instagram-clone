@@ -13,7 +13,6 @@ import { getPosts } from '../features/postSlice'
 function Dashboard() {
     const dispatch = useAppDispatch()
     const currentUser = useAppSelector(state => state.allUsers.currentUser)
-    const posts = useAppSelector(state => state.userPosts.postData)
     const { user } = UseAuthListener()
 
     useEffect(() => {
@@ -29,23 +28,29 @@ function Dashboard() {
         }
     }, [currentUser])
 
+    useEffect(() => {
+        document.body.style.backgroundColor = "black"
+    }, [])
+
     return (
         <div className=' bg-black '>
-            <div className="flex flex-row h-screen w-screen">
-                <div className="border-r border-seperator px-3 pb-5 w-24 md:w-60 w-16.5 overflow-y-visible">
+            <div className="flex flex-row h-screen w-full bg-black">
+                <div className="fixed border-r border-seperator px-3 pb-5 w-24 md:w-60 w-16.5 overflow-y-visible">
                     {
                         currentUser?.username ? <Menubar /> : ''
                     }
 
                 </div>
 
-                <div className="flex flex-row justify-between items-stretch flex-nowrap max-w-xl w-full mt-4 mx-auto pt-8">
-                    <div className="mr-16">
-                        <Timeline />
-                    </div>
-                    <div className="">
-                        <Sidebar />
-                    </div>
+                <div className="ml-auto w-[calc(100%-242px)]">
+                    <section className="relative flex flex-row items-stretch flex-nowrap w-full mt-4 mx-auto max-w-5xl py-8 box-border bg-black">
+                        <div className="mr-16 w-full float-left max-w-2xl box-border ">
+                            <Timeline />
+                        </div>
+                        <div className="">
+                            <Sidebar />
+                        </div>
+                    </section>
                 </div>
             </div>
         </div>

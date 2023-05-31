@@ -10,6 +10,7 @@ import { WiTime8 } from 'react-icons/wi'
 import { MdHomeFilled, MdOutlineExplore, MdOutlineBookmarkBorder } from 'react-icons/md'
 import { Link, useNavigate } from 'react-router-dom'
 import { AiOutlineHeart, AiOutlineMenu } from 'react-icons/ai'
+import { HiOutlineHeart } from 'react-icons/hi'
 import { FiPlusSquare } from 'react-icons/fi'
 import { IoIosSettings } from 'react-icons/io'
 import { HiOutlineMoon } from 'react-icons/hi'
@@ -65,7 +66,7 @@ function Menubar() {
     }
 
     return (
-        <div className='relative flex flex-col justify-between mx-auto text-white pr-1 pb-5 text-lg h-screen items-start'>
+        <div className='sticky flex flex-col justify-between mx-auto text-white pr-1 pb-5 text-lg h-screen items-start'>
             <div className="md:block hidden pt-10 h-20 w-28 pb-5 mb-5 pl-3 shrink-0 relative">
                 <img src={imageURLs.find(img => img.includes('instagramWhiteLogo'))} alt="logo" color={'white'} className='text-white h-8 w-24' />
             </div>

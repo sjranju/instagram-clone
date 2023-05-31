@@ -1,9 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getPostDetails } from "../services/firebase";
-import cloneDeep from "lodash.clonedeep";
 
 export type postDataType={
-    captions?:string,
+    caption?:string,
     comments?:{
         comment?:string,
         displayName?:string
@@ -11,11 +10,12 @@ export type postDataType={
     likes?:string[],
     photoId?:string,
     userId?:string,
+    imageSrc?:string
 }
 
 type initialStateType={
-    postData?:postDataType[],
-    currentlyFollowingUserPost?:postDataType[]
+    // postData?:postDataType[],
+    postData?:postDataType[]
     loading:boolean,
     error?:string
 }
@@ -24,16 +24,15 @@ const initialState:initialStateType={
     loading:false
 }
 
-export const getPosts=createAsyncThunk('postSlice/posts',async(users:string[],{dispatch})=>{
+export const getPosts=createAsyncThunk('posts/getPosts',async(users:string[])=>{
     try{
         const userResponse:postDataType[]=await (getPostDetails())
-        console.log(userResponse);
         
         if(userResponse){
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const posts=userResponse.filter(user=>users.includes(user.userId!))
-            dispatch(currentlyFollowingUserPosts(posts))
-            return userResponse
+            // dispatch(currentlyFollowingUserPosts(posts))
+            return posts
         }   
     }
     catch(error:unknown){
@@ -46,8 +45,12 @@ const postSlice=createSlice({
     name: 'posts',
     initialState: initialState,
     reducers: {
-        currentlyFollowingUserPosts:(state,action)=>{
-            state.currentlyFollowingUserPost=action.payload
+        // currentlyFollowingUserPosts:(state,action)=>{
+        //     state.currentlyFollowingUserPost=action.payload
+        //     state.loading=false
+        // },
+        updatePost:(state,action)=>{
+            state.postData=action.payload
             state.loading=false
         }
     },
@@ -67,4 +70,5 @@ const postSlice=createSlice({
 })
 
 export default postSlice.reducer
-export const {currentlyFollowingUserPosts}=postSlice.actions
+// export const {currentlyFollowingUserPosts}=postSlice.actions
+export const {updatePost}=postSlice.actions

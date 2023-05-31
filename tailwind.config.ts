@@ -30,7 +30,8 @@ module.exports = {
         signUpComments: '#8E8E8E',
         errorMessage: '#ED4956',
         seperator: '#262626',
-        hoverBackground: '#121212'
+        hoverBackground: '#121212',
+        postSeperator:'#262626'
       }
     }
 
