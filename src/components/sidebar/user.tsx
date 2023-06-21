@@ -31,7 +31,7 @@ function User() {
     }, [])
 
     return (
-        <div>
+        <div className=''>
             {
                 <div className="flex flex-row items-center justify-between gap-20 text-white mb-4">
                     <div className=''>
@@ -54,40 +54,45 @@ function User() {
             }
             {
                 switchProfile ?
-
-                    <div className="absolute flex flex-col top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 justify-center items-center h-fit w-full max-w-sm rounded-md bg-seperator">
-                        <div className="relative w-full">
-                            <div className="flex flex-col divide-y divide-slate-700 divide-solid">
-                                <div className=" flex flex-row items-center h-full w-full py-2">
-                                    <div className=" inline-block text-white font-semibold w-full text-center grow-1"><h1>Switch accounts</h1></div>
-                                    <div className="relative flex flex-col h-full justify-center items-center basis-11 float-right">
-                                        <button className="relative pr-4 flex flex-col shrink-0 justify-start grow-0" onClick={() => setSwitchProfile(false)}>
-                                            <CgClose color='white' size={24} />
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="flex flex-row items-center justify-between text-white px-4">
-                                    <div className="mt-2">
-                                        <Link to={`/p/${userState?.username}`} className=''>
-                                            <div className='flex flex-row space-x-4'>
-                                                <img src={imageURL} alt="profile picture" className=' h-12 w-12 rounded-full' />
-
-                                                <div className="flex flex-col justify-center">
-                                                    <p className="text-sm font-bold">{userState?.username}</p>
+                    <div className="">
+                        <div className="absolute w-96 shrink m-4 max-h-[calc(100%-40px)] top-44 right-96">
+                            <div className=" block rounded-md bg-seperator max-h-[calc(100vh - 40px)] ">
+                                <div className=" w-full h-full flex flex-col">
+                                    <div className=" h-full flex flex-col box-border shrink-0 justify-start grow-0">
+                                        <div className="flex flex-col divide-y divide-slate-700 divide-solid">
+                                            <div className=" flex flex-row items-center h-full w-full py-2">
+                                                <div className=" inline-block text-white font-semibold w-full text-center grow-1"><h1>Switch accounts</h1></div>
+                                                <div className="relative flex flex-col h-full justify-center items-center basis-11 float-right">
+                                                    <button className="relative pr-4 flex flex-col shrink-0 justify-start grow-0" onClick={() => setSwitchProfile(false)}>
+                                                        <CgClose color='white' size={24} />
+                                                    </button>
                                                 </div>
                                             </div>
+                                            <div className="flex flex-row items-center justify-between text-white px-4">
+                                                <div className="mt-2">
+                                                    <Link to={`/p/${userState?.username}`} className=''>
+                                                        <div className='flex flex-row space-x-4'>
+                                                            <img src={imageURL} alt="profile picture" className=' h-12 w-12 rounded-full' />
+
+                                                            <div className="flex flex-col justify-center">
+                                                                <p className="text-sm font-bold">{userState?.username}</p>
+                                                            </div>
+                                                        </div>
+                                                    </Link>
+                                                </div>
+                                                <div className="text-xs">
+                                                    <RiCheckboxCircleFill size={28} color='#0095F6' />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex flex-row items-center justify-between mb-28"></div>
+                                        <Link to={ROUTES.LOGIN} className="flex text-signUpColor text-sm font-medium justify-center items-center pb-4">
+                                            <div>Log In to an Existing Account</div>
                                         </Link>
-                                    </div>
-                                    <div className="text-xs">
-                                        <RiCheckboxCircleFill size={28} color='#0095F6' />
                                     </div>
                                 </div>
                             </div>
-
-                            <div className="flex flex-row items-center justify-between mb-28"></div>
-                            <Link to={ROUTES.LOGIN} className="flex text-signUpColor text-sm font-medium justify-center items-center pb-4">
-                                <div>Log In to an Existing Account</div>
-                            </Link>
                         </div>
                     </div>
                     :

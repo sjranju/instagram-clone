@@ -30,6 +30,10 @@ function Dashboard() {
 
     useEffect(() => {
         document.body.style.backgroundColor = "black"
+        return () => {
+            document.body.style.backgroundColor = "white"
+
+        }
     }, [])
 
     return (

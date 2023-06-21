@@ -16,13 +16,11 @@ const Dashboard = lazy(async () => await import('./pages/dashboard'))
 
 const router = createHashRouter(
   createRoutesFromElements(
-
     <Route path="/" element={<RootLayout />} errorElement={<NotFound />}>
       <Route path="/" element={<Login />} />
       <Route path={ROUTES.SIGN_UP} element={<SignUp />} />
       <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
     </Route>
-
   )
 )
 

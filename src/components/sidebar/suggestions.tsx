@@ -119,15 +119,17 @@ function Suggestions() {
                                     }
                                     {clickedFollowing.find(usr =>
                                         usr.user == suggestedUser.suggestedUser) ?
-                                        <div key={clickedFollowing.find(usr => usr.user == suggestedUser.suggestedUser)?.user} className="flex flex-col top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 justify-center items-center h-fit w-full max-w-sm rounded-md bg-seperator text-sm ">
-                                            <div className="relative w-full">
-                                                <div className="relative flex flex-col text-white divide-y divide-slate-700 divide-solid justify-center">
-                                                    <div className="flex flex-col justify-center items-center space-y-2 pt-8 pb-4">
-                                                        <div className=""><img src={clickedFollowing.find(usr => usr.user == suggestedUser.suggestedUser)?.url} className='w-16 h-16 rounded-full' /></div>
-                                                        <div className="text-xs">Unfollow <span className=''>@{clickedFollowing.find(usr => usr.user == suggestedUser.suggestedUser)?.user}</span></div>
+                                        <div key={clickedFollowing.find(usr => usr.user == suggestedUser.suggestedUser)?.user} className="absolute w-64 shrink m-4 max-h-[calc(100%-40px)] top-44 right-96">
+                                            <div className="flex flex-col justify-center items-center h-fit w-full max-w-sm rounded-md bg-seperator text-sm ">
+                                                <div className="relative w-full">
+                                                    <div className="relative flex flex-col text-white divide-y divide-slate-700 divide-solid justify-center">
+                                                        <div className="flex flex-col justify-center items-center space-y-2 pt-8 pb-4">
+                                                            <div className=""><img src={clickedFollowing.find(usr => usr.user == suggestedUser.suggestedUser)?.url} className='w-16 h-16 rounded-full' /></div>
+                                                            <div className="text-xs">Unfollow <span className=''>@{clickedFollowing.find(usr => usr.user == suggestedUser.suggestedUser)?.user}</span></div>
+                                                        </div>
+                                                        <div className="flex justify-center items-center py-2"><button className='text-red-600 font-medium ' onClick={() => handleUnFollow(clickedFollowing.find(usr => usr.user == suggestedUser.suggestedUser)!.user)}>Unfollow</button></div>
+                                                        <div className="flex justify-center items-center py-2"><button type='button' onClick={() => setClickedFollowing(clickedFollowing.filter(user => user.user !== suggestedUser.suggestedUser))}>Cancel</button></div>
                                                     </div>
-                                                    <div className="flex justify-center items-center py-2"><button className='text-red-600 font-medium ' onClick={() => handleUnFollow(clickedFollowing.find(usr => usr.user == suggestedUser.suggestedUser)!.user)}>Unfollow</button></div>
-                                                    <div className="flex justify-center items-center py-2"><button type='button' onClick={() => setClickedFollowing(clickedFollowing.filter(user => user.user !== suggestedUser.suggestedUser))}>Cancel</button></div>
                                                 </div>
                                             </div>
                                         </div>
