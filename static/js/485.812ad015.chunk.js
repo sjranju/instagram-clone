@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkinstagram_clone=self.webpackChunkinstagram_clone||[]).push([[485],{485:function(n,e,t){t.r(e);var c=t(2791),u=t(184);e.default=function(){return(0,c.useEffect)((function(){document.title="Instagram - Not Found"}),[]),(0,u.jsx)("div",{className:"flex mx-auto align-center justify-center",children:(0,u.jsx)("p",{children:"Not Found!"})})}}}]);
-//# sourceMappingURL=485.812ad015.chunk.js.map
