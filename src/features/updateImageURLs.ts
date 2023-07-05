@@ -21,6 +21,7 @@ export const setImageURL=createAsyncThunk('updateImageURL/setImageURL',async({ur
         if(stateCopy.find(usr=>usr.username==user)!.imageURL==undefined){
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             stateCopy.find(usr=>usr.username==user)!.imageURL=url
+            console.log('stateCopy',stateCopy)
             dispatch(updateUserDetails(stateCopy))
         }
     }

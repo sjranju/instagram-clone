@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/space-before-function-paren */
 /* eslint-disable @typescript-eslint/indent */
@@ -10,7 +11,6 @@ import { WiTime8 } from 'react-icons/wi'
 import { MdHomeFilled, MdOutlineExplore, MdOutlineBookmarkBorder } from 'react-icons/md'
 import { Link, useNavigate } from 'react-router-dom'
 import { AiOutlineHeart, AiOutlineMenu } from 'react-icons/ai'
-import { HiOutlineHeart } from 'react-icons/hi'
 import { FiPlusSquare } from 'react-icons/fi'
 import { IoIosSettings } from 'react-icons/io'
 import { HiOutlineMoon } from 'react-icons/hi'
@@ -20,19 +20,21 @@ import * as ROUTES from '../constants/routes'
 import { auth, storage } from '../lib/firebaseConfig'
 import { signOut } from 'firebase/auth'
 import { getDownloadURL, listAll, ref } from 'firebase/storage'
-import { useAppSelector } from '../store/use-state-dispatch'
+import { useAppDispatch, useAppSelector } from '../store/use-state-dispatch'
+import { setImageURL } from '../features/updateImageURLs'
 const scaleUpICons = 'transition ease-in-out delay-50 group-hover:-translate-y-0.5 group-hover:scale-105 duration-200'
 
 function Menubar() {
     const [clicked, setClicked] = useState(false)
-    const userState = useAppSelector(state => state.allUsers.currentUser)
+    const userState = useAppSelector(state => state.allUsers)
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
+    console.log('userState in menubar', userState)
 
     const [imageURLs, setImageURLs] = useState<string[]>([])
-    const [image, setImage] = useState<string>('')
 
     const menubarImageRef = ref(storage, 'menubar/')
-    const avatarImageRef = ref(storage, 'avatars/')
+    const avatarImageRef = ref(storage, `avatars/${userState?.currentUser?.username}.jpg`)
 
     useEffect(() => {
         listAll(menubarImageRef).then(response =>
@@ -46,17 +48,13 @@ function Menubar() {
     }, [])
 
     useEffect(() => {
-        if (userState?.username !== undefined) {
-            listAll(avatarImageRef).then((response) => {
-                response.items.filter(item => {
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    if (item.name.includes(userState.username!)) {
-                        getDownloadURL(item).then(url => setImage(url))
-                    }
-                })
+        if (userState?.currentUser?.imageURL === undefined && userState?.currentUser?.username !== undefined) {
+            getDownloadURL(avatarImageRef).then(url => {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+                dispatch(setImageURL({ url: url, user: userState?.currentUser?.username! }))
             })
         }
-    }, [])
+    }, [userState])
 
     const handleSignOut = () => {
         void signOut(auth)
@@ -116,9 +114,9 @@ function Menubar() {
                         <div className="acitve:font-bold hidden md:block">Create</div>
                     </div>
                 </Link >
-                <Link to={ROUTES.PROFILE} className='group hover:rounded-2xl hover:bg-hoverBackground p-3 focus:font-semibold'>
+                <Link to={`/p/${userState?.currentUser?.username}`} className='group hover:rounded-2xl hover:bg-hoverBackground p-3 focus:font-semibold'>
                     <div className="flex flex-row space-x-2 ">
-                        <img src={image} alt="profile picture" className={`w-7 h-7 rounded-full ${scaleUpICons}`} />
+                        <img src={userState?.currentUser?.imageURL} alt="profile picture" className={`w-7 h-7 rounded-full ${scaleUpICons}`} />
                         <div className="acitve:font-bold hidden md:block">Profile</div>
                     </div>
                 </Link>

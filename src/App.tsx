@@ -8,6 +8,7 @@ import RootLayout from './layouts/RootLayout'
 import * as ROUTES from './constants/routes'
 import './styles/app.css'
 import { UserContextProvider } from './context/user'
+import Profile from './pages/profile'
 
 const Login = lazy(async () => await import('./pages/login'))
 const SignUp = lazy(async () => await import('./pages/sign-up'))
@@ -20,6 +21,8 @@ const router = createHashRouter(
       <Route path="/" element={<Login />} />
       <Route path={ROUTES.SIGN_UP} element={<SignUp />} />
       <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
+      <Route path={ROUTES.PROFILE} element={<Profile />} />
+
     </Route>
   )
 )
