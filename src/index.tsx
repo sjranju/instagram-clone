@@ -7,6 +7,7 @@ import { FirebaseContext } from './context/firebase'
 import { auth, db } from './lib/firebaseConfig'
 import store from './store/configStore'
 import { Provider } from 'react-redux'
+import { BrowserRouter } from 'react-router-dom'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,9 +15,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <FirebaseContext.Provider value={{ db, auth }}>
-      {/* <React.StrictMode> */}
-      <App />
-      {/* </React.StrictMode> */}
+      <BrowserRouter>
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      </BrowserRouter>
     </FirebaseContext.Provider>
   </Provider>
 

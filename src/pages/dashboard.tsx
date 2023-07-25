@@ -37,7 +37,7 @@ function Dashboard() {
     }, [])
 
     return (
-        <div className=' bg-black '>
+        <div className=' bg-black ' role={'dashboardPage'}>
             <div className="flex flex-row h-screen w-full bg-black">
                 <div className="fixed border-r border-seperator px-3 pb-5 w-24 md:w-60 w-16.5 overflow-y-visible">
                     {

@@ -70,7 +70,7 @@ const Login = () => {
     }, [])
 
     return (
-        <div className='flex flex-col items-center justify-center mt-8'>
+        <div className='flex flex-col items-center justify-center mt-8' role={'login'}>
             <section className='min-h-screen flex flex-col grow-1 overflow-x-hidden overflow-y-auto'>
                 <main className="flex flex-row w-full justify-center">
                     <div className='hidden md:flex mr-8'>

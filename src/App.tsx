@@ -22,7 +22,6 @@ const router = createHashRouter(
       <Route path={ROUTES.SIGN_UP} element={<SignUp />} />
       <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
       <Route path={ROUTES.PROFILE} element={<Profile />} />
-
     </Route>
   )
 )
@@ -32,11 +31,6 @@ function App() {
     <UserContextProvider>
       <RouterProvider router={router} />
     </UserContextProvider>
-    // <div className="App">
-    //   <FirebaseContext.Provider value={{ app, db }}>
-    //     <h1>Hello</h1>
-    //   </FirebaseContext.Provider>
-    // </div>
   )
 }
 
