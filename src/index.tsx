@@ -15,11 +15,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <FirebaseContext.Provider value={{ db, auth }}>
-      <BrowserRouter>
-        <React.StrictMode>
-          <App />
-        </React.StrictMode>
-      </BrowserRouter>
+      {/* <React.StrictMode> */}
+      <App />
+      {/* </React.StrictMode> */}
     </FirebaseContext.Provider>
   </Provider>
 

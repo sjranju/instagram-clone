@@ -54,7 +54,6 @@ describe('Login', () => {
                             <Routes>
                                 <Route path="/" element={<Login />} />
                                 <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
-
                             </Routes>
                         </BrowserRouter>
                     </UserContextProvider>
