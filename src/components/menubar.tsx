@@ -78,37 +78,37 @@ function Menubar() {
                         <div className="hidden md:block">Home</div>
                     </div>
                 </Link>
-                <Link to={ROUTES.DASHBOARD} className='group hover:rounded-2xl hover:bg-hoverBackground p-3 focus:font-semibold'>
+                <Link to={ROUTES.UNDER_CONSTRUCTION} className='group hover:rounded-2xl hover:bg-hoverBackground p-3 focus:font-semibold'>
                     <div className="flex flex-row space-x-2">
                         <div className={`flex justify-center items-center h-6 w-8 focus:bg-white ${scaleUpICons}`}><RiSearchLine size={28} /></div>
                         <div className="acitve:font-bold hidden md:block">Search</div>
                     </div>
                 </Link >
-                <Link to={ROUTES.PROFILE} className='group hover:rounded-2xl hover:bg-hoverBackground p-3 focus:font-semibold'>
+                <Link to={ROUTES.UNDER_CONSTRUCTION} className='group hover:rounded-2xl hover:bg-hoverBackground p-3 focus:font-semibold'>
                     <div className="flex flex-row space-x-2">
                         <div className={`flex justify-center items-center h-6 w-8 focus:bg-white ${scaleUpICons}`}><MdOutlineExplore size={28} /></div>
                         <div className="acitve:font-bold hidden md:block">Explore</div>
                     </div>
                 </Link >
-                <Link to={ROUTES.LOGIN} className='group hover:rounded-2xl hover:bg-hoverBackground p-3 focus:font-semibold'>
+                <Link to={ROUTES.UNDER_CONSTRUCTION} className='group hover:rounded-2xl hover:bg-hoverBackground p-3 focus:font-semibold'>
                     <div className="flex flex-row space-x-2">
                         <div className={`flex justify-center items-center h-6 w-8 focus:bg-white ${scaleUpICons}`}><img src={imageURLs.find(img => img.includes('reelsWhite'))} height={28} width={28}></img></div>
                         <div className="acitve:font-bold hidden md:block">Reels</div>
                     </div>
                 </Link >
-                <Link to={ROUTES.LOGIN} className='group hover:rounded-2xl hover:bg-hoverBackground p-3 focus:font-semibold'>
+                <Link to={ROUTES.UNDER_CONSTRUCTION} className='group hover:rounded-2xl hover:bg-hoverBackground p-3 focus:font-semibold'>
                     <div className="flex flex-row space-x-2">
                         <div className={`flex justify-center items-center h-6 w-8 focus:bg-white ${scaleUpICons}`}><RiMessengerLine size={28} /></div>
                         <div className="acitve:font-bold hidden md:block">Messages</div>
                     </div>
                 </Link >
-                <Link to={ROUTES.LOGIN} className='group hover:rounded-2xl hover:bg-hoverBackground p-3 focus:font-semibold'>
+                <Link to={ROUTES.UNDER_CONSTRUCTION} className='group hover:rounded-2xl hover:bg-hoverBackground p-3 focus:font-semibold'>
                     <div className="flex flex-row space-x-2">
                         <div className={`flex justify-center items-center h-6 w-8 focus:bg-white ${scaleUpICons}`}><AiOutlineHeart size={28} /></div>
                         <div className="acitve:font-bold hidden md:block">Notifications</div>
                     </div>
                 </Link >
-                <Link to={ROUTES.LOGIN} className='group hover:rounded-2xl hover:bg-hoverBackground p-3 focus:font-semibold'>
+                <Link to={ROUTES.UNDER_CONSTRUCTION} className='group hover:rounded-2xl hover:bg-hoverBackground p-3 focus:font-semibold'>
                     <div className="flex flex-row space-x-2 ">
                         <div className={`flex justify-center items-center h-6 w-8 focus:bg-white ${scaleUpICons}`}><FiPlusSquare size={28} /></div>
                         <div className="acitve:font-bold hidden md:block">Create</div>

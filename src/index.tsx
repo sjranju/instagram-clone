@@ -7,7 +7,6 @@ import { FirebaseContext } from './context/firebase'
 import { auth, db } from './lib/firebaseConfig'
 import store from './store/configStore'
 import { Provider } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

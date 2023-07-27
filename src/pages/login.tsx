@@ -75,7 +75,7 @@ const Login = () => {
                 <main className="flex flex-row w-full justify-center">
                     <div className='hidden md:flex mr-8'>
                         < div className="basis-96 self-center" >
-                            <img src={image.find(img => img.includes('iphone-frame-1copy'))} />
+                            <img src={image.find(img => img.includes('iphone-frame-1copy'))} alt='image sliders' />
                             <div className="imageSlider flex flex-col absolute top-0 bottom-0">
                                 {<img src={imageList[imageCounter]} />}
 
@@ -84,7 +84,7 @@ const Login = () => {
                     </div >
                     <div className="flex flex-col space-y-2 text-center justify-center items-center align-center mt-8">
                         <div className='flex flex-col space-y-10 text-center bg-white border border-inputBorder rounded-sm p-10 max-w-sm'>
-                            <img src={image.find(img => img.includes('logo'))} className='h-12 w-42 m-auto' />
+                            <img src={image.find(img => img.includes('logo'))} className='h-12 w-42 m-auto' alt='Instagram logo' />
                             <div className=''>
                                 <form onSubmit={handleLogin}>
                                     <input
@@ -111,7 +111,7 @@ const Login = () => {
                                 </div>
 
                                 <div className="flex flex-row justify-center mb-2">
-                                    <img src={image.find(img => img.includes('facebook'))} className='inline-block relative h-4 w-4 mr-3 top-0.5 text-center'></img>
+                                    <img src={image.find(img => img.includes('facebook'))} className='inline-block relative h-4 w-4 mr-3 top-0.5 text-center' alt='facebook icon'></img>
                                     <div className="text-center font-semibold text-darkBlue text-sm">Log in with Facebook</div>
                                 </div>
                                 {
