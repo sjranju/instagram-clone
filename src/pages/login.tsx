@@ -9,6 +9,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 import { AiOutlineCopyright } from 'react-icons/ai'
 import { SlArrowDown } from 'react-icons/sl'
 import { getDownloadURL, listAll, ref } from 'firebase/storage'
+import { setImageURL } from '../features/updateImageURLs'
 
 const Login = () => {
     const [emailAddress, setEmailAddress] = useState<string>('')
@@ -22,14 +23,13 @@ const Login = () => {
     const [image, setImage] = useState<string[]>([])
 
     const imageList = [
-        `${image.find(img => img.includes('img1'))}`,
+        // `${image.find(img => img.includes('img1'))}`,
         `${image.find(img => img.includes('img2'))}`,
         `${image.find(img => img.includes('img3'))}`,
         `${image.find(img => img.includes('img4'))}`,
     ]
     const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        // try {
         void signInWithEmailAndPassword(auth, emailAddress, password)
             .then((userCredential) => {
                 navigate(ROUTES.DASHBOARD)
@@ -46,95 +46,97 @@ const Login = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             // eslint-disable-next-line array-callback-return, @typescript-eslint/no-unused-vars
-            imageList?.map(() => {
-                if (imageCounter === 3) {
-                    setImageCounter(0)
-                } else { setImageCounter(imageCounter + 1) }
-            })
+            if (imageCounter === 2) {
+                setImageCounter(0)
+            } else { setImageCounter(imageCounter + 1) }
         }, 3600)
         return () => {
             clearInterval(interval)
         }
     }, [imageCounter])
 
+    const getImagesList = async () => {
+        const images = await listAll(loginPageImageRef)
+        const imgPromises = await Promise.all(images.items.map(item => getDownloadURL(item)))
+        setImage(imgPromises)
+    }
+
     useEffect(() => {
-        listAll(loginPageImageRef).then(response =>
-            response.items.forEach(item => {
-                getDownloadURL(item).then(url => {
-                    setImage(prev => [...prev, url])
-                })
-
-            }
-            ))
-
+        getImagesList()
     }, [])
 
     return (
-        <div className='flex flex-col items-center justify-center mt-8' role={'login'}>
+        <div className='flex flex-col items-center justify-center' role={'login'}>
             <section className='min-h-screen flex flex-col grow-1 overflow-x-hidden overflow-y-auto'>
-                <main className="flex flex-row w-full justify-center">
-                    <div className='hidden md:flex mr-8'>
-                        < div className="basis-96 self-center" >
-                            <img src={image.find(img => img.includes('iphone-frame-1copy'))} alt='image sliders' />
-                            <div className="imageSlider flex flex-col absolute top-0 bottom-0">
-                                {<img src={imageList[imageCounter]} />}
+                <main className="relative flex flex-col">
+                    <article className='flex mt-8 justify-center'>
+                        <div className='hidden md:flex basis-96 h-[581px]'>
+                            {/* <img src={image.find(img => img.includes('backgroundImg'))} alt='image sliders' className='w-[468.32px] h-[634.15px]' /> */}
+                            <div className={`w-[468.32px] h-[634.15px]`} style={{ backgroundImage: `url(${image.find((img) => img.includes('backgroundImg'))})`, backgroundSize: '468.32px 634.15px' }}>
+                                <div className="relative flex flex-col box-border align-baseline p-0 mt-[30px] ml-8">
+                                    {
+                                        imageList.map((imageUrl, i) =>
+                                            <img key={i} src={imageUrl} className={`absolute inset-0 m-0 w-[250px] h-[539px] ${imageCounter === i ? 'visible' : 'hidden'}`} />
+                                        )
+                                    }
 
+                                </div >
                             </div>
                         </div >
-                    </div >
-                    <div className="flex flex-col space-y-2 text-center justify-center items-center align-center mt-8">
-                        <div className='flex flex-col space-y-10 text-center bg-white border border-inputBorder rounded-sm p-10 max-w-sm'>
-                            <img src={image.find(img => img.includes('logo'))} className='h-12 w-42 m-auto' alt='Instagram logo' />
-                            <div className=''>
-                                <form onSubmit={handleLogin}>
-                                    <input
-                                        aria-label='Enter email address'
-                                        type="text"
-                                        placeholder="Email address"
-                                        value={emailAddress}
-                                        onChange={e => setEmailAddress(e.target.value)}
-                                        className='text-gray text-xs w-full rounded-sm border border-inputBorder py-2 px-1 bg-mainPageBackground outline-none focus:border-activeBorderForInput' />
-                                    <input
-                                        aria-label='Enter your password'
-                                        type="password"
-                                        placeholder="Password"
-                                        value={password}
-                                        onChange={e => setPassword(e.target.value)}
-                                        className='text-gray text-xs w-full rounded-sm border border-inputBorder mt-2 py-2 px-1 bg-mainPageBackground outline-none focus:border-activeBorderForInput' />
-                                    <button type='submit' className={`w-full rounded-md py-1 mt-4 text-white ${isInvalid ? 'bg-blueDisabledButton' : 'bg-signUpColor'}`}>Log in</button>
-                                </form>
+                        <div className="flex flex-col space-y-2 text-center justify-center items-center align-center">
+                            <div className='flex flex-col space-y-10 text-center bg-white border border-inputBorder rounded-sm p-10 max-w-sm'>
+                                <img src={image.find(img => img.includes('logo'))} className='h-12 w-42 m-auto' alt='Instagram logo' />
+                                <div className=''>
+                                    <form onSubmit={handleLogin}>
+                                        <input
+                                            aria-label='Enter email address'
+                                            type="text"
+                                            placeholder="Email address"
+                                            value={emailAddress}
+                                            onChange={e => setEmailAddress(e.target.value)}
+                                            className='text-gray text-xs w-full rounded-sm border border-inputBorder py-2 px-1 bg-mainPageBackground outline-none focus:border-activeBorderForInput' />
+                                        <input
+                                            aria-label='Enter your password'
+                                            type="password"
+                                            placeholder="Password"
+                                            value={password}
+                                            onChange={e => setPassword(e.target.value)}
+                                            className='text-gray text-xs w-full rounded-sm border border-inputBorder mt-2 py-2 px-1 bg-mainPageBackground outline-none focus:border-activeBorderForInput' />
+                                        <button type='submit' className={`w-full rounded-md py-1 mt-4 text-white ${isInvalid ? 'bg-blueDisabledButton' : 'bg-signUpColor'}`}>Log in</button>
+                                    </form>
 
-                                <div className="relative flex py-5 items-center">
-                                    <div className="flex-grow border-t border-inputBorder"></div>
-                                    <span className="flex-shrink mx-4 text-xs font-semibold text-activeBorderForInput">OR</span>
-                                    <div className="flex-grow border-t border-inputBorder"></div>
-                                </div>
-
-                                <div className="flex flex-row justify-center mb-2">
-                                    <img src={image.find(img => img.includes('facebook'))} className='inline-block relative h-4 w-4 mr-3 top-0.5 text-center' alt='facebook icon'></img>
-                                    <div className="text-center font-semibold text-darkBlue text-sm">Log in with Facebook</div>
-                                </div>
-                                {
-                                    <div className={`text-sm ${(error.length !== 0) ? 'text-errorMessage' : 'text-black'}`}>
-                                        {error}
+                                    <div className="relative flex py-5 items-center">
+                                        <div className="flex-grow border-t border-inputBorder"></div>
+                                        <span className="flex-shrink mx-4 text-xs font-semibold text-activeBorderForInput">OR</span>
+                                        <div className="flex-grow border-t border-inputBorder"></div>
                                     </div>
-                                }
-                                <div className="relative text-xs top-2">Forgotten your password?</div>
+
+                                    <div className="flex flex-row justify-center mb-2">
+                                        <img src={image.find(img => img.includes('facebook'))} className='inline-block relative h-4 w-4 mr-3 top-0.5 text-center' alt='facebook icon'></img>
+                                        <div className="text-center font-semibold text-darkBlue text-sm">Log in with Facebook</div>
+                                    </div>
+                                    {
+                                        <div className={`text-sm ${(error.length !== 0) ? 'text-errorMessage' : 'text-black'}`}>
+                                            {error}
+                                        </div>
+                                    }
+                                    <div className="relative text-xs top-2">Forgotten your password?</div>
+                                </div>
+                            </div>
+                            <div className="text-sm text-center bg-white border border-gray-300 rounded-sm p-5 w-full">Dont have an account?
+                                <span className='text-signUpColor text-bold font-medium'><NavLink to={ROUTES.SIGN_UP}> Sign up</NavLink> </span>
+                            </div>
+                            <div className="space-y-6 ">
+                                <div className="text-sm mt-2">
+                                    Get the app.
+                                </div>
+                                <div className="flex flex-row space-x-3 justify-center">
+                                    <img src={image.find(img => img.includes('gplay'))} alt='google play' className='h-10 ' />
+                                    <img src={image.find(img => img.includes('ms'))} alt='microsoft' className='h-10 ' />
+                                </div>
                             </div>
                         </div>
-                        <div className="text-sm text-center bg-white border border-gray-300 rounded-sm p-5 w-full">Dont have an account?
-                            <span className='text-signUpColor text-bold font-medium'><NavLink to={ROUTES.SIGN_UP}> Sign up</NavLink> </span>
-                        </div>
-                        <div className="space-y-6 ">
-                            <div className="text-sm mt-2">
-                                Get the app.
-                            </div>
-                            <div className="flex flex-row space-x-3 justify-center">
-                                <img src={image.find(img => img.includes('gplay'))} alt='google play' className='h-10 ' />
-                                <img src={image.find(img => img.includes('ms'))} alt='microsoft' className='h-10 ' />
-                            </div>
-                        </div>
-                    </div>
+                    </article>
                 </main >
 
                 <footer className="flex flex-col text-xs text-signUpComments justify-center px-4">
