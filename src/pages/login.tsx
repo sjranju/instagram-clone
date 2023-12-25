@@ -8,8 +8,9 @@ import { auth, storage } from '../lib/firebaseConfig'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { AiOutlineCopyright } from 'react-icons/ai'
 import { SlArrowDown } from 'react-icons/sl'
-import { getDownloadURL, listAll, ref } from 'firebase/storage'
-import { setImageURL } from '../features/updateImageURLs'
+import { useGetImagesQuery } from '../RTKQuery/getImages'
+import { ref } from 'firebase/storage'
+import ImageListSkeleton from '../ShimmerUI/ImageListSkeleton'
 
 const Login = () => {
     const [emailAddress, setEmailAddress] = useState<string>('')
@@ -19,15 +20,8 @@ const Login = () => {
     const navigate = useNavigate()
     const isInvalid = emailAddress === '' || password === ''
     const loginPageImageRef = ref(storage, 'login/')
+    const { data, isLoading } = useGetImagesQuery(loginPageImageRef)
 
-    const [image, setImage] = useState<string[]>([])
-
-    const imageList = [
-        // `${image.find(img => img.includes('img1'))}`,
-        `${image.find(img => img.includes('img2'))}`,
-        `${image.find(img => img.includes('img3'))}`,
-        `${image.find(img => img.includes('img4'))}`,
-    ]
     const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         void signInWithEmailAndPassword(auth, emailAddress, password)
@@ -55,37 +49,28 @@ const Login = () => {
         }
     }, [imageCounter])
 
-    const getImagesList = async () => {
-        const images = await listAll(loginPageImageRef)
-        const imgPromises = await Promise.all(images.items.map(item => getDownloadURL(item)))
-        setImage(imgPromises)
-    }
-
-    useEffect(() => {
-        getImagesList()
-    }, [])
-
     return (
         <div className='flex flex-col items-center justify-center' role={'login'}>
             <section className='min-h-screen flex flex-col grow-1 overflow-x-hidden overflow-y-auto'>
                 <main className="relative flex flex-col">
-                    <article className='flex mt-8 justify-center'>
-                        <div className='hidden md:flex basis-96 h-[581px]'>
-                            {/* <img src={image.find(img => img.includes('backgroundImg'))} alt='image sliders' className='w-[468.32px] h-[634.15px]' /> */}
-                            <div className={`w-[468.32px] h-[634.15px]`} style={{ backgroundImage: `url(${image.find((img) => img.includes('backgroundImg'))})`, backgroundSize: '468.32px 634.15px' }}>
-                                <div className="relative flex flex-col box-border align-baseline p-0 mt-[30px] ml-8">
+                    <article className='flex mt-8 justify-center mx-auto grow shrink-0 box-border pb-8 w-full'>
+                        {isLoading ?
+                            <ImageListSkeleton />
+                            :
+                            <div className={`hidden md:flex h-[581px] basis-96 mb-3 mr-8`} style={{ backgroundImage: `url(${data?.find((img) => img.includes('backgroundImg'))})`, backgroundSize: '468.32px 634.15px', backgroundPosition: '-46px 0px' }}>
+                                <div className="relative flex flex-col box-border align-baseline p-0 mt-[27px] ml-28">
                                     {
-                                        imageList.map((imageUrl, i) =>
+                                        data?.filter(img => img.includes('img')).map((imageUrl, i) =>
                                             <img key={i} src={imageUrl} className={`absolute inset-0 m-0 w-[250px] h-[539px] ${imageCounter === i ? 'visible' : 'hidden'}`} />
                                         )
                                     }
 
                                 </div >
                             </div>
-                        </div >
+                        }
                         <div className="flex flex-col space-y-2 text-center justify-center items-center align-center">
                             <div className='flex flex-col space-y-10 text-center bg-white border border-inputBorder rounded-sm p-10 max-w-sm'>
-                                <img src={image.find(img => img.includes('logo'))} className='h-12 w-42 m-auto' alt='Instagram logo' />
+                                <img src={data?.find(img => img.includes('logo'))} className='h-12 w-42 m-auto' alt='Instagram logo' />
                                 <div className=''>
                                     <form onSubmit={handleLogin}>
                                         <input
@@ -112,7 +97,7 @@ const Login = () => {
                                     </div>
 
                                     <div className="flex flex-row justify-center mb-2">
-                                        <img src={image.find(img => img.includes('facebook'))} className='inline-block relative h-4 w-4 mr-3 top-0.5 text-center' alt='facebook icon'></img>
+                                        <img src={data?.find(img => img.includes('facebook'))} className='inline-block relative h-4 w-4 mr-3 top-0.5 text-center' alt='facebook icon'></img>
                                         <div className="text-center font-semibold text-darkBlue text-sm">Log in with Facebook</div>
                                     </div>
                                     {
@@ -131,8 +116,8 @@ const Login = () => {
                                     Get the app.
                                 </div>
                                 <div className="flex flex-row space-x-3 justify-center">
-                                    <img src={image.find(img => img.includes('gplay'))} alt='google play' className='h-10 ' />
-                                    <img src={image.find(img => img.includes('ms'))} alt='microsoft' className='h-10 ' />
+                                    <img src={data?.find(img => img.includes('gplay'))} alt='google play' className='h-10 ' />
+                                    <img src={data?.find(img => img.includes('ms'))} alt='microsoft' className='h-10 ' />
                                 </div>
                             </div>
                         </div>

@@ -1,18 +1,25 @@
 import { configureStore } from "@reduxjs/toolkit";
-import  allUsersReduer  from "../features/allUsersSlice";
+import allUsersReduer from "../features/allUsersSlice";
 import updateAllUsers from "../features/updateUsers";
-import  setImageURL  from "../features/updateImageURLs";
-import  getPosts  from "../features/postSlice";
+import setImageURL from "../features/updateImageURLs";
+import getPosts from "../features/postSlice";
 import setPostURL from "../features/updatePostURL";
+import { api } from "../RTKQuery/getImages";
 
 const store = configureStore({
     reducer: {
-        allUsers:allUsersReduer,
-        updateAllUsers:updateAllUsers,
-        updateImageURL:setImageURL,
-        userPosts:getPosts,
-        updatePostURL:setPostURL
-    }
+        allUsers: allUsersReduer,
+        updateAllUsers: updateAllUsers,
+        updateImageURL: setImageURL,
+        userPosts: getPosts,
+        updatePostURL: setPostURL,
+        [api.reducerPath]: api.reducer
+    },
+    middleware(getDefaultMiddleware) {
+        return getDefaultMiddleware({
+            serializableCheck: false
+        }).concat(api.middleware)
+    },
 })
 
 export default store
