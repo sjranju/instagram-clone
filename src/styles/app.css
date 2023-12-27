@@ -590,6 +590,9 @@ video {
 .mb-28 {
   margin-bottom: 7rem;
 }
+.mr-12 {
+  margin-right: 3rem;
+}
 .box-border {
   box-sizing: border-box;
 }
@@ -702,6 +705,9 @@ video {
 .w-5 {
   width: 1.25rem;
 }
+.w-\[420px\] {
+  width: 420px;
+}
 .w-10 {
   width: 2.5rem;
 }
@@ -716,18 +722,6 @@ video {
 }
 .w-12 {
   width: 3rem;
-}
-.w-80 {
-  width: 20rem;
-}
-.w-\[400px\] {
-  width: 400px;
-}
-.w-\[450px\] {
-  width: 450px;
-}
-.w-\[420px\] {
-  width: 420px;
 }
 .max-w-md {
   max-width: 28rem;

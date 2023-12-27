@@ -10,7 +10,10 @@ import { AiOutlineCopyright } from 'react-icons/ai'
 import { SlArrowDown } from 'react-icons/sl'
 import { useGetImagesQuery } from '../RTKQuery/getImages'
 import { ref } from 'firebase/storage'
-import ImageListSkeleton from '../ShimmerUI/ImageListSkeleton'
+import ImageCarouselSkeleton from '../ShimmerUI/ImageCarouselSkeleton'
+import LogoSkeleton from '../ShimmerUI/LogoSkeleton'
+import DownloadAppSkeleton from '../ShimmerUI/DownloadAppSkeleton'
+import Skeleton from 'react-loading-skeleton'
 
 const Login = () => {
     const [emailAddress, setEmailAddress] = useState<string>('')
@@ -34,7 +37,6 @@ const Login = () => {
                 setEmailAddress('')
                 setPassword('')
             })
-
     }
 
     useEffect(() => {
@@ -55,7 +57,7 @@ const Login = () => {
                 <main className="relative flex flex-col">
                     <article className='flex mt-8 justify-center mx-auto grow shrink-0 box-border pb-8 w-full'>
                         {isLoading ?
-                            <ImageListSkeleton />
+                            <ImageCarouselSkeleton />
                             :
                             <div className={`hidden md:flex h-[581px] basis-96 mb-3 mr-8`} style={{ backgroundImage: `url(${data?.find((img) => img.includes('backgroundImg'))})`, backgroundSize: '468.32px 634.15px', backgroundPosition: '-46px 0px' }}>
                                 <div className="relative flex flex-col box-border align-baseline p-0 mt-[27px] ml-28">
@@ -70,7 +72,10 @@ const Login = () => {
                         }
                         <div className="flex flex-col space-y-2 text-center justify-center items-center align-center">
                             <div className='flex flex-col space-y-10 text-center bg-white border border-inputBorder rounded-sm p-10 max-w-sm'>
-                                <img src={data?.find(img => img.includes('logo'))} className='h-12 w-42 m-auto' alt='Instagram logo' />
+                                {isLoading ?
+                                    <LogoSkeleton />
+                                    : <img src={data?.find(img => img.includes('logo'))} className='h-12 w-42 m-auto' alt='Instagram logo' />
+                                }
                                 <div className=''>
                                     <form onSubmit={handleLogin}>
                                         <input
@@ -97,7 +102,11 @@ const Login = () => {
                                     </div>
 
                                     <div className="flex flex-row justify-center mb-2">
-                                        <img src={data?.find(img => img.includes('facebook'))} className='inline-block relative h-4 w-4 mr-3 top-0.5 text-center' alt='facebook icon'></img>
+                                        {
+                                            isLoading ?
+                                                <Skeleton width={20} height={20} className='text-center mx-auto flex justify-center items-center mr-2' />
+                                                : <img src={data?.find(img => img.includes('facebook'))} className='inline-block relative h-4 w-4 mr-3 top-0.5 text-center' alt='facebook icon'></img>
+                                        }
                                         <div className="text-center font-semibold text-darkBlue text-sm">Log in with Facebook</div>
                                     </div>
                                     {
@@ -116,8 +125,15 @@ const Login = () => {
                                     Get the app.
                                 </div>
                                 <div className="flex flex-row space-x-3 justify-center">
-                                    <img src={data?.find(img => img.includes('gplay'))} alt='google play' className='h-10 ' />
-                                    <img src={data?.find(img => img.includes('ms'))} alt='microsoft' className='h-10 ' />
+                                    {
+                                        isLoading ?
+                                            <DownloadAppSkeleton />
+                                            :
+                                            <>
+                                                <img src={data?.find(img => img.includes('gplay'))} alt='google play' className='h-10 ' />
+                                                <img src={data?.find(img => img.includes('ms'))} alt='microsoft' className='h-10 ' />
+                                            </>
+                                    }
                                 </div>
                             </div>
                         </div>

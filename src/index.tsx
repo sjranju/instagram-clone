@@ -16,7 +16,7 @@ root.render(
   <Provider store={store}>
     <FirebaseContext.Provider value={{ db, auth }}>
       {/* <React.StrictMode> */}
-      <SkeletonTheme baseColor='#202020' highlightColor='#444'>
+      <SkeletonTheme baseColor="#ebebeb" highlightColor="#f5f5f5">
         <App />
         {/* </React.StrictMode> */}
       </SkeletonTheme>
