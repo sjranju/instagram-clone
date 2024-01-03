@@ -12,17 +12,21 @@ import { TbDots } from 'react-icons/tb'
 import { setPostURL, updateLikes } from '../features/updatePostURL'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { FiBookmark, FiMessageCircle, FiSend } from 'react-icons/fi'
+import { useGetImagesQuery } from '../RTKQuery/apiSlice'
 
 function Timeline() {
     const dispatch = useAppDispatch()
     const posts = useAppSelector(state => state.userPosts.postData)
     const allUsers = useAppSelector(state => state.allUsers.users)
     const currentUser = useAppSelector(state => state.allUsers.currentUser)
+    const imagesRef = ref(storage, `avatars/`)
+    const { data } = useGetImagesQuery(imagesRef)
+
     useEffect(() => {
         currentUser?.following?.map(user => {
             const foundUser = allUsers?.find(usr => usr.userId == user)
             if (foundUser?.imageURL === undefined) {
-                const imagesRef = ref(storage, `avatars/${foundUser?.username}.jpg`)
+                const imagesRef = ref(storage, `avatars/${foundUser?.username}.jpg` || `avatars/${foundUser?.username}.png`)
                 getDownloadURL(imagesRef).then(url => {
                     dispatch(setImageURL({ user: `${foundUser?.username}`, url: url }))
                 })

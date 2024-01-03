@@ -9,8 +9,8 @@ import { doesUserNameExist, getAllUsers } from '../services/firebase'
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { auth, db, storage } from '../lib/firebaseConfig'
 import { setDoc, doc } from 'firebase/firestore'
-import { getDownloadURL, listAll, ref } from 'firebase/storage'
-import { useGetImagesQuery } from '../RTKQuery/getImages'
+import { ref } from 'firebase/storage'
+import { useGetImagesQuery } from '../RTKQuery/apiSlice'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const SignUp = () => {
@@ -22,7 +22,7 @@ const SignUp = () => {
     const navigate = useNavigate()
     const isInvalid = userName === '' || password === '' || fullName === '' || emailAddress === ''
     const loginPageImageRef = ref(storage, 'login/')
-    const { data, isLoading } = useGetImagesQuery(loginPageImageRef)
+    const { data } = useGetImagesQuery(loginPageImageRef)
 
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {

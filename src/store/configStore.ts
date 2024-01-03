@@ -4,7 +4,7 @@ import updateAllUsers from "../features/updateUsers";
 import setImageURL from "../features/updateImageURLs";
 import getPosts from "../features/postSlice";
 import setPostURL from "../features/updatePostURL";
-import { api } from "../RTKQuery/getImages";
+import { api } from "../RTKQuery/apiSlice";
 
 const store = configureStore({
     reducer: {

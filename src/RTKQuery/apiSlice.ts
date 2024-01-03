@@ -7,7 +7,7 @@ export const api = createApi({
     tagTypes: ['GetImages'],
     endpoints: (build) => ({
         getImages: build.query<string[], StorageReference>({
-            async queryFn(refPath,) {
+            async queryFn(refPath) {
                 try {
                     const imageList = await listAll(ref(storage, `${refPath}`))
                     const imagePromises = await Promise.all(imageList.items.map(item => getDownloadURL(item)))
@@ -19,7 +19,6 @@ export const api = createApi({
 
             }
         }),
-
     })
 })
 
