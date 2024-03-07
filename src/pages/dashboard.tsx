@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from '../store/use-state-dispatch'
 import UseAuthListener from '../hooks/use-auth-listener'
 import { fetchUsers } from '../features/allUsersSlice'
 import { getPosts } from '../features/postSlice'
+import { useGetImagesQuery } from '../RTKQuery/apiSlice'
 
 function Dashboard() {
     const dispatch = useAppDispatch()
@@ -41,7 +42,7 @@ function Dashboard() {
             <div className="flex flex-row h-screen w-full bg-black">
                 <div className="fixed border-r border-seperator px-3 pb-5 w-24 md:w-60 w-16.5 overflow-y-visible">
                     {
-                        currentUser?.username ? <Menubar /> : ''
+                        currentUser?.username && <Menubar />
                     }
 
                 </div>

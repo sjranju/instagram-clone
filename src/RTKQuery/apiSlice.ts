@@ -1,12 +1,12 @@
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
-import { getDownloadURL, listAll, ref, StorageReference } from 'firebase/storage'
+import { getDownloadURL, listAll, ref } from 'firebase/storage'
 import { storage } from '../lib/firebaseConfig'
 
 export const api = createApi({
     baseQuery: fakeBaseQuery(),
     tagTypes: ['GetImages'],
     endpoints: (build) => ({
-        getImages: build.query<string[], StorageReference>({
+        getImages: build.query<string[], string>({
             async queryFn(refPath) {
                 try {
                     const imageList = await listAll(ref(storage, `${refPath}`))

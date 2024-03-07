@@ -31,8 +31,10 @@ module.exports = {
         errorMessage: '#ED4956',
         seperator: '#262626',
         hoverBackground: '#121212',
-        postSeperator:'#262626',
-        notfoundbg:'#464545',
+        postSeperator: '#262626',
+        notfoundbg: '#464545',
+        textColor: '#F5F5F5',
+        bgButton: '#000000'
       }
     }
 

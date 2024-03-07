@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/space-before-function-paren */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { collection, where, query, getDocs, getDoc, doc} from 'firebase/firestore'
+import { collection, where, query, getDocs, getDoc, doc } from 'firebase/firestore'
 import { db } from '../lib/firebaseConfig'
 import { ActiveUserType } from '../hooks/use-user'
 import { postDataType } from '../features/postSlice'
@@ -11,9 +11,9 @@ export async function doesUserNameExist(userName: string, emailAddress: string) 
     return (await getDocs(queryUsers)).docs.map(user => user.get('username'))
 }
 
-export async function getUserDetailsByUserName(userId: string){
-    const result = await getDoc(doc(db,'users',userId))
-    if (result.exists()){
+export async function getUserDetailsByUserName(userId: string) {
+    const result = await getDoc(doc(db, 'users', userId))
+    if (result.exists()) {
         return result.data()
     }
     return undefined
@@ -25,8 +25,8 @@ export async function getAllUsers(): Promise<ActiveUserType[]> {
 }
 
 
-export async function getPostDetails() :Promise<postDataType[]>{
+export async function getPostDetails(): Promise<postDataType[]> {
     const result = query(collection(db, 'photos'))
-    return (await getDocs(result)).docs.map(item => ({...item.data()}))
+    return (await getDocs(result)).docs.map(item => ({ ...item.data() }))
 }
 

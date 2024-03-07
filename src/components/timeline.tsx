@@ -19,30 +19,24 @@ function Timeline() {
     const posts = useAppSelector(state => state.userPosts.postData)
     const allUsers = useAppSelector(state => state.allUsers.users)
     const currentUser = useAppSelector(state => state.allUsers.currentUser)
-    const imagesRef = ref(storage, `avatars/`)
-    const { data } = useGetImagesQuery(imagesRef)
+    const { data, isSuccess } = useGetImagesQuery('avatars/')
+    const { data: postData, isSuccess: isSuccessPostData } = useGetImagesQuery('posts/')
 
     useEffect(() => {
         currentUser?.following?.map(user => {
             const foundUser = allUsers?.find(usr => usr.userId == user)
-            if (foundUser?.imageURL === undefined) {
-                const imagesRef = ref(storage, `avatars/${foundUser?.username}.jpg` || `avatars/${foundUser?.username}.png`)
-                getDownloadURL(imagesRef).then(url => {
-                    dispatch(setImageURL({ user: `${foundUser?.username}`, url: url }))
-                })
+            if (foundUser?.username !== undefined && foundUser?.imageURL === undefined && isSuccess) {
+                dispatch(setImageURL({ user: `${foundUser?.username}`, url: `${data.find(url => url.includes(foundUser.username!))}` }))
             }
         })
     }, [currentUser])
 
     useEffect(() => {
         posts?.map(post => {
-            if (post.imageSrc === undefined) {
-                const postRef = ref(storage, `posts/${post?.userId}.jpg`)
-                getDownloadURL(postRef).then(url => {
-                    dispatch(setPostURL({ userId: `${post?.userId}`, url: url }))
-                })
+            if (post.imageSrc === undefined && isSuccessPostData && post.photoId !== undefined) {
+                console.log('post dats in timeline', postData)
+                dispatch(setPostURL({ userId: `${post?.userId}`, url: `${postData.find(url => url.includes(`${post.photoId + ('.jpg' || '.png')}`))}` }))
             }
-
         })
     }, [posts])
     console.log('posts', posts)

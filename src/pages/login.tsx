@@ -22,8 +22,8 @@ const Login = () => {
     const [imageCounter, setImageCounter] = useState<number>(0)
     const navigate = useNavigate()
     const isInvalid = emailAddress === '' || password === ''
-    const loginPageImageRef = ref(storage, 'login/')
-    const { data, isLoading } = useGetImagesQuery(loginPageImageRef)
+    // const loginPageImageRef = ref(storage, 'login/')
+    const { data, isLoading } = useGetImagesQuery('/login')
 
     const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()

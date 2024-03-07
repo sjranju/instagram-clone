@@ -21,8 +21,8 @@ const SignUp = () => {
     const [errorMessage, setErrorMessage] = useState<string>('')
     const navigate = useNavigate()
     const isInvalid = userName === '' || password === '' || fullName === '' || emailAddress === ''
-    const loginPageImageRef = ref(storage, 'login/')
-    const { data } = useGetImagesQuery(loginPageImageRef)
+    // const loginPageImageRef = ref(storage, 'login/')
+    const { data } = useGetImagesQuery('login/')
 
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {

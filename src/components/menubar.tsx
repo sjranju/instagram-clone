@@ -4,7 +4,6 @@
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useEffect, useState } from 'react'
-// import { CgHome } from 'react-icons/cg'
 import { RiSearchLine, RiMessengerLine } from 'react-icons/ri'
 import { BsInstagram } from 'react-icons/bs'
 import { WiTime8 } from 'react-icons/wi'
@@ -16,12 +15,12 @@ import { IoIosSettings } from 'react-icons/io'
 import { HiOutlineMoon } from 'react-icons/hi'
 import { TbMessageReport } from 'react-icons/tb'
 import * as ROUTES from '../constants/routes'
-// import { UserContext } from '../context/user'
 import { auth, storage } from '../lib/firebaseConfig'
 import { signOut } from 'firebase/auth'
 import { getDownloadURL, listAll, ref } from 'firebase/storage'
 import { useAppDispatch, useAppSelector } from '../store/use-state-dispatch'
 import { setImageURL } from '../features/updateImageURLs'
+import { useGetImagesQuery } from '../RTKQuery/apiSlice'
 const scaleUpICons = 'transition ease-in-out delay-50 group-hover:-translate-y-0.5 group-hover:scale-105 duration-200'
 
 function Menubar() {
@@ -30,29 +29,16 @@ function Menubar() {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     console.log('userState in menubar', userState)
+    const imgRefPath = `avatars/${userState?.currentUser?.username}.jpg` || `avatars/${userState?.currentUser?.username}.png`
 
-    const [imageURLs, setImageURLs] = useState<string[]>([])
-
-    const menubarImageRef = ref(storage, 'menubar/')
-    const avatarImageRef = ref(storage, `avatars/${userState?.currentUser?.username}.jpg`)
-
-    useEffect(() => {
-        listAll(menubarImageRef).then(response =>
-            response.items.forEach(item => {
-                getDownloadURL(item).then(url => {
-                    setImageURLs(prev => [...prev, url])
-                })
-
-            }
-            ))
-    }, [])
+    const avatarImageRef = ref(storage, imgRefPath)
+    const { data, isSuccess } = useGetImagesQuery('avatars/')
+    const { data: menubarImgData, isError: isMenubarImgError, isSuccess: isMenubarImgSuccess, error: menubarImgError } = useGetImagesQuery('menubar/')
 
     useEffect(() => {
-        if (userState?.currentUser?.imageURL === undefined && userState?.currentUser?.username !== undefined) {
-            getDownloadURL(avatarImageRef).then(url => {
-                // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-                dispatch(setImageURL({ url: url, user: userState?.currentUser?.username! }))
-            })
+        if (userState?.currentUser?.imageURL === undefined && userState?.currentUser?.username !== undefined && isSuccess) {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+            dispatch(setImageURL({ url: `${data.find(url => url === userState.currentUser?.username)}`, user: userState?.currentUser?.username! }))
         }
     }, [userState])
 
@@ -66,7 +52,7 @@ function Menubar() {
     return (
         <div className='sticky flex flex-col justify-between mx-auto text-white pr-1 pb-5 text-lg h-screen items-start'>
             <div className="md:block hidden pt-10 h-20 w-28 pb-5 mb-5 pl-3 shrink-0 relative">
-                <img src={imageURLs.find(img => img.includes('instagramWhiteLogo'))} alt="logo" color={'white'} className='text-white h-8 w-24' />
+                <img src={menubarImgData !== undefined ? menubarImgData.find(img => img.includes('instagramWhiteLogo')) : ''} alt="logo" color={'white'} className='text-white h-8 w-24' />
             </div>
             <div className="block md:hidden pt-10 h-20 w-28 pb-5 mb-5 pl-4 shrink-0 relative">
                 <BsInstagram size={28} />
@@ -92,7 +78,7 @@ function Menubar() {
                 </Link >
                 <Link to={ROUTES.UNDER_CONSTRUCTION} className='group hover:rounded-2xl hover:bg-hoverBackground p-3 focus:font-semibold'>
                     <div className="flex flex-row space-x-2">
-                        <div className={`flex justify-center items-center h-6 w-8 focus:bg-white ${scaleUpICons}`}><img src={imageURLs.find(img => img.includes('reelsWhite'))} height={28} width={28}></img></div>
+                        <div className={`flex justify-center items-center h-6 w-8 focus:bg-white ${scaleUpICons}`}><img src={menubarImgData !== undefined ? menubarImgData.find(img => img.includes('reelsWhite')) : ''} height={28} width={28}></img></div>
                         <div className="acitve:font-bold hidden md:block">Reels</div>
                     </div>
                 </Link >
@@ -116,7 +102,7 @@ function Menubar() {
                 </Link >
                 <Link to={`/p/${userState?.currentUser?.username}`} className='group hover:rounded-2xl hover:bg-hoverBackground p-3 focus:font-semibold'>
                     <div className="flex flex-row space-x-2 ">
-                        <img src={userState?.currentUser?.imageURL} alt="profile picture" className={`w-7 h-7 rounded-full ${scaleUpICons}`} />
+                        <img src={userState?.currentUser?.imageURL !== undefined ? userState?.currentUser?.imageURL : ''} alt="profile picture" className={`w-7 h-7 rounded-full ${scaleUpICons}`} />
                         <div className="acitve:font-bold hidden md:block">Profile</div>
                     </div>
                 </Link>
